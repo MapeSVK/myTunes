@@ -24,8 +24,12 @@ public class MediaPlayerModel
 {
     private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
+    private ObservableList<String> categories = FXCollections.observableArrayList();
+    
     private UserMedia selectedSong;
     private BLLManager bllManager = new BLLManager();
+    
+    
     /**
      * Delete a song. Update the the observable list, and call the method from the BLL
      */
@@ -140,7 +144,13 @@ public class MediaPlayerModel
     {
         return songs;
     }
-
+    
+    public ObservableList<String> getCategories()
+    {
+        categories.addAll("Rock", "Techno", "Pop", "Opera", "Kattogós minimál");
+        return categories;
+    }
+    
     public void playMedia(PlayList playList) throws Exception
     {
         if (playList == null)

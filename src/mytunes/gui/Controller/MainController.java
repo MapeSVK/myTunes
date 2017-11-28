@@ -130,6 +130,7 @@ public class MainController implements Initializable {
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getSongs());
         
+        
         //Create a new listener and bind it to the play list tableView. Used to update the listview of the current playlist, when the selection changes
         playlistTableView.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener()
@@ -274,10 +275,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-<<<<<<< HEAD
-
-=======
->>>>>>> 53fff50750ebf3fb72e4c2c80660e2074b30948f
     private void editSongClicked(ActionEvent event)
     {
         try

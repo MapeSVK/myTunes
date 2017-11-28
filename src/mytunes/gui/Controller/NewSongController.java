@@ -55,7 +55,8 @@ public class NewSongController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) 
+    {
     }    
     
     
@@ -74,8 +75,7 @@ public class NewSongController implements Initializable {
     @FXML
     private void cancelNewSongClicked(ActionEvent event) 
     {
-        Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
-        stage.close();
+        closeWindow();
     }
 
     @FXML
@@ -106,7 +106,7 @@ public class NewSongController implements Initializable {
                 
                 model.addNewSong(newSong);
             }
-
+            closeWindow();
         } 
         catch (Exception ex)
         {
@@ -124,14 +124,25 @@ public class NewSongController implements Initializable {
         titleOfSongField.setText(selectedSong.getTitle());
     }
     
+    /**
+     * Add the shared model, and bind the comboBox to the ObservableList inside the model
+     * @param model 
+     */
     public void setModel(MediaPlayerModel model)
     {
         this.model = model;
+        chooseCategoryComboBox.setItems(model.getCategories());
     }
     
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
+    }
+    
+    private void closeWindow()
+    {
+        Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
+        stage.close();
     }
 }
