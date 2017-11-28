@@ -103,4 +103,17 @@ public class DAManager {
             throw new DAException(e.getMessage());
         }
     }
+    public void editPlaylist(PlayList plist) throws DAException{
+        try( Connection con = cm.getConnection()){
+           PreparedStatement pstatement = con.prepareStatement("UPDATE Playlist SET title=?, artist=?, category=?, time=?, path=? WHERE id=?");
+           
+           
+        
+         }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+        
+    }
+    
 }

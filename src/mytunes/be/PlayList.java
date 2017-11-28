@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class PlayList {
     private int id;
-    private String name;    
+    private String title;    
     private List<UserMedia> songs = new ArrayList();
 
     public int getId() {
@@ -26,11 +26,11 @@ public class PlayList {
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.title = name;
     }
 
     public List<UserMedia> getSongs() {
