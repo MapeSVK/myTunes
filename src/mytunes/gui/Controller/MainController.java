@@ -274,7 +274,10 @@ public class MainController implements Initializable {
     }
 
     @FXML
+<<<<<<< HEAD
 
+=======
+>>>>>>> 53fff50750ebf3fb72e4c2c80660e2074b30948f
     private void editSongClicked(ActionEvent event)
     {
         try
