@@ -46,23 +46,43 @@ public class DAManager {
         }
         return songList;
     }
-    
-    public void saveSongs(UserMedia song) throws DAException{
+
+    public void saveSongs(UserMedia song) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music(title, artist, category, time, path)"
-                                                              + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             pstatement.setString(1, song.getTitle());
             pstatement.setString(2, song.getArtist());
             pstatement.setString(3, song.getCategory());
             pstatement.setTime(4, song.getTime());
             pstatement.setString(5, song.getPath());
             int affected = pstatement.executeUpdate();
-            if (affected<1)
-                throw new DAException("Song could not be added");
-            
+            if (affected < 1) {
+                throw new DAException("Song could not be added!");
+            }
+
             ResultSet rs = pstatement.getGeneratedKeys();
             if (rs.next()) {
                 song.setId(rs.getInt(1));
+            }
+        }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+    }
+
+    public void editSong(UserMedia song) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("UPDATE Music SET title=?, artist=?, category=?, time=?, path=? WHERE id=?");
+            pstatement.setString(1, song.getTitle());
+            pstatement.setString(2, song.getArtist());
+            pstatement.setString(3, song.getCategory());
+            pstatement.setTime(4, song.getTime());
+            pstatement.setString(5, song.getPath());
+            pstatement.setInt(6, song.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Song could not be edited!");
             }
         }
         catch (Exception e) {
