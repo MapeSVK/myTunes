@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
@@ -62,6 +63,18 @@ public class MediaPlayerModel
         }
         
         this.selectedSong  = selectedSong;
+    }
+    
+    public void updateSong(UserMedia selectedSong) throws ModelException
+    {
+        try
+        {
+            bllManager.updateSong(selectedSong);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     public void editPlaylist()
@@ -159,4 +172,5 @@ public class MediaPlayerModel
         p.setTitle(playListName);
         playlists.add(p);
     }
+
 }

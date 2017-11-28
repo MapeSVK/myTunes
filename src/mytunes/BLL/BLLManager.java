@@ -6,6 +6,8 @@
 package mytunes.BLL;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
@@ -49,6 +51,19 @@ public class BLLManager
     public List<UserMedia> loadMedia(String filter) throws DAException
     {
         return mediaDAO.getSongs(filter);
+    }
+
+    public void updateSong(UserMedia selectedSong) throws BLLException
+    {
+        try
+        {
+            mediaDAO.editSong(selectedSong);
+        }
+        catch (DAException ex)
+        {
+            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BLLException(ex);
+        }
     }
     
     

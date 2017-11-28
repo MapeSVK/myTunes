@@ -40,7 +40,7 @@ public class NewSongController implements Initializable {
     @FXML
     private TextField songArtistField;
     @FXML
-    private ComboBox<?> chooseCategoryComboBox;
+    private ComboBox<String> chooseCategoryComboBox;
     @FXML
     private TextField songTimeField;
     @FXML
@@ -93,6 +93,8 @@ public class NewSongController implements Initializable {
             selectedSong.setArtist(artist);
             selectedSong.setTitle(title);
             selectedSong.setTime(time);
+            
+            model.updateSong(selectedSong);
         } 
         catch (Exception ex)
         {
