@@ -24,8 +24,12 @@ public class MediaPlayerModel
 {
     private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
+    private ObservableList<String> categories = FXCollections.observableArrayList();
+    
     private UserMedia selectedSong;
     private BLLManager bllManager = new BLLManager();
+    
+    
     /**
      * Delete a song. Update the the observable list, and call the method from the BLL
      */
@@ -130,6 +134,24 @@ public class MediaPlayerModel
     {
     
     }
+    
+    //Add a category to the list, to make it appear in the comboBox
+    public void addNewCategory(String category) throws ModelException
+    {
+        //Do not allow empty categories
+        if (category.equals(""))
+        {
+            throw new ModelException("Empty category is not allowed!");
+        }
+        
+        //Do not add already existing categories
+        if (categories.contains(category))
+        {
+            throw new ModelException("Category is already in the list!");
+        }
+        
+        categories.add(category);
+    }
 
     public ObservableList<PlayList> getPlayLists()
     {
@@ -140,7 +162,12 @@ public class MediaPlayerModel
     {
         return songs;
     }
-
+    
+    public ObservableList<String> getCategories()
+    {
+        return categories;
+    }
+    
     public void playMedia(PlayList playList) throws Exception
     {
         if (playList == null)
@@ -156,7 +183,8 @@ public class MediaPlayerModel
         try
         {
             songs.clear();
-            songs.addAll(bllManager.loadMedia(filter));
+            songs.addAll(bllManager.loadMedia(filter)); //Get the songs
+            categories.addAll(bllManager.getCategories());  //Get the categories
         } 
         catch (DAException ex)
         {
@@ -180,4 +208,5 @@ public class MediaPlayerModel
         p.setTitle(playListName);
         playlists.add(p);
     }
+
 }

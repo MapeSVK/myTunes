@@ -130,6 +130,7 @@ public class MainController implements Initializable {
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getSongs());
         
+        
         //Create a new listener and bind it to the play list tableView. Used to update the listview of the current playlist, when the selection changes
         playlistTableView.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener()

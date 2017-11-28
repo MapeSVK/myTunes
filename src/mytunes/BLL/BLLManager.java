@@ -5,6 +5,7 @@
  */
 package mytunes.BLL;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,8 @@ public class BLLManager
 {
     private DAManager mediaDAO = new DAManager();
     private MediaPlayer player;
+    
+    private List<String> categories = new ArrayList(); //A collection of categories
 
     public void deleteSong(UserMedia selectedSong)
     {
@@ -58,7 +61,22 @@ public class BLLManager
 
     public List<UserMedia> loadMedia(String filter) throws DAException
     {
-        return mediaDAO.getSongs(filter);
+        List<UserMedia> media = mediaDAO.getSongs(filter);
+        
+        for (UserMedia userMedia : media)   //Loop through each song
+        {
+            if (!categories.contains(userMedia.getCategory())) //If its category is not yet saved, add it to the category list
+            {
+                categories.add(userMedia.getCategory());
+            }
+        }
+        
+        return media;
+    }
+    
+    public List<String> getCategories()
+    {
+        return categories;
     }
 
     public void updateSong(UserMedia selectedSong) throws BLLException
