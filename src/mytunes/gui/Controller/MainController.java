@@ -324,8 +324,16 @@ public class MainController implements Initializable {
     //The filter is currently a placeholder
     private void loadMedia()
     {
-        String filter = "";
-        model.loadMedia(filter);
+        try
+        {
+            String filter = "";
+            model.loadMedia(filter);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     private void showAlert(Exception ex)

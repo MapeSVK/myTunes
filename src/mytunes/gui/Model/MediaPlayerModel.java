@@ -6,6 +6,8 @@
 package mytunes.gui.Model;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.BLL.BLLManager;
@@ -128,10 +130,18 @@ public class MediaPlayerModel
     }
 
     //Get all songs from the database on startup
-    public void loadMedia(String filter)
+    public void loadMedia(String filter) throws ModelException
     {
-        songs.clear();
-        songs.addAll(bllManager.loadMedia(filter));
+        try
+        {
+            songs.clear();
+            songs.addAll(bllManager.loadMedia(filter));
+        } 
+        catch (DAException ex)
+        {
+            Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     public UserMedia getSelectedSong()
