@@ -9,6 +9,7 @@ import java.util.List;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
+import mytunes.dal.DAException;
 import mytunes.dal.DAManager;
 
 /**
@@ -45,7 +46,7 @@ public class BLLManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<UserMedia> loadMedia(String filter)
+    public List<UserMedia> loadMedia(String filter) throws DAException
     {
         return mediaDAO.getSongs(filter);
     }

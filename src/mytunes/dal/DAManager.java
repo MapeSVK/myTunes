@@ -5,6 +5,7 @@
  */
 package mytunes.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,32 +41,46 @@ public class DAManager {
                 tempSong.setPath(result.getString("path"));
                 songList.add(tempSong);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
         return songList;
     }
-    
-    public void saveSongs(UserMedia song) throws DAException{
+
+    public void saveSongs(UserMedia song) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music(title, artist, category, time, path)"
-                                                              + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             pstatement.setString(1, song.getTitle());
             pstatement.setString(2, song.getArtist());
             pstatement.setString(3, song.getCategory());
             pstatement.setTime(4, song.getTime());
             pstatement.setString(5, song.getPath());
             int affected = pstatement.executeUpdate();
-            if (affected<1)
+            if (affected < 1) {
                 throw new DAException("Song could not be added");
-            
+            }
+
             ResultSet rs = pstatement.getGeneratedKeys();
             if (rs.next()) {
                 song.setId(rs.getInt(1));
             }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
         }
-        catch (Exception e) {
+    }
+
+    public void removeSong(UserMedia song) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
+            pstatement.setInt(1, song.getId());
+            
+            int affected =  pstatement.executeUpdate();
+            if (affected < 1){
+                throw new DAException("Song could not be deleted!");
+            }
+            
+        } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }

@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
+import mytunes.dal.DAException;
 
 /**
  * Model class, responsible for separating the data from the display 
