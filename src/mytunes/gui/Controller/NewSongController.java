@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 
 /**
@@ -48,9 +49,11 @@ public class NewSongController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
 
+    }    
+    
+    
+    
     @FXML
     private void chooseFileClicked(ActionEvent event) {
     }
@@ -67,10 +70,19 @@ public class NewSongController implements Initializable {
     private void saveSongClicked(ActionEvent event) {
     }
     
+    private void fillData()
+    {
+        UserMedia selectedSong = model.getSelectedSong();
+        
+        songArtistField.setText(selectedSong.getArtist());
+        songTimeField.setText(selectedSong.getTime().toString());
+        titleOfSongField.setText(selectedSong.getTitle());
+    }
     
     public void setModel(MediaPlayerModel model)
     {
         this.model = model;
     }
+    
     
 }

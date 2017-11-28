@@ -20,7 +20,7 @@ public class MediaPlayerModel
 {
     private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
-    
+    private UserMedia selectedSong;
     private BLLManager bllManager = new BLLManager();
     /**
      * Delete a song. Update the the observable list, and call the method from the BLL
@@ -51,9 +51,14 @@ public class MediaPlayerModel
         bllManager.addNewPlayList();
     }
     
-    public void editSong()
+    public void editSong(UserMedia selectedSong) throws ModelException
     {
-       
+        if (selectedSong == null)
+        {
+            throw new ModelException("No song selected");
+        }
+        
+        this.selectedSong  = selectedSong;
     }
     
     public void editPlaylist()
@@ -126,5 +131,21 @@ public class MediaPlayerModel
     {
         songs.clear();
         songs.addAll(bllManager.loadMedia(filter));
+    }
+    
+    public UserMedia getSelectedSong()
+    {
+        return this.selectedSong;
+    }
+
+    public void createNewPlayList(String playListName) throws ModelException
+    {
+        if (playListName.equals(""))
+        {
+            throw new ModelException("Empty name!");
+        }
+        PlayList p = new PlayList();
+        p.setName(playListName);
+        playlists.add(p);
     }
 }
