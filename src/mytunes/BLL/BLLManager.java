@@ -39,11 +39,17 @@ public class BLLManager
         }
     }
 
-    public void deletePlayList()
+    public void deletePlayList(PlayList selected) throws BLLException, DAException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (selected == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        mediaDAO.deletePlayList(selected);
     }
 
+    //Save a new song to the DB
     public void addNewSong(UserMedia newSong) throws BLLException
     {
         try
@@ -57,9 +63,9 @@ public class BLLManager
         }
     }
 
-    public void addNewPlayList()
+    public void addNewPlayList(PlayList pl) throws DAException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        mediaDAO.saveList(pl);
     }
 
     public void play(PlayList playList)
@@ -67,19 +73,26 @@ public class BLLManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<UserMedia> loadMedia(String filter) throws DAException
+    public List<UserMedia> loadMedia(String filter) throws BLLException
     {
-        List<UserMedia> media = mediaDAO.getSongs(filter);
-        
-        for (UserMedia userMedia : media)   //Loop through each song
+        try
         {
-            if (!categories.contains(userMedia.getCategory())) //If its category is not yet saved, add it to the category list
+            List<UserMedia> media = mediaDAO.getSongs(filter);
+            
+            for (UserMedia userMedia : media)   //Loop through each song
             {
-                categories.add(userMedia.getCategory());
+                if (!categories.contains(userMedia.getCategory())) //If its category is not yet saved, add it to the category list
+                {
+                    categories.add(userMedia.getCategory());
+                }
             }
+            
+            return media;
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
         }
-        
-        return media;
     }
     
     public List<String> getCategories()
@@ -96,6 +109,18 @@ public class BLLManager
         catch (DAException ex)
         {
             Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BLLException(ex);
+        }
+    }
+
+    public List<PlayList> getPlayLists() throws BLLException
+    {
+        try
+        {
+            return mediaDAO.getPlayLists();
+        } 
+        catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }

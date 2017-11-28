@@ -51,15 +51,18 @@ public class MediaPlayerModel
         }
     }
     
-    public void deletePlaylist()
+    public void deletePlaylist(PlayList selected) throws ModelException
     {
-        bllManager.deletePlayList();
+        try
+        {
+            bllManager.deletePlayList(selected);
+        }
+        catch (Exception ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }   
     }
-    
-    public void newPlayList()
-    {
-        bllManager.addNewPlayList();
-    }
+
     
     public void editSong(UserMedia selectedSong) throws ModelException
     {
@@ -71,6 +74,11 @@ public class MediaPlayerModel
         this.selectedSong  = selectedSong;
     }
     
+    /**
+     * Update the data of an already existing song
+     * @param selectedSong
+     * @throws ModelException 
+     */
     public void updateSong(UserMedia selectedSong) throws ModelException
     {
         try
@@ -83,6 +91,11 @@ public class MediaPlayerModel
         }
     }
    
+    /**
+     * Add a new song to the UI, and update the DB
+     * @param newSong
+     * @throws ModelException 
+     */
     public void addNewSong(UserMedia newSong) throws ModelException
     {
         try
@@ -185,7 +198,7 @@ public class MediaPlayerModel
         bllManager.play(playList);
     }
 
-    //Get all songs from the database on startup
+    //Get all songs, playlists and categories from the database on startup
     public void loadMedia(String filter) throws ModelException
     {
         try
@@ -193,8 +206,9 @@ public class MediaPlayerModel
             songs.clear();
             songs.addAll(bllManager.loadMedia(filter)); //Get the songs
             categories.addAll(bllManager.getCategories());  //Get the categories
+            playlists.addAll(bllManager.getPlayLists());
         } 
-        catch (DAException ex)
+        catch (BLLException ex)
         {
             Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
             throw new ModelException(ex.getMessage());
@@ -208,23 +222,30 @@ public class MediaPlayerModel
 
     public void createNewPlayList(String playListName) throws ModelException
     {
-        if (playListName.equals(""))
+        try
         {
-            throw new ModelException("Empty name!");
-        }
-        PlayList p = new PlayList();
-        p.setTitle(playListName);
-        System.out.println(p.toString());
-        
-        for (PlayList pl : playlists)   //Loop through the playlist and check their names
-        {
-            if (pl.getTitle().equals(playListName)) //If the name is already in use, throw an exception
+            if (playListName.equals(""))
             {
-                throw new ModelException("Name is already in use!");
+                throw new ModelException("Empty name!");
             }
+            PlayList p = new PlayList();
+            p.setTitle(playListName);
+            System.out.println(p.toString());
+            
+            for (PlayList pl : playlists)   //Loop through the playlist and check their names
+            {
+                if (pl.getTitle().equals(playListName)) //If the name is already in use, throw an exception
+                {
+                    throw new ModelException("Name is already in use!");
+                }
+            }
+            
+            playlists.add(p);
+            bllManager.addNewPlayList(p);
+        } catch (DAException ex)
+        {
+            Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
         }
-        
-        playlists.add(p);
     }
-
 }

@@ -144,7 +144,7 @@ public class MainController implements Initializable {
         );
     }    
 
-    
+    //Update the listView to show the songs found in the selected play list
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
@@ -228,13 +228,42 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void editPlaylistClicked(ActionEvent event) {
-        model.editPlaylist();
+    private void editPlaylistClicked(ActionEvent event) 
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            NewPlayListController controller = fxmlLoader.getController();
+            controller.setModel(model);
+            controller.setText(playlistTableView.getSelectionModel().getSelectedItem());
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (Exception ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
-    private void deletePlaylistClicked(ActionEvent event) {
-        model.deletePlaylist();
+    private void deletePlaylistClicked(ActionEvent event) 
+    {
+        try
+        {
+            PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
+            model.deletePlaylist(selected);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
@@ -252,6 +281,7 @@ public class MainController implements Initializable {
         model.moveSongDown();
     }
 
+    //Create new window to add a new song
     @FXML
     private void addNewSongClicked(ActionEvent event)
     {
@@ -273,7 +303,8 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Create new window to edit a song
     @FXML
     private void editSongClicked(ActionEvent event)
     {
@@ -341,6 +372,7 @@ public class MainController implements Initializable {
         }
     }
 
+    //Shows an alert window with the description of the error
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
