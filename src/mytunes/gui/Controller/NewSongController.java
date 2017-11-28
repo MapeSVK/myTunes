@@ -72,6 +72,9 @@ public class NewSongController implements Initializable {
 
     @FXML
     private void addNewCategoryClicked(ActionEvent event) {
+        TextField newCategory = new TextField();
+        
+        
     }
 
     @FXML
