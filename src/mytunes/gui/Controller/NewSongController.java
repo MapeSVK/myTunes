@@ -104,6 +104,7 @@ public class NewSongController implements Initializable {
         {
             String title = titleOfSongField.getText();
             String artist = songArtistField.getText();
+            String category = chooseCategoryComboBox.getValue();
             Time time = Time.valueOf(songTimeField.getText());
             
             if (selectedSong != null)   //We are updating an already existing song
@@ -111,7 +112,8 @@ public class NewSongController implements Initializable {
                 selectedSong.setArtist(artist);
                 selectedSong.setTitle(title);
                 selectedSong.setTime(time);
-
+                selectedSong.setCategory(category);
+                
                 model.updateSong(selectedSong);
             }
             else //We are creating a new song
@@ -120,7 +122,7 @@ public class NewSongController implements Initializable {
                 newSong.setArtist(artist);
                 newSong.setTitle(title);
                 newSong.setTime(time);
-                newSong.setCategory("TestCategory");
+                newSong.setCategory(category);
                 newSong.setPath("Test path");
                 
                 model.addNewSong(newSong);
@@ -141,6 +143,7 @@ public class NewSongController implements Initializable {
         songArtistField.setText(selectedSong.getArtist());
         songTimeField.setText(selectedSong.getTime().toString());
         titleOfSongField.setText(selectedSong.getTitle());
+        chooseCategoryComboBox.setValue(selectedSong.getCategory());
     }
     
     /**

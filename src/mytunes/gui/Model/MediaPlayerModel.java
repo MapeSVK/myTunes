@@ -165,7 +165,6 @@ public class MediaPlayerModel
     
     public ObservableList<String> getCategories()
     {
-        categories.addAll("Rock", "Techno", "Pop", "Opera", "Kattogós minimál");
         return categories;
     }
     
@@ -184,7 +183,8 @@ public class MediaPlayerModel
         try
         {
             songs.clear();
-            songs.addAll(bllManager.loadMedia(filter));
+            songs.addAll(bllManager.loadMedia(filter)); //Get the songs
+            categories.addAll(bllManager.getCategories());  //Get the categories
         } 
         catch (DAException ex)
         {
