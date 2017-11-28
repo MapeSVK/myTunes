@@ -137,4 +137,15 @@ public class MediaPlayerModel
     {
         return this.selectedSong;
     }
+
+    public void createNewPlayList(String playListName) throws ModelException
+    {
+        if (playListName.equals(""))
+        {
+            throw new ModelException("Empty name!");
+        }
+        PlayList p = new PlayList();
+        p.setName(playListName);
+        playlists.add(p);
+    }
 }
