@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="677.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.Controller.MainController">
+   <children>
+      <Slider fx:id="volumeController" layoutX="26.0" layoutY="71.0" />
+      <ImageView fx:id="next" fitHeight="35.0" fitWidth="45.0" layoutX="130.0" layoutY="24.0" onMouseClicked="#nextArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/next.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="previous" fitHeight="35.0" fitWidth="35.0" layoutX="25.0" layoutY="24.0" onMouseClicked="#previousArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/previous.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="play" fitHeight="35.0" fitWidth="63.0" layoutX="78.0" layoutY="24.0" onMouseClicked="#playArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/play.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="songName" alignment="CENTER" layoutX="240.0" layoutY="33.0" prefHeight="17.0" prefWidth="564.0" text="LabelLabelLabelLabelLabelLabelLabelLabelLabel" />
+      <TextField fx:id="searchField" layoutX="850.0" layoutY="28.0" promptText="Search..." />
+      <ImageView fx:id="search" fitHeight="27.0" fitWidth="35.0" layoutX="1041.0" layoutY="28.0" onMouseClicked="#searchClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/search.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="playlistTableView" layoutX="30.0" layoutY="139.0" prefHeight="399.0" prefWidth="317.0">
+        <columns>
+          <TableColumn fx:id="playListColumnName" prefWidth="156.0" text="Name" />
+          <TableColumn fx:id="playListColumnSongsCount" text="Songs" />
+            <TableColumn fx:id="playListColumnTotalTime" minWidth="7.0" text="Time" />
+        </columns>
+      </TableView>
+      <ListView fx:id="playlistSongsListView" layoutX="372.0" layoutY="139.0" prefHeight="399.0" prefWidth="219.0" />
+      <TableView fx:id="songsTableView" layoutX="657.0" layoutY="139.0" prefHeight="399.0" prefWidth="411.0">
+        <columns>
+          <TableColumn fx:id="songsColumnTitle" prefWidth="141.0" text="Title" />
+          <TableColumn fx:id="songsColumArtist" prefWidth="116.0" text="Artist" />
+            <TableColumn fx:id="songsColumnCategory" prefWidth="99.0" text="Category" />
+            <TableColumn fx:id="songsColumnTime" prefWidth="54.0" text="Time" />
+        </columns>
+      </TableView>
+      <ImageView fx:id="addArrow" fitHeight="62.0" fitWidth="35.0" layoutX="608.0" layoutY="139.0" onMouseClicked="#addArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/previous.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="newPlaylistButton" layoutX="37.0" layoutY="547.0" mnemonicParsing="false" onAction="#addNewPlaylistClicked" text="New" />
+      <Button fx:id="editPlaylistButton" layoutX="96.0" layoutY="547.0" mnemonicParsing="false" onAction="#editPlaylistClicked" text="Edit" />
+      <Button fx:id="deletePlaylistButton" layoutX="148.0" layoutY="547.0" mnemonicParsing="false" onAction="#deletePlaylistClicked" text="Delete" />
+      <Button fx:id="deleteSongFromPlaylistButton" layoutX="464.0" layoutY="547.0" mnemonicParsing="false" onAction="#deleteSongFromPlaylistClicked" text="Delete" />
+      <ImageView fx:id="upArrow" fitHeight="35.0" fitWidth="46.0" layoutX="372.0" layoutY="543.0" onMouseClicked="#upArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/up.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="downArrow" fitHeight="35.0" fitWidth="58.0" layoutX="413.0" layoutY="543.0" onMouseClicked="#downArrowClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/down.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="newSongButton" layoutX="657.0" layoutY="547.0" mnemonicParsing="false" onAction="#addNewSongClicked" text="New" />
+      <Button fx:id="editSongButton" layoutX="723.0" layoutY="547.0" mnemonicParsing="false" onAction="#editSongClicked" text="Edit" />
+      <Button fx:id="closeApp" layoutX="1025.0" layoutY="618.0" mnemonicParsing="false" onAction="#closeAppClicked" text="Close" />
+      <Button fx:id="deleteSongButton" layoutX="785.0" layoutY="547.0" mnemonicParsing="false" onAction="#deleteSongClicked" text="Delete" />
+   </children>
+</AnchorPane>
