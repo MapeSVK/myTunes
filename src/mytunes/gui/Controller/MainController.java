@@ -278,7 +278,7 @@ public class MainController implements Initializable {
     @FXML
     private void editSongClicked(ActionEvent event) throws IOException {
         model.editSong();
-        
+            
        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
        Parent root1 = (Parent) fxmlLoader.load();
        Stage stage = new Stage();
