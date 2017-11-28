@@ -134,4 +134,18 @@ public class DAManager {
         }
         return playListList;
     }
+    public void deletePlayList(PlayList plist)throws DAException{
+        try (Connection con = cm.getConnection()){
+            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Playlist WHERE id=?");
+            pstatement.setInt(1, plist.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be deleted!");
+            }
+        }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+        
+    } 
 }
