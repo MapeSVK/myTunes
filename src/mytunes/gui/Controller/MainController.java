@@ -276,7 +276,10 @@ public class MainController implements Initializable {
     }
 
     @FXML
+<<<<<<< HEAD
 
+=======
+>>>>>>> 92caa785aaa364902056b15aa93bec35ea66d7ad
     private void editSongClicked(ActionEvent event)
     {
         try
@@ -289,6 +292,7 @@ public class MainController implements Initializable {
             
             NewSongController controller = fxmlLoader.getController();
             controller.setModel(model);
+            controller.fillData();
             
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -299,7 +303,10 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 92caa785aaa364902056b15aa93bec35ea66d7ad
     }
 
     @FXML
@@ -325,8 +332,16 @@ public class MainController implements Initializable {
     //The filter is currently a placeholder
     private void loadMedia()
     {
-        String filter = "";
-        model.loadMedia(filter);
+        try
+        {
+            String filter = "";
+            model.loadMedia(filter);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     private void showAlert(Exception ex)
