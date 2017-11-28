@@ -134,6 +134,24 @@ public class MediaPlayerModel
     {
     
     }
+    
+    //Add a category to the list, to make it appear in the comboBox
+    public void addNewCategory(String category) throws ModelException
+    {
+        //Do not allow empty categories
+        if (category.equals(""))
+        {
+            throw new ModelException("Empty category is not allowed!");
+        }
+        
+        //Do not add already existing categories
+        if (categories.contains(category))
+        {
+            throw new ModelException("Category is already in the list!");
+        }
+        
+        categories.add(category);
+    }
 
     public ObservableList<PlayList> getPlayLists()
     {
@@ -190,4 +208,5 @@ public class MediaPlayerModel
         p.setTitle(playListName);
         playlists.add(p);
     }
+
 }

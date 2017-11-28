@@ -5,6 +5,7 @@
  */
 package mytunes.gui.Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ResourceBundle;
@@ -12,7 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -66,10 +70,25 @@ public class NewSongController implements Initializable {
     }
 
     @FXML
-    private void addNewCategoryClicked(ActionEvent event) {
-        TextField newCategory = new TextField();
-        
-        
+    private void addNewCategoryClicked(ActionEvent event) 
+    {    
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/CategoryAdd.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            CategoryAddController controller = fxmlLoader.getController();
+            controller.setModel(model);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
