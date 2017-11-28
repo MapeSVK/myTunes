@@ -276,10 +276,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-<<<<<<< HEAD
 
-=======
->>>>>>> ee41e2771e9e535fbdcb1f52de4e95ee61ac3f9e
     private void editSongClicked(ActionEvent event)
     {
         try
@@ -302,16 +299,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-<<<<<<< HEAD
-    
-       
-       
-       
-       
-       
-        
-=======
->>>>>>> ee41e2771e9e535fbdcb1f52de4e95ee61ac3f9e
+
     }
 
     @FXML
