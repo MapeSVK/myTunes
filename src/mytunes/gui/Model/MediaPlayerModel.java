@@ -156,7 +156,7 @@ public class MediaPlayerModel
             throw new ModelException("Empty name!");
         }
         PlayList p = new PlayList();
-        p.setName(playListName);
+        p.setTitle(playListName);
         playlists.add(p);
     }
 }

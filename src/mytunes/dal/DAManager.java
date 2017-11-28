@@ -5,7 +5,6 @@
  */
 package mytunes.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -102,5 +101,23 @@ public class DAManager {
         catch (Exception e) {
             throw new DAException(e.getMessage());
         }
+    }
+    
+    public List<PlayList> getPlayLists() throws DAException{
+        List<PlayList> playListList = new ArrayList();
+
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Playlist");
+            ResultSet result = pstatement.executeQuery();
+            while (result.next()) {
+                PlayList tempList = new PlayList();
+                tempList.setId(result.getInt("id"));
+                tempList.setTitle(result.getString("title"));
+                playListList.add(tempList);
+            }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+        return playListList;
     }
 }
