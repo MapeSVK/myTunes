@@ -81,10 +81,7 @@ public class NewSongController implements Initializable {
     
     public void setModel(MediaPlayerModel model)
     {
-        //Set the model to the same as the other controllerd
         this.model = model;
-        //Use the model to fill the relevant textboxes (TODO: Maybe figure out something better?)
-        fillData();
     }
     
     
