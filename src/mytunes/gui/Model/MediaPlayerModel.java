@@ -35,12 +35,20 @@ public class MediaPlayerModel
      */
     public void deleteSong(UserMedia selectedSong) throws ModelException
     {
-        if (selectedSong == null)
+        try
         {
-            throw new ModelException("No song selected!");
+            if (selectedSong == null)
+            {
+                throw new ModelException("No song selected!");
+            }
+            songs.remove(selectedSong);
+            bllManager.deleteSong(selectedSong);
         }
-        songs.remove(selectedSong);
-        bllManager.deleteSong(selectedSong);
+        catch (BLLException ex)
+        {
+            Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     public void deletePlaylist()
@@ -206,6 +214,16 @@ public class MediaPlayerModel
         }
         PlayList p = new PlayList();
         p.setTitle(playListName);
+        System.out.println(p.toString());
+        
+        for (PlayList pl : playlists)   //Loop through the playlist and check their names
+        {
+            if (pl.getTitle().equals(playListName)) //If the name is already in use, throw an exception
+            {
+                throw new ModelException("Name is already in use!");
+            }
+        }
+        
         playlists.add(p);
     }
 

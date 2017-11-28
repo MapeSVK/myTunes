@@ -53,13 +53,14 @@ public class NewPlayListController implements Initializable
             Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
+        
+        closeWindow();
     }
 
     @FXML
     private void btnCancelClick(ActionEvent event)
     {
-        Stage stage = (Stage) txtFieldName.getScene().getWindow();
-        stage.close();
+        closeWindow();
     }
     
     public void setModel(MediaPlayerModel model)
@@ -71,6 +72,12 @@ public class NewPlayListController implements Initializable
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
+    }
+    
+    private void closeWindow()
+    {
+        Stage stage = (Stage) txtFieldName.getScene().getWindow();
+        stage.close();
     }
     
 }

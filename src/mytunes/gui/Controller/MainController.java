@@ -154,7 +154,7 @@ public class MainController implements Initializable {
     
     private void setUpPlayListCellFactories()
     {
-        playListColumnName.setCellValueFactory(new PropertyValueFactory("name"));
+        playListColumnName.setCellValueFactory(new PropertyValueFactory("title"));
         playListColumnSongsCount.setCellValueFactory(new PropertyValueFactory("count"));
         playListColumnTotalTime.setCellValueFactory(new PropertyValueFactory("totalTime"));
     }
@@ -314,9 +314,15 @@ public class MainController implements Initializable {
         }
     }
   
+    /**
+     * Closes the window
+     * @param event 
+     */
     @FXML
-    private void closeAppClicked(ActionEvent event) {
-        
+    private void closeAppClicked(ActionEvent event)
+    {
+        Stage stage = (Stage) volumeController.getScene().getWindow();
+        stage.close();
     }
 
     //Loads all media on startup.

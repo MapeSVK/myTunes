@@ -26,9 +26,17 @@ public class BLLManager
     
     private List<String> categories = new ArrayList(); //A collection of categories
 
-    public void deleteSong(UserMedia selectedSong)
+    public void deleteSong(UserMedia selectedSong) throws BLLException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            mediaDAO.removeSong(selectedSong);
+        } 
+        catch (DAException ex)
+        {
+            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw  new BLLException(ex);
+        }
     }
 
     public void deletePlayList()
