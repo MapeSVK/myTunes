@@ -276,6 +276,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
+<<<<<<< HEAD
     private void editSongClicked(ActionEvent event) throws IOException {
         model.editSong();
             
@@ -284,6 +285,30 @@ public class MainController implements Initializable {
        Stage stage = new Stage();
        stage.setScene(new Scene(root1));  
        stage.show();
+=======
+    private void editSongClicked(ActionEvent event)
+    {
+        try
+        {
+            UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
+            model.editSong(selectedSong);
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            NewSongController controller = fxmlLoader.getController();
+            controller.setModel(model);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (Exception ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+>>>>>>> 2836d049a7860560f49a1549906514b157aacdb9
        
        
        
