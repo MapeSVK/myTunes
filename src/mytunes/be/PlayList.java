@@ -31,6 +31,7 @@ public class PlayList {
 
     public void setTitle(String title) {
         this.title = title;
+
     }
 
     public List<UserMedia> getSongs() {
