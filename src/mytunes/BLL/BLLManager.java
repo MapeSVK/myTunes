@@ -33,9 +33,17 @@ public class BLLManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void addNewSong()
+    public void addNewSong(UserMedia newSong) throws BLLException
     {
-        System.out.println("");
+        try
+        {
+            mediaDAO.saveSongs(newSong);
+        } 
+        catch (DAException ex)
+        {
+            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BLLException(ex);
+        }
     }
 
     public void addNewPlayList()

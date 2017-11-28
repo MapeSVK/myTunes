@@ -7,12 +7,6 @@ package mytunes.gui.Controller;
 
 import java.net.URL;
 import java.sql.Time;
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,11 +87,26 @@ public class NewSongController implements Initializable {
             String artist = songArtistField.getText();
             Time time = Time.valueOf(songTimeField.getText());
             
-            selectedSong.setArtist(artist);
-            selectedSong.setTitle(title);
-            selectedSong.setTime(time);
-            
-            model.updateSong(selectedSong);
+            if (selectedSong != null)   //We are updating an already existing song
+            {
+                selectedSong.setArtist(artist);
+                selectedSong.setTitle(title);
+                selectedSong.setTime(time);
+
+                model.updateSong(selectedSong);
+            }
+            else //We are creating a new song
+            {
+                UserMedia newSong = new UserMedia();
+                newSong.setArtist(artist);
+                newSong.setTitle(title);
+                newSong.setTime(time);
+                newSong.setCategory("TestCategory");
+                newSong.setPath("Test path");
+                
+                model.addNewSong(newSong);
+            }
+
         } 
         catch (Exception ex)
         {

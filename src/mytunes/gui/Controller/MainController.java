@@ -256,8 +256,6 @@ public class MainController implements Initializable {
     {
         try
         {
-            model.newSong();
-            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             
@@ -276,10 +274,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-<<<<<<< HEAD
 
-=======
->>>>>>> 92caa785aaa364902056b15aa93bec35ea66d7ad
     private void editSongClicked(ActionEvent event)
     {
         try
@@ -303,10 +298,6 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 92caa785aaa364902056b15aa93bec35ea66d7ad
     }
 
     @FXML

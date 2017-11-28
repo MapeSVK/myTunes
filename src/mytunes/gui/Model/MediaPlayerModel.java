@@ -44,12 +44,6 @@ public class MediaPlayerModel
         bllManager.deletePlayList();
     }
     
-    public void newSong() throws IOException
-    {
-        bllManager.addNewSong();
-        
-    }
-    
     public void newPlayList()
     {
         bllManager.addNewPlayList();
@@ -73,6 +67,20 @@ public class MediaPlayerModel
         } 
         catch (BLLException ex)
         {
+            throw new ModelException(ex.getMessage());
+        }
+    }
+   
+    public void addNewSong(UserMedia newSong) throws ModelException
+    {
+        try
+        {
+            bllManager.addNewSong(newSong);
+            songs.add(newSong);
+        } 
+        catch (BLLException ex)
+        {
+            Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
             throw new ModelException(ex.getMessage());
         }
     }
@@ -172,5 +180,4 @@ public class MediaPlayerModel
         p.setTitle(playListName);
         playlists.add(p);
     }
-
 }
