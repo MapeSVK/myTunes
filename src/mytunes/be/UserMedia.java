@@ -1,26 +1,40 @@
 package mytunes.be;
 
 import java.sql.Time;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
 
 
 public class UserMedia {
-    
-    private int id; 
-    private String title;
-    private String artist;
-    private String category; 
-    private String path;
+
+
+        /*
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty artist = new SimpleStringProperty();
+    private final StringProperty category = new SimpleStringProperty();
+    private final StringProperty path = new SimpleStringProperty();
+
+*/
+
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty artist = new SimpleStringProperty();
+    private final StringProperty category = new SimpleStringProperty();
+    private final StringProperty path = new SimpleStringProperty();
     private Media media;
     private Time time; 
 
     public UserMedia(int id, String title, String artist, String category, String path, Media media, Time time)
     {
-        this.id = id;
-        this.title = title;
-        this.artist = artist;
-        this.category = category;
-        this.path = path;
+        this.id.set(id);
+        this.title.set(title);
+        this.artist.set(artist);
+        this.category.set(category);
+        this.path.set(path);
         this.media = media;
         this.time = time;
     }
@@ -30,58 +44,97 @@ public class UserMedia {
             
     }
     
-    public String getArtist() {
-        return artist;
+    public String getTitle()
+    {
+        return title.get();
     }
 
-    public String getCategory() {
-        return category;
+    public void setTitle(String value)
+    {
+        title.set(value);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public String getTitle() {
+    public StringProperty titleProperty()
+    {
         return title;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public String getPath()
+    {
+        return path.get();
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPath(String value)
+    {
+        path.set(value);
     }
 
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPath() {
+    public StringProperty pathProperty()
+    {
         return path;
     }
 
-    public void setPath(String file) {
-        this.path = path;
+    public String getCategory()
+    {
+        return category.get();
+    }
+
+    public void setCategory(String value)
+    {
+        category.set(value);
+    }
+
+    public StringProperty categoryProperty()
+    {
+        return category;
+    }
+
+    public String getArtist()
+    {
+        return artist.get();
+    }
+
+    public void setArtist(String value)
+    {
+        artist.set(value);
+    }
+
+    public StringProperty artistProperty()
+    {
+        return artist;
+    }
+    
+    public int getId()
+    {
+        return id.get();
+    }
+    
+    public void setId(int value)
+    {
+        id.set(value);
+    }
+
+    public IntegerProperty idProperty()
+    {
+        return id;
+    }
+    
+    public void setTime(Time time)
+    {
+        this.time = time;
+    }
+    
+    public Time getTime()
+    {
+        return time;
     }
 
     @Override
-    public String toString() {
-        return "Title: "+title+", Artist: "+artist+", Category: "+category+", Time: ["+time+"].";
+    public String toString()
+    {
+        return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime().toString();
     }
+ 
 }
 
     
