@@ -276,10 +276,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-<<<<<<< HEAD
-
-=======
->>>>>>> ee41e2771e9e535fbdcb1f52de4e95ee61ac3f9e
     private void editSongClicked(ActionEvent event)
     {
         try
@@ -292,6 +288,7 @@ public class MainController implements Initializable {
             
             NewSongController controller = fxmlLoader.getController();
             controller.setModel(model);
+            controller.fillData();
             
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -302,16 +299,6 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-<<<<<<< HEAD
-    
-       
-       
-       
-       
-       
-        
-=======
->>>>>>> ee41e2771e9e535fbdcb1f52de4e95ee61ac3f9e
     }
 
     @FXML
