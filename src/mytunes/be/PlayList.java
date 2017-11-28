@@ -25,12 +25,13 @@ public class PlayList {
         this.id = id;
     }
 
-    public String getName() {
+    public String getTitle() {
         return title;
     }
 
-    public void setName(String name) {
-        this.title = name;
+    public void setTitle(String title) {
+        this.title = title;
+
     }
 
     public List<UserMedia> getSongs() {
