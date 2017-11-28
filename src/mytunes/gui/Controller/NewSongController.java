@@ -49,7 +49,6 @@ public class NewSongController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
     }    
     
     
@@ -70,7 +69,7 @@ public class NewSongController implements Initializable {
     private void saveSongClicked(ActionEvent event) {
     }
     
-    private void fillData()
+    public void fillData()
     {
         UserMedia selectedSong = model.getSelectedSong();
         
