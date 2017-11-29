@@ -164,47 +164,22 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Playlist could not be deleted!");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
+
     }
 
-    public void getMediaInList() throws DAException {
-        List<PlayList> playListList = new ArrayList();
+    public void saveList(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement(
-                    "SELECT Playlist.*, Music.* "
-                    + "FROM Music, Playlist, MusicInList "
-                    + "WHERE MusicInList.listID = Playlist.id AND MusicInList.musicID = Music.id");
-            ResultSet result = pstatement.executeQuery();
-            while (result.next()) {
-                for (int i = 0; i < playListList.size(); i++) {
-                    if (playListList.get(i).getTitle() != result.getString(2) || playListList.size() == 0) {
-                        PlayList tempList = new PlayList(result.getInt("id"), result.getString("title"));
-                        playListList.add(tempList);
-                        UserMedia tempSong = new UserMedia();
-                        tempSong.setId(result.getInt(3));
-                        tempSong.setTitle(result.getString(4));
-                        tempSong.setArtist(result.getString(5));
-                        tempSong.setCategory(result.getString(6));
-                        tempSong.setTime(result.getTime(7));
-                        tempSong.setPath(result.getString(8));
-                        tempList.addSong(tempSong);
-                    } else {
-                        UserMedia tempSong = new UserMedia();
-                        tempSong.setId(result.getInt(3));
-                        tempSong.setTitle(result.getString(4));
-                        tempSong.setArtist(result.getString(5));
-                        tempSong.setCategory(result.getString(6));
-                        tempSong.setTime(result.getTime(7));
-                        tempSong.setPath(result.getString(8));
-                        playListList.get(i).addSong(tempSong);
-                    }
-                }
+            PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music title=?"
+                    + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            pstatement.setString(1, plist.getTitle());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be saved!");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }

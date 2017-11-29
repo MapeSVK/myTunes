@@ -7,40 +7,58 @@ package mytunes.be;
 
 import java.util.ArrayList;
 import java.util.List;
-import jdk.nashorn.internal.runtime.UserAccessorProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author Mape
  */
 public class PlayList {
-    private int id;
-    private String title;    
+
     private List<UserMedia> songs = new ArrayList();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty title = new SimpleStringProperty();
+
 
     public PlayList() {
     }
 
     public PlayList(int id, String title) {
-        this.id = id;
-        this.title = title;
+        this.id.set(id);
+        this.title.set(title);
     }
 
-    public int getId() {
-        return id;
+    public String getTitle()
+    {
+        return title.get();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTitle(String value)
+    {
+        title.set(value);
     }
 
-    public String getTitle() {
+    public StringProperty titleProperty()
+    {
         return title;
     }
+    
+    public int getId()
+    {
+        return id.get();
+    }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(int value)
+    {
+        id.set(value);
+    }
 
+    public IntegerProperty idProperty()
+    {
+        return id;
     }
 
     public List<UserMedia> getSongs() {
@@ -53,5 +71,11 @@ public class PlayList {
     
     public void addSong(UserMedia song) {
         this.songs.add(song);
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "PlayList{ id=" + id + ", title=" + title + '}';
     }
 }
