@@ -87,11 +87,21 @@ public class PlayList {
         return songs.contains(song);
     }
     
+    //Checks if the list of song is empty
+    public boolean isEmpty()
+    {
+        return songs.isEmpty();
+    }
+    
+    //Clears all the song from the play list
+    public void clearSongs()
+    {
+        songs.clear();
+    }
+    
     @Override
     public String toString()
     {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
-
-
 }

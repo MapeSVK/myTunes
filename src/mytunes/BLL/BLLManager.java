@@ -46,6 +46,17 @@ public class BLLManager
             throw new BLLException("No playlist selected!");
         }
         
+        //If the playlist is not empty, delete the song first
+        if (!selected.isEmpty())
+        {
+            //Delete the song from the DB
+            for (UserMedia song : selected.getSongs())
+            {
+                removeSongFromPlayList(song, selected);
+            }
+            selected.clearSongs();
+        }
+        
         mediaDAO.deletePlayList(selected);
     }
 
@@ -132,6 +143,19 @@ public class BLLManager
         try
         {
             return mediaDAO.getPlayLists();
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+    
+    //Remove a song from a play list in the DB
+    public void removeSongFromPlayList(UserMedia songToDelete, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
+            mediaDAO.deleteSongFromList(selectedPlayList, songToDelete);
         } 
         catch (DAException ex)
         {

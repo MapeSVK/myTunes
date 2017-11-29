@@ -56,6 +56,7 @@ public class MediaPlayerModel
         try
         {
             bllManager.deletePlayList(selected);
+            playlists.remove(selected);
         }
         catch (Exception ex)
         {
@@ -150,7 +151,14 @@ public class MediaPlayerModel
  
         selectedPlayList.removeSong(songToDelete);
         
-        bllManager.removeSongFromPlayList(songToDelete, selectedPlayList);
+        try
+        {
+            bllManager.removeSongFromPlayList(songToDelete, selectedPlayList);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     //Add the selecetd song to the selected playlist
@@ -221,10 +229,6 @@ public class MediaPlayerModel
     
     public void playMedia(PlayList playList) throws Exception
     {
-        if (playList == null)
-        {
-            throw new ModelException("Empty object");
-        }
         bllManager.play(playList);
     }
 
