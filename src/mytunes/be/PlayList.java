@@ -7,6 +7,7 @@ package mytunes.be;
 
 import java.util.ArrayList;
 import java.util.List;
+import jdk.nashorn.internal.runtime.UserAccessorProperty;
 
 /**
  *
@@ -16,6 +17,14 @@ public class PlayList {
     private int id;
     private String title;    
     private List<UserMedia> songs = new ArrayList();
+
+    public PlayList() {
+    }
+
+    public PlayList(int id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 
     public int getId() {
         return id;
@@ -40,5 +49,9 @@ public class PlayList {
 
     public void setSongs(List<UserMedia> songs) {
         this.songs = songs;
+    }
+    
+    public void addSong(UserMedia song) {
+        this.songs.add(song);
     }
 }
