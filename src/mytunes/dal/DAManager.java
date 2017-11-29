@@ -131,20 +131,20 @@ public class DAManager {
             }
 
             PreparedStatement pstaStatement2 = con.prepareStatement(
-                    "SELECT Music.*, MusicInList.listID"
-                    + "FROM Music, MusicInList"
+                    "SELECT Music.* , MusicInList.listID "
+                    + "FROM Music, MusicInList "
                     + "WHERE MusicInList.musicID = Music.id");
             ResultSet result2 = pstaStatement2.executeQuery();
             while (result2.next()) {
                 for (PlayList playList : playListList) {
                     if (playList.getId() == result2.getInt("listID")) {
                         UserMedia tempSong = new UserMedia();
-                        tempSong.setId(result.getInt("id"));
-                        tempSong.setTitle(result.getString("title"));
-                        tempSong.setArtist(result.getString("artist"));
-                        tempSong.setCategory(result.getString("category"));
-                        tempSong.setTime(result.getTime("time"));
-                        tempSong.setPath(result.getString("path"));
+                        tempSong.setId(result2.getInt("id"));
+                        tempSong.setTitle(result2.getString("title"));
+                        tempSong.setArtist(result2.getString("artist"));
+                        tempSong.setCategory(result2.getString("category"));
+                        tempSong.setTime(result2.getTime("time"));
+                        tempSong.setPath(result2.getString("path"));
                         playList.addSong(tempSong);
                     }
                 }
@@ -167,7 +167,6 @@ public class DAManager {
         } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
-
     }
 
     public void saveList(PlayList plist) throws DAException {

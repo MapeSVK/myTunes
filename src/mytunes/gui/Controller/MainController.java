@@ -329,10 +329,6 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 24d92965befc5eb98b225481f224d013a3548cb8
     }
 
     @FXML
