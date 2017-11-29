@@ -147,9 +147,10 @@ public class MediaPlayerModel
         {
            throw new ModelException("No song selected!");
         }
-        
-        //TODO: wait until the DAL methods are finished
+ 
         selectedPlayList.removeSong(songToDelete);
+        
+        bllManager.removeSongFromPlayList(songToDelete, selectedPlayList);
     }
     
     //Add the selecetd song to the selected playlist
@@ -168,8 +169,16 @@ public class MediaPlayerModel
             throw new ModelException("Playlist already contains this song!");
         }
         
-        //TODO: finish this method by adding the playlist to the DB (waiting for the methods in the DAL)
         selectedPlayList.addSong(selectedSong);
+        try
+        {
+            bllManager.addSongToPlayList(selectedSong, selectedPlayList);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
+
     }
     
     public void searchSong(String searchString)
