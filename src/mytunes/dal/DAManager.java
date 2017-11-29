@@ -172,7 +172,8 @@ public class DAManager {
 
     public void saveList(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("INSERT INTO Playlist(title)"
+            PreparedStatement pstatement = con.prepareStatement(
+                    "INSERT INTO Playlist(title)"
                     + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             pstatement.setString(1, plist.getTitle());
             int affected = pstatement.executeUpdate();
@@ -199,6 +200,22 @@ public class DAManager {
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Song cannot be added to the playlist!");
+            }
+        }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+    }
+
+    public void deleteSongFromList(PlayList list, UserMedia song) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement(
+                    "DELETE FROM MusicInList WHERE musicID=? AND listID=?");
+            pstatement.setInt(1, song.getId());
+            pstatement.setInt(2, list.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Song cannot be deleted from the list!");
             }
         }
         catch (Exception e) {
