@@ -73,7 +73,7 @@ public class BLLManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    //Use the DAL to load the songs, and 
+    //Use the DAL to load the songs, and categories
     public List<UserMedia> loadMedia(String filter) throws BLLException
     {
         try
@@ -89,6 +89,19 @@ public class BLLManager
             }
             
             return media;
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+    
+    
+    public void addSongToPlayList(UserMedia selectedSong, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
+            mediaDAO.saveSongToList(selectedPlayList, selectedSong);
         } 
         catch (DAException ex)
         {
@@ -125,6 +138,4 @@ public class BLLManager
             throw new BLLException(ex);
         }
     }
-    
-    
 }
