@@ -171,7 +171,7 @@ public class DAManager {
 
     public void saveList(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music title=?"
+            PreparedStatement pstatement = con.prepareStatement("INSERT INTO Playlist(title)"
                     + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             pstatement.setString(1, plist.getTitle());
             int affected = pstatement.executeUpdate();
