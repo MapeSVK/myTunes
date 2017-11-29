@@ -22,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
@@ -96,10 +98,17 @@ public class NewSongController implements Initializable {
     {
         closeWindow();
     }
-
+    
+    
     @FXML
     private void saveSongClicked(ActionEvent event) 
     {        
+        saveData();
+    }
+    
+    //Try saving the data entered into the texfields
+    private void saveData()
+    {
         try
         {
             String title = titleOfSongField.getText();
@@ -166,5 +175,14 @@ public class NewSongController implements Initializable {
     {
         Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void onKeyPressed(KeyEvent event)
+    {
+        if (event.getCode().equals(KeyCode.ENTER))
+        {
+            saveData();
+        }
     }
 }

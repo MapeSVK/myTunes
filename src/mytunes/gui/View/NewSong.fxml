@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="444.0" prefWidth="432.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="mytunes.gui.Controller.NewSongController">
+<AnchorPane id="AnchorPane" onKeyPressed="#onKeyPressed" prefHeight="444.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.Controller.NewSongController">
    <children>
       <Label layoutX="168.0" layoutY="6.0" text="New / Edit song" textFill="#d74f4f">
          <font>

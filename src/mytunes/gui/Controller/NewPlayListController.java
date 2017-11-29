@@ -10,11 +10,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import mytunes.be.PlayList;
 import mytunes.gui.Model.MediaPlayerModel;
@@ -38,11 +41,36 @@ public class NewPlayListController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        //Try saving whent the enter key is pressed
+        txtFieldName.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                if (event.getCode().equals(KeyCode.ENTER))
+                {
+                    saveData();
+                }
+            }
+        });
     }    
 
     @FXML
     private void btnSaveClick(ActionEvent event)
+    {
+        saveData();
+    }
+    
+    
+
+    @FXML
+    private void btnCancelClick(ActionEvent event)
+    {
+        closeWindow();
+    }
+    
+    //Name can be saved by either clicking the "Save" buttom, or pressong Enter
+    private void saveData()
     {
         try
         {
@@ -55,12 +83,6 @@ public class NewPlayListController implements Initializable
             showAlert(ex);
         }
         
-        closeWindow();
-    }
-
-    @FXML
-    private void btnCancelClick(ActionEvent event)
-    {
         closeWindow();
     }
     
