@@ -89,7 +89,7 @@ public class BLLManager
     {
         try
         {
-            List<UserMedia> media = mediaDAO.getSongs(filter);
+            List<UserMedia> media = mediaDAO.getSongs();
             
             for (UserMedia userMedia : media)   //Loop through each song
             {
