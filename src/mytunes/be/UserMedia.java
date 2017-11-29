@@ -10,16 +10,6 @@ import javafx.scene.media.Media;
 
 public class UserMedia {
 
-
-        /*
-    private final IntegerProperty id = new SimpleIntegerProperty();
-    private final StringProperty title = new SimpleStringProperty();
-    private final StringProperty artist = new SimpleStringProperty();
-    private final StringProperty category = new SimpleStringProperty();
-    private final StringProperty path = new SimpleStringProperty();
-
-*/
-
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty artist = new SimpleStringProperty();

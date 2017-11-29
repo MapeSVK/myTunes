@@ -130,6 +130,7 @@ public class MainController implements Initializable {
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getSongs());
         
+        
         //Create a new listener and bind it to the play list tableView. Used to update the listview of the current playlist, when the selection changes
         playlistTableView.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener()
@@ -143,7 +144,7 @@ public class MainController implements Initializable {
         );
     }    
 
-    
+    //Update the listView to show the songs found in the selected play list
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
@@ -153,7 +154,7 @@ public class MainController implements Initializable {
     
     private void setUpPlayListCellFactories()
     {
-        playListColumnName.setCellValueFactory(new PropertyValueFactory("name"));
+        playListColumnName.setCellValueFactory(new PropertyValueFactory("title"));
         playListColumnSongsCount.setCellValueFactory(new PropertyValueFactory("count"));
         playListColumnTotalTime.setCellValueFactory(new PropertyValueFactory("totalTime"));
     }
@@ -227,13 +228,42 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void editPlaylistClicked(ActionEvent event) {
-        model.editPlaylist();
+    private void editPlaylistClicked(ActionEvent event) 
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            NewPlayListController controller = fxmlLoader.getController();
+            controller.setModel(model);
+            controller.setText(playlistTableView.getSelectionModel().getSelectedItem());
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (Exception ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
-    private void deletePlaylistClicked(ActionEvent event) {
-        model.deletePlaylist();
+    private void deletePlaylistClicked(ActionEvent event) 
+    {
+        try
+        {
+            PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
+            model.deletePlaylist(selected);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
@@ -251,13 +281,12 @@ public class MainController implements Initializable {
         model.moveSongDown();
     }
 
+    //Create new window to add a new song
     @FXML
     private void addNewSongClicked(ActionEvent event)
     {
         try
         {
-            model.newSong();
-            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             
@@ -274,9 +303,13 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Create new window to edit a song
     @FXML
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24d92965befc5eb98b225481f224d013a3548cb8
     private void editSongClicked(ActionEvent event)
     {
         try
@@ -300,7 +333,10 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24d92965befc5eb98b225481f224d013a3548cb8
     }
 
     @FXML
@@ -317,9 +353,15 @@ public class MainController implements Initializable {
         }
     }
   
+    /**
+     * Closes the window
+     * @param event 
+     */
     @FXML
-    private void closeAppClicked(ActionEvent event) {
-        
+    private void closeAppClicked(ActionEvent event)
+    {
+        Stage stage = (Stage) volumeController.getScene().getWindow();
+        stage.close();
     }
 
     //Loads all media on startup.
@@ -338,6 +380,7 @@ public class MainController implements Initializable {
         }
     }
 
+    //Shows an alert window with the description of the error
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);

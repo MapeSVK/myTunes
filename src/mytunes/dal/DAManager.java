@@ -73,12 +73,12 @@ public class DAManager {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
             pstatement.setInt(1, song.getId());
-            
-            int affected =  pstatement.executeUpdate();
-            if (affected < 1){
+
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
                 throw new DAException("Song could not be deleted!");
             }
-            
+
         } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
@@ -97,13 +97,27 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Song could not be edited!");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
-    
-    public List<PlayList> getPlayLists() throws DAException{
+
+    public void editPlaylist(PlayList plist) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("UPDATE Playlist SET title=? WHERE id=?");
+            pstatement.setString(1, plist.getTitle());
+            pstatement.setInt(2, plist.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be edited!");
+            }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+
+    }
+
+    public List<PlayList> getPlayLists() throws DAException {
         List<PlayList> playListList = new ArrayList();
 
         try (Connection con = cm.getConnection()) {
@@ -119,5 +133,33 @@ public class DAManager {
             throw new DAException(e.getMessage());
         }
         return playListList;
+    }
+
+    public void deletePlayList(PlayList plist) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Playlist WHERE id=?");
+            pstatement.setInt(1, plist.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be deleted!");
+            }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+
+    }
+
+    public void saveList(PlayList plist) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music title=?"
+                    + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            pstatement.setString(1, plist.getTitle());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be saved!");
+            }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
     }
 }
