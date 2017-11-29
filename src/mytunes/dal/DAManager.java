@@ -164,7 +164,8 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Playlist could not be deleted!");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
@@ -178,7 +179,29 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Playlist could not be saved!");
             }
-        } catch (Exception e) {
+            ResultSet rs = pstatement.getGeneratedKeys();
+            if (rs.next()) {
+                plist.setId(rs.getInt(1));
+            }
+        }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+    }
+
+    public void saveSongToList(PlayList list, UserMedia song) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement(
+                    "INSERT INTO MusicInList(listID, musicID)"
+                    + "VALUES(?, ?)");
+            pstatement.setInt(1, list.getId());
+            pstatement.setInt(2, song.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Song cannot be added to the playlist!");
+            }
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }

@@ -5,8 +5,6 @@
  */
 package mytunes.be;
 
-import java.util.ArrayList;
-import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
