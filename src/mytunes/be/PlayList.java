@@ -11,6 +11,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -18,7 +20,7 @@ import javafx.beans.property.StringProperty;
  */
 public class PlayList {
 
-    private List<UserMedia> songs = new ArrayList();
+    private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
 
@@ -61,16 +63,24 @@ public class PlayList {
         return id;
     }
 
-    public List<UserMedia> getSongs() {
+    public ObservableList<UserMedia> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<UserMedia> songs) {
+    public void setSongs(ObservableList<UserMedia> songs) {
         this.songs = songs;
     }
+
+    //Add a song to the playlist
+    public void addSong(UserMedia selectedSong)
+    {
+        songs.add(selectedSong);
+    }
     
-    public void addSong(UserMedia song) {
-        this.songs.add(song);
+    //Check if a song is already in the playlist
+    public boolean containsSong(UserMedia song)
+    {
+        return songs.contains(song);
     }
     
     @Override
@@ -78,4 +88,5 @@ public class PlayList {
     {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
+
 }

@@ -148,8 +148,7 @@ public class MainController implements Initializable {
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        playlistSongsListView.getItems().clear();
-        playlistTableView.getItems().addAll((ObservableList) selectedPlayList.getSongs());
+        playlistSongsListView.setItems(selectedPlayList.getSongs());
     }
     
     private void setUpPlayListCellFactories()
@@ -200,8 +199,20 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void addArrowClicked(MouseEvent event) {
-        model.addSongToPlaylist();
+    private void addArrowClicked(MouseEvent event) 
+    {
+        try
+        {
+            UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
+            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+            
+            model.addSongToPlaylist(selectedSong, selectedPlayList);
+        }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
