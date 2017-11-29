@@ -85,7 +85,7 @@ public class BLLManager
     }
 
     //Use the DAL to load the songs, and categories
-    public List<UserMedia> loadMedia(String filter) throws BLLException
+    public List<UserMedia> loadMedia() throws BLLException
     {
         try
         {

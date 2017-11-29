@@ -401,8 +401,7 @@ public class MainController implements Initializable {
     {
         try
         {
-            String filter = "";
-            model.loadMedia(filter);
+            model.loadMedia();
         } 
         catch (ModelException ex)
         {

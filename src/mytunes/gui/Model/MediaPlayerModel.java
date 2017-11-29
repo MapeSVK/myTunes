@@ -245,12 +245,12 @@ public class MediaPlayerModel
     }
 
     //Get all songs, playlists and categories from the database on startup
-    public void loadMedia(String filter) throws ModelException
+    public void loadMedia() throws ModelException
     {
         try
         {
             songs.clear();
-            songs.addAll(bllManager.loadMedia(filter)); //Get the songs
+            songs.addAll(bllManager.loadMedia()); //Get the songs
             categories.addAll(bllManager.getCategories());  //Get the categories
             playlists.addAll(bllManager.getPlayLists());
         } 
