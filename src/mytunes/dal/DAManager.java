@@ -23,12 +23,11 @@ public class DAManager {
     private ConnectionManager cm = new ConnectionManager();
     private List<PlayList> playlistList = new ArrayList();
 
-    public List<UserMedia> getSongs(String filter) throws DAException {
+    public List<UserMedia> getSongs() throws DAException {
         List<UserMedia> songList = new ArrayList();
 
         try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Music WHERE title LIKE ?");
-            pstatement.setString(1, "%" + filter + "%");
+            PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Music");
             ResultSet result = pstatement.executeQuery();
             while (result.next()) {
                 UserMedia tempSong = new UserMedia();
