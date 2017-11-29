@@ -162,4 +162,16 @@ public class BLLManager
             throw new BLLException(ex);
         }
     }
+
+    public void updatePlayList(PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
+        mediaDAO.editPlaylist(selectedPlayList);
+        }
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
 }

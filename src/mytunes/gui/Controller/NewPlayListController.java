@@ -34,6 +34,7 @@ public class NewPlayListController implements Initializable
     @FXML
     private TextField txtFieldName;
 
+    private PlayList selectedPlayList;
     private MediaPlayerModel model;
     /**
      * Initializes the controller class.
@@ -75,7 +76,15 @@ public class NewPlayListController implements Initializable
         try
         {
             String playListName = txtFieldName.getText();
-            model.createNewPlayList(playListName);
+            if (selectedPlayList == null)   //If the selectedPlayList is null, we are creating a new play list
+            {
+                model.createNewPlayList(playListName);
+            }
+            else
+            {
+                selectedPlayList.setTitle(playListName);
+                model.updatePlayList(selectedPlayList);
+            }
         } 
         catch (ModelException ex)
         {
@@ -89,6 +98,7 @@ public class NewPlayListController implements Initializable
     public void setModel(MediaPlayerModel model)
     {
         this.model = model;
+        this.selectedPlayList = model.getSelectedPlayList();
     }
     
     private void closeWindow()

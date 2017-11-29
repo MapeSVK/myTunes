@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,22 +70,6 @@ public class MainController implements Initializable {
     private ListView<UserMedia> playlistSongsListView;
     @FXML
     private TableView<UserMedia> songsTableView;
-    @FXML
-    private Button newPlaylistButton;
-    @FXML
-    private Button editPlaylistButton;
-    @FXML
-    private Button deletePlaylistButton;
-    @FXML
-    private Button deleteSongFromPlaylistButton;
-    @FXML
-    private Button newSongButton;
-    @FXML
-    private Button editSongButton;
-    @FXML
-    private Button closeApp;
-    @FXML
-    private Button deleteSongButton;
 
     @FXML
     private TableColumn<PlayList, String> playListColumnName;
@@ -265,6 +248,8 @@ public class MainController implements Initializable {
     {
         try
         {
+            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+            model.editPlaylist(selectedPlayList);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
             
             Parent root1 = (Parent) fxmlLoader.load();

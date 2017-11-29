@@ -5,7 +5,6 @@
  */
 package mytunes.gui.Model;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -27,6 +26,7 @@ public class MediaPlayerModel
     private ObservableList<String> categories = FXCollections.observableArrayList();
     
     private UserMedia selectedSong;
+    private PlayList selectedPlayList;
     private BLLManager bllManager = new BLLManager();
     
     
@@ -76,23 +76,6 @@ public class MediaPlayerModel
     }
     
     /**
-     * Update the data of an already existing song
-     * @param selectedSong
-     * @throws ModelException 
-     */
-    public void updateSong(UserMedia selectedSong) throws ModelException
-    {
-        try
-        {
-            bllManager.updateSong(selectedSong);
-        } 
-        catch (BLLException ex)
-        {
-            throw new ModelException(ex.getMessage());
-        }
-    }
-   
-    /**
      * Add a new song to the UI, and update the DB
      * @param newSong
      * @throws ModelException 
@@ -111,9 +94,14 @@ public class MediaPlayerModel
         }
     }
     
-    public void editPlaylist()
+    public void editPlaylist(PlayList selectedPlaylist) throws ModelException
     {
+        if (selectedPlaylist == null)
+        {
+            throw new ModelException("No playlist selected!");
+        }
         
+        this.selectedPlayList = selectedPlaylist;
     }
 
     
@@ -272,11 +260,6 @@ public class MediaPlayerModel
             throw new ModelException(ex.getMessage());
         }
     }
-    
-    public UserMedia getSelectedSong()
-    {
-        return this.selectedSong;
-    }
 
     public void createNewPlayList(String playListName) throws ModelException
     {
@@ -300,9 +283,52 @@ public class MediaPlayerModel
             
             playlists.add(p);
             bllManager.addNewPlayList(p);
-        } catch (DAException ex)
+        } 
+        catch (DAException ex)
         {
             Logger.getLogger(MediaPlayerModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ModelException(ex.getMessage());
+        }
+    }
+    
+    public UserMedia getSelectedSong()
+    {
+        return this.selectedSong;
+    }
+    
+    public PlayList getSelectedPlayList()
+    {
+        return this.selectedPlayList;
+    }
+    /**
+     * Update the name of an already existing play list
+     * @param selectedPlayList 
+     */
+    public void updatePlayList(PlayList selectedPlayList) throws ModelException
+    {
+        try
+        {
+            bllManager.updatePlayList(selectedPlayList);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }    
+    }
+    
+     /**
+     * Update the data of an already existing song
+     * @param selectedSong
+     * @throws ModelException 
+     */
+    public void updateSong(UserMedia selectedSong) throws ModelException
+    {
+        try
+        {
+            bllManager.updateSong(selectedSong);
+        } 
+        catch (BLLException ex)
+        {
             throw new ModelException(ex.getMessage());
         }
     }
