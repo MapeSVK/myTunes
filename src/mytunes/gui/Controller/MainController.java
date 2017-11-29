@@ -233,7 +233,8 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Opens a new window whixh allows us to name a new window
     @FXML
     private void addNewPlaylistClicked(ActionEvent event)
     {
@@ -256,7 +257,9 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Opens a the same window that thw addNewPlayList() uses, but fills out the text field with the name of the selected playlist.
+    //Allows us to change the name of said playlist
     @FXML
     private void editPlaylistClicked(ActionEvent event) 
     {
@@ -297,13 +300,39 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void upArrowClicked(MouseEvent event) {
-        model.moveSongUp();
+    private void upArrowClicked(MouseEvent event) 
+    {
+        try
+        {
+            UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
+            PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
+            model.moveSongUp(selcted, current);
+            
+            playlistSongsListView.getSelectionModel().select(selcted);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
-    private void downArrowClicked(MouseEvent event) {
-        model.moveSongDown();
+    private void downArrowClicked(MouseEvent event) 
+    {
+        try
+        {
+            UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
+            PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
+            model.moveSongDown(selcted, current);
+            
+            playlistSongsListView.getSelectionModel().select(selcted);
+        }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     //Create new window to add a new song

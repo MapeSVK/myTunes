@@ -99,9 +99,46 @@ public class PlayList {
         songs.clear();
     }
     
+    //Gets the index of a song in the playlist
+    public int getIndexOfSong(UserMedia selected)
+    {
+        int i = -1;
+        
+        for (UserMedia song : songs)
+        {
+            i++;
+            if (selected.equals(song))
+            {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+    
+    //Move the song with the specified index up
+    public void moveSongUp(int index)
+    {
+        UserMedia switchSong = songs.get(index-1);
+        songs.set(index-1, songs.get(index));
+        songs.set(index, switchSong);
+    }
+    
+    //Move the song with the specified index up
+    public void moveSongDown(int index)
+    {
+        UserMedia switchSong = songs.get(index+1);
+        songs.set(index+1, songs.get(index));
+        songs.set(index, switchSong);
+    }
+    
     @Override
     public String toString()
     {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
+
+
+
+
 }
