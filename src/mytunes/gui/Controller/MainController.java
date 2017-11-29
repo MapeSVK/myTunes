@@ -198,6 +198,7 @@ public class MainController implements Initializable {
         model.searchSong(searchString);
     }
 
+    //Adds a selected song to the selected playlist
     @FXML
     private void addArrowClicked(MouseEvent event) 
     {
@@ -208,6 +209,24 @@ public class MainController implements Initializable {
             
             model.addSongToPlaylist(selectedSong, selectedPlayList);
         }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
+    
+    //Deletes the slected song from the playlists it is on
+    @FXML
+    private void deleteSongFromPlaylistClicked(ActionEvent event) 
+    {
+        try
+        {
+            UserMedia selectedSong = playlistSongsListView.getSelectionModel().getSelectedItem();
+            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+            
+            model.deleteSongFromPlaylist(selectedSong, selectedPlayList);
+        } 
         catch (ModelException ex)
         {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,11 +294,6 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-    }
-
-    @FXML
-    private void deleteSongFromPlaylistClicked(ActionEvent event) {
-        model.deleteSongFromPlaylist();
     }
 
     @FXML

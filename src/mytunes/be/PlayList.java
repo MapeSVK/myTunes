@@ -77,6 +77,12 @@ public class PlayList {
         songs.add(selectedSong);
     }
     
+    //Remove the selected song from this playlist
+    public void removeSong(UserMedia songToDelete)
+    {
+        songs.remove(songToDelete);
+    }
+    
     //Check if a song is already in the playlist
     public boolean containsSong(UserMedia song)
     {
@@ -88,5 +94,6 @@ public class PlayList {
     {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
+
 
 }

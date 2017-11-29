@@ -141,9 +141,15 @@ public class MediaPlayerModel
     
     }
     
-    public void deleteSongFromPlaylist() 
+    public void deleteSongFromPlaylist(UserMedia songToDelete, PlayList selectedPlayList) throws ModelException 
     {
-    
+        if (songToDelete == null)
+        {
+           throw new ModelException("No song selected!");
+        }
+        
+        //TODO: wait until the DAL methods are finished
+        selectedPlayList.removeSong(songToDelete);
     }
     
     //Add the selecetd song to the selected playlist
