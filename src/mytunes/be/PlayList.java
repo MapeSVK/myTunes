@@ -24,6 +24,15 @@ public class PlayList {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
 
+
+    public PlayList() {
+    }
+
+    public PlayList(int id, String title) {
+        this.id.set(id);
+        this.title.set(title);
+    }
+
     public String getTitle()
     {
         return title.get();

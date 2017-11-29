@@ -40,7 +40,8 @@ public class DAManager {
                 tempSong.setPath(result.getString("path"));
                 songList.add(tempSong);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
         return songList;
@@ -59,12 +60,12 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Song could not be added!");
             }
-
             ResultSet rs = pstatement.getGeneratedKeys();
             if (rs.next()) {
                 song.setId(rs.getInt(1));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
@@ -73,13 +74,12 @@ public class DAManager {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
             pstatement.setInt(1, song.getId());
-
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Song could not be deleted!");
             }
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
@@ -97,7 +97,8 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Song could not be edited!");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
@@ -111,15 +112,14 @@ public class DAManager {
             if (affected < 1) {
                 throw new DAException("Playlist could not be edited!");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
-
     }
 
     public List<PlayList> getPlayLists() throws DAException {
         List<PlayList> playListList = new ArrayList();
-
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Playlist");
             ResultSet result = pstatement.executeQuery();
@@ -129,7 +129,28 @@ public class DAManager {
                 tempList.setTitle(result.getString("title"));
                 playListList.add(tempList);
             }
-        } catch (Exception e) {
+
+            PreparedStatement pstaStatement2 = con.prepareStatement(
+                    "SELECT Music.*, MusicInList.listID"
+                    + "FROM Music, MusicInList"
+                    + "WHERE MusicInList.musicID = Music.id");
+            ResultSet result2 = pstaStatement2.executeQuery();
+            while (result2.next()) {
+                for (PlayList playList : playListList) {
+                    if (playList.getId() == result2.getInt("listID")) {
+                        UserMedia tempSong = new UserMedia();
+                        tempSong.setId(result.getInt("id"));
+                        tempSong.setTitle(result.getString("title"));
+                        tempSong.setArtist(result.getString("artist"));
+                        tempSong.setCategory(result.getString("category"));
+                        tempSong.setTime(result.getTime("time"));
+                        tempSong.setPath(result.getString("path"));
+                        playList.addSong(tempSong);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
             throw new DAException(e.getMessage());
         }
         return playListList;
