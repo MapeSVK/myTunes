@@ -73,6 +73,7 @@ public class BLLManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    //Use the DAL to load the songs, and 
     public List<UserMedia> loadMedia(String filter) throws BLLException
     {
         try

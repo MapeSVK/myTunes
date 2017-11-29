@@ -146,9 +146,24 @@ public class MediaPlayerModel
     
     }
     
-    public void addSongToPlaylist()
+    //Add the selecetd song to the selected playlist
+    public void addSongToPlaylist(UserMedia selectedSong, PlayList selectedPlayList) throws ModelException
     {
-    
+        if (selectedSong == null)
+        {
+           throw new ModelException("No song selected!");
+        }
+        if (selectedPlayList == null)
+        {
+            throw new ModelException("No play list selected");
+        }
+        if (selectedPlayList.containsSong(selectedSong))
+        {
+            throw new ModelException("Playlist already contains this song!");
+        }
+        
+        //TODO: finish this method by adding the playlist to the DB (waiting for the methods in the DAL)
+        selectedPlayList.addSong(selectedSong);
     }
     
     public void searchSong(String searchString)
