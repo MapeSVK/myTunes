@@ -1,6 +1,5 @@
 package mytunes.be;
 
-import java.sql.Time;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -122,7 +121,7 @@ public class UserMedia {
     @Override
     public String toString()
     {
-        return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime().toString();
+        return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
  
 }

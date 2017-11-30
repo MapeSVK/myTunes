@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 
 /**
@@ -21,7 +20,6 @@ import mytunes.be.UserMedia;
 public class MediaManager {
 
     private ConnectionManager cm = new ConnectionManager();
-    private List<PlayList> playlistList = new ArrayList();
 
     public List<UserMedia> getMedia() throws DAException {
         List<UserMedia> mediaList = new ArrayList();
@@ -34,7 +32,7 @@ public class MediaManager {
                 tempMedia.setTitle(result.getString("title"));
                 tempMedia.setArtist(result.getString("artist"));
                 tempMedia.setCategory(result.getString("category"));
-                tempMedia.setTime(result.getTime("time"));
+                tempMedia.setTime(result.getInt("time"));
                 tempMedia.setPath(result.getString("path"));
                 mediaList.add(tempMedia);
             }
@@ -50,7 +48,7 @@ public class MediaManager {
             pstatement.setString(1, media.getTitle());
             pstatement.setString(2, media.getArtist());
             pstatement.setString(3, media.getCategory());
-            pstatement.setTime(4, media.getTime());
+            pstatement.setInt(4, media.getTime());
             pstatement.setString(5, media.getPath());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
@@ -70,7 +68,7 @@ public class MediaManager {
             pstatement.setString(1, media.getTitle());
             pstatement.setString(2, media.getArtist());
             pstatement.setString(3, media.getCategory());
-            pstatement.setTime(4, media.getTime());
+            pstatement.setInt(4, media.getTime());
             pstatement.setString(5, media.getPath());
             pstatement.setInt(6, media.getId());
             int affected = pstatement.executeUpdate();

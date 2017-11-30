@@ -31,7 +31,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 
@@ -127,7 +126,7 @@ public class NewSongController implements Initializable {
             String artist = songArtistField.getText();
             String category = chooseCategoryComboBox.getValue();
             String path = songPathField.getText();
-            Time time = Time.valueOf(songTimeField.getText());
+            int time = Integer.parseInt(songTimeField.getText());
             
             if (selectedSong != null)   //We are updating an already existing song
             {
@@ -165,7 +164,7 @@ public class NewSongController implements Initializable {
         selectedSong = model.getSelectedMedia();
         
         songArtistField.setText(selectedSong.getArtist());
-        songTimeField.setText(selectedSong.getTime().toString());
+        songTimeField.setText(selectedSong.getTime()+ "");
         titleOfSongField.setText(selectedSong.getTitle());
         chooseCategoryComboBox.setValue(selectedSong.getCategory());
         songPathField.setText(selectedSong.getPath());
