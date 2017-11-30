@@ -21,7 +21,6 @@ import mytunes.be.UserMedia;
 public class DAManager {
 
     private ConnectionManager cm = new ConnectionManager();
-    private List<PlayList> playlistList = new ArrayList();
 
     public List<UserMedia> getMedia() throws DAException {
         List<UserMedia> mediaList = new ArrayList();
@@ -69,7 +68,11 @@ public class DAManager {
         }
     }
 
-    public void removeSong(UserMedia media) throws DAException {
+
+   
+
+    public void removeMedia(UserMedia song) throws DAException {
+
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
             pstatement.setInt(1, media.getId());
@@ -101,6 +104,7 @@ public class DAManager {
             throw new DAException(e.getMessage());
         }
     }
+
 
     public void editPlaylist(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -221,4 +225,7 @@ public class DAManager {
             throw new DAException(e.getMessage());
         }
     }
+
+    
+
 }
