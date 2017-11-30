@@ -166,7 +166,7 @@ public class MediaPlayerModel
         
         try
         {
-            bllManager.removeSongFromPlayList(mediaToDelete, selectedPlayList);
+            bllManager.removeMediaFromPlayList(mediaToDelete, selectedPlayList);
         } 
         catch (BLLException ex)
         {
@@ -193,7 +193,7 @@ public class MediaPlayerModel
         selectedPlayList.addMedia(selectedSong);
         try
         {
-            bllManager.addSongToPlayList(selectedSong, selectedPlayList);
+            bllManager.addMediaToPlayList(selectedSong, selectedPlayList);
         } 
         catch (BLLException ex)
         {
