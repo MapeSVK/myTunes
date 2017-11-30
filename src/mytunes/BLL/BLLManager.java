@@ -14,6 +14,7 @@ import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.DAManager;
+import mytunes.dal.MediaManager;
 
 /**
  *
@@ -22,15 +23,16 @@ import mytunes.dal.DAManager;
 public class BLLManager
 {
     private DAManager mediaDAO = new DAManager();
+    private MediaManager mediaM = new MediaManager();
     private MediaPlayer player;
     
     private List<String> categories = new ArrayList(); //A collection of categories
 
-    public void deleteSong(UserMedia selectedSong) throws BLLException
+    public void deleteMedia(UserMedia selectedSong) throws BLLException
     {
         try
         {
-            mediaDAO.removeSong(selectedSong);
+            mediaM.removeMedia(selectedSong);
         } 
         catch (DAException ex)
         {
@@ -61,11 +63,11 @@ public class BLLManager
     }
 
     //Save a new song to the DB
-    public void addNewSong(UserMedia newSong) throws BLLException
+    public void addNewMedia(UserMedia newMedia) throws BLLException
     {
         try
         {
-            mediaDAO.saveSongs(newSong);
+            mediaM.saveMedia(newMedia);
         } 
         catch (DAException ex)
         {
@@ -89,7 +91,7 @@ public class BLLManager
     {
         try
         {
-            List<UserMedia> media = mediaDAO.getSongs();
+            List<UserMedia> media = mediaM.getMedia();
             
             for (UserMedia userMedia : media)   //Loop through each song
             {
@@ -125,11 +127,11 @@ public class BLLManager
         return categories;
     }
 
-    public void updateSong(UserMedia selectedSong) throws BLLException
+    public void updateMedia(UserMedia selectedMedia) throws BLLException
     {
         try
         {
-            mediaDAO.editSong(selectedSong);
+            mediaM.editMedia(selectedMedia);
         }
         catch (DAException ex)
         {
