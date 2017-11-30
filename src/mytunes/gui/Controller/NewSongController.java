@@ -5,12 +5,16 @@
  */
 package mytunes.gui.Controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Time;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +28,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -56,9 +61,9 @@ public class NewSongController implements Initializable {
     @FXML
     private Button saveSongButton;
     
-    MediaPlayerModel model;
-    UserMedia selectedSong;
-
+    private MediaPlayerModel model;
+    private UserMedia selectedSong;
+    private Media media;
     /**
      * Initializes the controller class.
      */
@@ -69,23 +74,14 @@ public class NewSongController implements Initializable {
         chooseCategoryComboBox.setItems(model.getCategories());
     }    
     
-    
-    
     @FXML
     private void chooseFileClicked(ActionEvent event) 
     {
-        FileChooser fc = new FileChooser(); //Open a file chooser dialog
-        fc.setTitle("Select a music file");
-        String path = fc.showOpenDialog(new Stage()).getAbsolutePath(); //Get the selected path
-        
-        if (!path.endsWith(".mp3") && !path.endsWith(".wav") && !path.endsWith(".flac") && !path.endsWith(".wma"))   //Accept common file types
-        {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Please select a .mp3, a .wav, a .flac or a .wma file!", ButtonType.OK);
-            a.show();
-            return;
-        }
-        
-        songPathField.setText(path);
+            //TODO: finish this
+            FileChooser fc = new FileChooser(); //Open a file chooser dialog
+            fc.setTitle("Select a music file");
+            File file = fc.showOpenDialog(new Stage()); //Get the selected path
+            String path = file.getAbsolutePath();
     }
 
     //Open a new window, which lets us add a new, custom category

@@ -16,9 +16,9 @@ public class UserMedia {
     private final StringProperty category = new SimpleStringProperty();
     private final StringProperty path = new SimpleStringProperty();
     private Media media;
-    private Time time; 
+    private int time; 
 
-    public UserMedia(int id, String title, String artist, String category, String path, Media media, Time time)
+    public UserMedia(int id, String title, String artist, String category, String path, Media media, int time)
     {
         this.id.set(id);
         this.title.set(title);
@@ -31,7 +31,7 @@ public class UserMedia {
 
     public UserMedia() 
     {
-            
+
     }
     
     public String getTitle()
@@ -109,12 +109,12 @@ public class UserMedia {
         return id;
     }
     
-    public void setTime(Time time)
+    public void setTime(int time)
     {
         this.time = time;
     }
     
-    public Time getTime()
+    public int getTime()
     {
         return time;
     }

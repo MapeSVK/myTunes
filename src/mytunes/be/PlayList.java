@@ -23,7 +23,22 @@ public class PlayList {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private int count; //The number of songs in the play list
-    private Time time; //The total time of all the songs in the play list
+    private final IntegerProperty timeInMS = new SimpleIntegerProperty();
+
+    public int getTimeInMS()
+    {
+        return timeInMS.get();
+    }
+
+    public void setTimeInMS(int value)
+    {
+        timeInMS.set(value);
+    }
+
+    public IntegerProperty timeInMSProperty()
+    {
+        return timeInMS;
+    }
     
     public PlayList() 
     {
@@ -79,16 +94,6 @@ public class PlayList {
     {
         this.count = mediaList.size();
         return count;
-    }
-    
-    public Time getTime()
-    {
-        time.setTime(0);
-        for (UserMedia userMedia : mediaList)
-        {
-           
-        }
-        return null;
     }
     
     //Add a song to the playlist
