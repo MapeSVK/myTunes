@@ -60,6 +60,26 @@ public class PlayListManager {
         return playListList;
     }
 
+    public void saveList(PlayList plist) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement(
+                    "INSERT INTO Playlist(title)"
+                    + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            pstatement.setString(1, plist.getTitle());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Playlist could not be saved!");
+            }
+            ResultSet rs = pstatement.getGeneratedKeys();
+            if (rs.next()) {
+                plist.setId(rs.getInt(1));
+            }
+        }
+        catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+    }
+
     public void editPlaylist(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("UPDATE Playlist SET title=? WHERE id=?");
@@ -82,26 +102,6 @@ public class PlayListManager {
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Playlist could not be deleted!");
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
-    public void saveList(PlayList plist) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement(
-                    "INSERT INTO Playlist(title)"
-                    + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
-            pstatement.setString(1, plist.getTitle());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Playlist could not be saved!");
-            }
-            ResultSet rs = pstatement.getGeneratedKeys();
-            if (rs.next()) {
-                plist.setId(rs.getInt(1));
             }
         }
         catch (Exception e) {
