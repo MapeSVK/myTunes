@@ -87,6 +87,7 @@ public class NewSongController implements Initializable {
         songPathField.setText(path);
     }
 
+    //Open a new window, which lets us add a new, custom category
     @FXML
     private void addNewCategoryClicked(ActionEvent event) 
     {    
