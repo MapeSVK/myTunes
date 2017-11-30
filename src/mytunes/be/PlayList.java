@@ -18,7 +18,7 @@ import javafx.collections.ObservableList;
  */
 public class PlayList {
 
-    private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
+    private ObservableList<UserMedia> mediaList = FXCollections.observableArrayList();
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
 
@@ -61,53 +61,53 @@ public class PlayList {
         return id;
     }
 
-    public ObservableList<UserMedia> getSongs() {
-        return songs;
+    public ObservableList<UserMedia> getMediaList() {
+        return mediaList;
     }
 
-    public void setSongs(ObservableList<UserMedia> songs) {
-        this.songs = songs;
+    public void setMediaList(ObservableList<UserMedia> mediaList) {
+        this.mediaList = mediaList;
     }
 
     //Add a song to the playlist
-    public void addSong(UserMedia selectedSong)
+    public void addMedia(UserMedia selectedMedia)
     {
-        songs.add(selectedSong);
+        mediaList.add(selectedMedia);
     }
     
     //Remove the selected song from this playlist
-    public void removeSong(UserMedia songToDelete)
+    public void removeMedia(UserMedia mediaToDelete)
     {
-        songs.remove(songToDelete);
+        mediaList.remove(mediaToDelete);
     }
     
     //Check if a song is already in the playlist
-    public boolean containsSong(UserMedia song)
+    public boolean containsMedia(UserMedia media)
     {
-        return songs.contains(song);
+        return mediaList.contains(media);
     }
     
     //Checks if the list of song is empty
     public boolean isEmpty()
     {
-        return songs.isEmpty();
+        return mediaList.isEmpty();
     }
     
     //Clears all the song from the play list
-    public void clearSongs()
+    public void clearMediaList()
     {
-        songs.clear();
+        mediaList.clear();
     }
     
     //Gets the index of a song in the playlist
-    public int getIndexOfSong(UserMedia selected)
+    public int getIndexOfMedia(UserMedia selected)
     {
         int i = -1;
         
-        for (UserMedia song : songs)
+        for (UserMedia media : mediaList)
         {
             i++;
-            if (selected.equals(song))
+            if (selected.equals(media))
             {
                 return i;
             }
@@ -119,17 +119,17 @@ public class PlayList {
     //Move the song with the specified index up
     public void moveSongUp(int index)
     {
-        UserMedia switchSong = songs.get(index-1);
-        songs.set(index-1, songs.get(index));
-        songs.set(index, switchSong);
+        UserMedia switchSong = mediaList.get(index-1);
+        mediaList.set(index-1, mediaList.get(index));
+        mediaList.set(index, switchSong);
     }
     
     //Move the song with the specified index up
     public void moveSongDown(int index)
     {
-        UserMedia switchSong = songs.get(index+1);
-        songs.set(index+1, songs.get(index));
-        songs.set(index, switchSong);
+        UserMedia switchSong = mediaList.get(index+1);
+        mediaList.set(index+1, mediaList.get(index));
+        mediaList.set(index, switchSong);
     }
     
     @Override

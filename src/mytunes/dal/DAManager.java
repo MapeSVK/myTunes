@@ -21,47 +21,46 @@ import mytunes.be.UserMedia;
 public class DAManager {
 
     private ConnectionManager cm = new ConnectionManager();
-    private List<PlayList> playlistList = new ArrayList();
 
-    public List<UserMedia> getSongs() throws DAException {
-        List<UserMedia> songList = new ArrayList();
+    public List<UserMedia> getMedia() throws DAException {
+        List<UserMedia> mediaList = new ArrayList();
 
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Music");
             ResultSet result = pstatement.executeQuery();
             while (result.next()) {
-                UserMedia tempSong = new UserMedia();
-                tempSong.setId(result.getInt("id"));
-                tempSong.setTitle(result.getString("title"));
-                tempSong.setArtist(result.getString("artist"));
-                tempSong.setCategory(result.getString("category"));
-                tempSong.setTime(result.getTime("time"));
-                tempSong.setPath(result.getString("path"));
-                songList.add(tempSong);
+                UserMedia tempMedia = new UserMedia();
+                tempMedia.setId(result.getInt("id"));
+                tempMedia.setTitle(result.getString("title"));
+                tempMedia.setArtist(result.getString("artist"));
+                tempMedia.setCategory(result.getString("category"));
+                tempMedia.setTime(result.getTime("time"));
+                tempMedia.setPath(result.getString("path"));
+                mediaList.add(tempMedia);
             }
         }
         catch (Exception e) {
             throw new DAException(e.getMessage());
         }
-        return songList;
+        return mediaList;
     }
 
-    public void saveSongs(UserMedia song) throws DAException {
+    public void saveSongs(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music(title, artist, category, time, path)"
                     + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            pstatement.setString(1, song.getTitle());
-            pstatement.setString(2, song.getArtist());
-            pstatement.setString(3, song.getCategory());
-            pstatement.setTime(4, song.getTime());
-            pstatement.setString(5, song.getPath());
+            pstatement.setString(1, media.getTitle());
+            pstatement.setString(2, media.getArtist());
+            pstatement.setString(3, media.getCategory());
+            pstatement.setTime(4, media.getTime());
+            pstatement.setString(5, media.getPath());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Song could not be added!");
             }
             ResultSet rs = pstatement.getGeneratedKeys();
             if (rs.next()) {
-                song.setId(rs.getInt(1));
+                media.setId(rs.getInt(1));
             }
         }
         catch (Exception e) {
@@ -69,10 +68,14 @@ public class DAManager {
         }
     }
 
-    public void removeSong(UserMedia song) throws DAException {
+
+   
+
+    public void removeMedia(UserMedia media) throws DAException {
+
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
-            pstatement.setInt(1, song.getId());
+            pstatement.setInt(1, media.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Song could not be deleted!");
@@ -83,15 +86,15 @@ public class DAManager {
         }
     }
 
-    public void editSong(UserMedia song) throws DAException {
+    public void editSong(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("UPDATE Music SET title=?, artist=?, category=?, time=?, path=? WHERE id=?");
-            pstatement.setString(1, song.getTitle());
-            pstatement.setString(2, song.getArtist());
-            pstatement.setString(3, song.getCategory());
-            pstatement.setTime(4, song.getTime());
-            pstatement.setString(5, song.getPath());
-            pstatement.setInt(6, song.getId());
+            pstatement.setString(1, media.getTitle());
+            pstatement.setString(2, media.getArtist());
+            pstatement.setString(3, media.getCategory());
+            pstatement.setTime(4, media.getTime());
+            pstatement.setString(5, media.getPath());
+            pstatement.setInt(6, media.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Song could not be edited!");
@@ -101,6 +104,7 @@ public class DAManager {
             throw new DAException(e.getMessage());
         }
     }
+
 
     public void editPlaylist(PlayList plist) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -144,7 +148,7 @@ public class DAManager {
                         tempSong.setCategory(result2.getString("category"));
                         tempSong.setTime(result2.getTime("time"));
                         tempSong.setPath(result2.getString("path"));
-                        playList.addSong(tempSong);
+                        playList.addMedia(tempSong);
                     }
                 }
             }
@@ -189,16 +193,16 @@ public class DAManager {
         }
     }
 
-    public void saveSongToList(PlayList list, UserMedia song) throws DAException {
+    public void saveSongToList(PlayList list, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement(
                     "INSERT INTO MusicInList(listID, musicID)"
                     + "VALUES(?, ?)");
             pstatement.setInt(1, list.getId());
-            pstatement.setInt(2, song.getId());
+            pstatement.setInt(2, media.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
-                throw new DAException("Song cannot be added to the playlist!");
+                throw new DAException("Media cannot be added to the playlist!");
             }
         }
         catch (Exception e) {
@@ -206,19 +210,22 @@ public class DAManager {
         }
     }
 
-    public void deleteSongFromList(PlayList list, UserMedia song) throws DAException {
+    public void deleteSongFromList(PlayList list, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement(
                     "DELETE FROM MusicInList WHERE musicID=? AND listID=?");
-            pstatement.setInt(1, song.getId());
+            pstatement.setInt(1, media.getId());
             pstatement.setInt(2, list.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
-                throw new DAException("Song cannot be deleted from the list!");
+                throw new DAException("Media cannot be deleted from the list!");
             }
         }
         catch (Exception e) {
             throw new DAException(e.getMessage());
         }
     }
+
+    
+
 }

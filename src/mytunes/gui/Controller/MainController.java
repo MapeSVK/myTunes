@@ -151,7 +151,7 @@ public class MainController implements Initializable {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
         if (selectedPlayList != null)
         {
-            playlistSongsListView.setItems(selectedPlayList.getSongs());
+            playlistSongsListView.setItems(selectedPlayList.getMediaList());
         }
     }
     

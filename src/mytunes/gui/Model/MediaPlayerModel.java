@@ -54,8 +54,9 @@ public class MediaPlayerModel
             {
                 throw new ModelException("No song selected!");
             }
+
             allMedia.remove(selectedMedia);
-            bllManager.deleteSong(selectedMedia);
+            bllManager.deleteMedia(selectedMedia);
         }
         catch (BLLException ex)
         {
@@ -97,7 +98,7 @@ public class MediaPlayerModel
     {
         try
         {
-            bllManager.addNewSong(newMedia);
+            bllManager.addNewMedia(newMedia);
             allMedia.add(newMedia);
         } 
         catch (BLLException ex)
@@ -140,7 +141,7 @@ public class MediaPlayerModel
         {
             throw new ModelException("No song selected!");
         }
-        int index = current.getIndexOfSong(selected);
+        int index = current.getIndexOfMedia(selected);
         
         if (index == 0)
         {
@@ -157,11 +158,11 @@ public class MediaPlayerModel
             throw new ModelException("No song selected!");
         }
         
-        int index = current.getIndexOfSong(selected);
+        int index = current.getIndexOfMedia(selected);
         
-        if (index == current.getSongs().size()-1)
+        if (index == current.getMediaList().size()-1)
         {
-            throw new ModelException("Song is already at the bottom of the playlist!");
+            throw new ModelException("Media is already at the bottom of the playlist!");
         }
         
         current.moveSongDown(index);
@@ -171,10 +172,10 @@ public class MediaPlayerModel
     {
         if (mediaToDelete == null)
         {
-           throw new ModelException("No song selected!");
+           throw new ModelException("No media selected!");
         }
  
-        selectedPlayList.removeSong(mediaToDelete);
+        selectedPlayList.removeMedia(mediaToDelete);
         
         try
         {
@@ -197,12 +198,13 @@ public class MediaPlayerModel
         {
             throw new ModelException("No play list selected");
         }
-        if (selectedPlayList.containsSong(selectedMedia))
+
+        if (selectedPlayList.containsMedia(selectedMedia))
         {
             throw new ModelException("Playlist already contains this song!");
         }
         
-        selectedPlayList.addSong(selectedMedia);
+        selectedPlayList.addMedia(selectedMedia);
         try
         {
             bllManager.addSongToPlayList(selectedMedia, selectedPlayList);
@@ -340,7 +342,7 @@ public class MediaPlayerModel
     {
         try
         {
-            bllManager.updateSong(selectedSong);
+            bllManager.updateMedia(selectedSong);
         } 
         catch (BLLException ex)
         {
