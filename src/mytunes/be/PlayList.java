@@ -5,6 +5,7 @@
  */
 package mytunes.be;
 
+import java.sql.Time;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,12 +22,15 @@ public class PlayList {
     private ObservableList<UserMedia> mediaList = FXCollections.observableArrayList();
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
-
-
-    public PlayList() {
+    private int count; //The number of songs in the play list
+    private Time time; //The total time of all the songs in the play list
+    
+    public PlayList() 
+    {
     }
 
-    public PlayList(int id, String title) {
+    public PlayList(int id, String title)
+    {
         this.id.set(id);
         this.title.set(title);
     }
@@ -61,14 +65,32 @@ public class PlayList {
         return id;
     }
 
-    public ObservableList<UserMedia> getMediaList() {
+    public ObservableList<UserMedia> getMediaList() 
+    {
         return mediaList;
     }
 
-    public void setMediaList(ObservableList<UserMedia> mediaList) {
+    public void setMediaList(ObservableList<UserMedia> mediaList) 
+    {
         this.mediaList = mediaList;
     }
 
+    public int getCount()
+    {
+        this.count = mediaList.size();
+        return count;
+    }
+    
+    public Time getTime()
+    {
+        time.setTime(0);
+        for (UserMedia userMedia : mediaList)
+        {
+           
+        }
+        return null;
+    }
+    
     //Add a song to the playlist
     public void addMedia(UserMedia selectedMedia)
     {

@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -43,9 +44,8 @@ import mytunes.gui.Model.ModelException;
  *
  * @author Mape
  */
-public class MainController implements Initializable {
-    
-    
+public class MainController implements Initializable 
+{
     @FXML
     private ImageView next;
     @FXML
@@ -72,7 +72,6 @@ public class MainController implements Initializable {
     private ListView<UserMedia> playlistSongsListView;
     @FXML
     private TableView<UserMedia> songsTableView;
-
     @FXML
     private TableColumn<PlayList, String> playListColumnName;
     @FXML
@@ -157,17 +156,33 @@ public class MainController implements Initializable {
     
     private void setUpPlayListCellFactories()
     {
+        //Set up cell factories
         playListColumnName.setCellValueFactory(new PropertyValueFactory("title"));
         playListColumnSongsCount.setCellValueFactory(new PropertyValueFactory("count"));
         playListColumnTotalTime.setCellValueFactory(new PropertyValueFactory("totalTime"));
+        
+        //Set the width of the columns
+        playlistTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        playListColumnName.prefWidthProperty().bind(playlistTableView.widthProperty().divide(2));
+        playListColumnSongsCount.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
+        playListColumnTotalTime.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
     }
 
     private void setUpSongsCellFactories()
     {
+        //Set up cell factories
         songsColumnTitle.setCellValueFactory(new PropertyValueFactory("title"));
         songsColumArtist.setCellValueFactory(new PropertyValueFactory("artist"));
         songsColumnCategory.setCellValueFactory(new PropertyValueFactory("category"));
         songsColumnTime.setCellValueFactory(new PropertyValueFactory("time"));
+        
+        //Set the width of the columns
+        songsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        songsColumnTitle.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
+        songsColumArtist.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
+        songsColumnCategory.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
+        songsColumnTime.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
+
     }
     
     
@@ -195,13 +210,15 @@ public class MainController implements Initializable {
             a.show();
         }
     }
-
+    
+    //Searc the songs for the entered text
     @FXML
     private void searchClicked(MouseEvent event) {
         String searchString = searchField.getText();
         searchForString(searchString);
     }
     
+    //Runs when the user clicks the "Search" button (image), or presses enter while inside the searchbox
     private void searchForString(String searchString)
     {
         model.searchForMedia(searchString);
@@ -291,6 +308,7 @@ public class MainController implements Initializable {
         }
     }
 
+    //Try to delete the selected playlist
     @FXML
     private void deletePlaylistClicked(ActionEvent event) 
     {
@@ -305,7 +323,8 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Move the selected song up on the playlist
     @FXML
     private void upArrowClicked(MouseEvent event) 
     {
@@ -323,7 +342,8 @@ public class MainController implements Initializable {
             showAlert(ex);
         }
     }
-
+    
+    //Move the selected song down on the playlist
     @FXML
     private void downArrowClicked(MouseEvent event) 
     {
@@ -388,6 +408,7 @@ public class MainController implements Initializable {
         }
     }
 
+    //Try to delete the selected song from the table view
     @FXML
     private void deleteSongClicked(ActionEvent event) {
         UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();

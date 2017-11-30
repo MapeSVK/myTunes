@@ -39,15 +39,15 @@
       <TableView fx:id="playlistTableView" layoutX="30.0" layoutY="139.0" prefHeight="399.0" prefWidth="317.0">
         <columns>
           <TableColumn fx:id="playListColumnName" prefWidth="156.0" text="Name" />
-          <TableColumn fx:id="playListColumnSongsCount" text="Songs" />
-            <TableColumn fx:id="playListColumnTotalTime" minWidth="7.0" text="Time" />
+          <TableColumn fx:id="playListColumnSongsCount" prefWidth="56.0" text="Songs" />
+            <TableColumn fx:id="playListColumnTotalTime" minWidth="2.0" prefWidth="104.0" text="Time" />
         </columns>
       </TableView>
       <ListView fx:id="playlistSongsListView" layoutX="372.0" layoutY="139.0" prefHeight="399.0" prefWidth="219.0" />
-      <TableView fx:id="songsTableView" layoutX="657.0" layoutY="139.0" prefHeight="399.0" prefWidth="411.0">
+      <TableView fx:id="songsTableView" layoutX="657.0" layoutY="139.0" prefHeight="399.0" prefWidth="411.0" AnchorPane.leftAnchor="657.0" AnchorPane.rightAnchor="45.0">
         <columns>
-          <TableColumn fx:id="songsColumnTitle" prefWidth="141.0" text="Title" />
-          <TableColumn fx:id="songsColumArtist" prefWidth="116.0" text="Artist" />
+          <TableColumn fx:id="songsColumnTitle" prefWidth="166.0" text="Title" />
+          <TableColumn fx:id="songsColumArtist" prefWidth="91.0" text="Artist" />
             <TableColumn fx:id="songsColumnCategory" prefWidth="99.0" text="Category" />
             <TableColumn fx:id="songsColumnTime" prefWidth="54.0" text="Time" />
         </columns>
@@ -73,7 +73,7 @@
       </ImageView>
       <Button fx:id="newSongButton" layoutX="657.0" layoutY="547.0" mnemonicParsing="false" onAction="#addNewSongClicked" text="New" />
       <Button fx:id="editSongButton" layoutX="723.0" layoutY="547.0" mnemonicParsing="false" onAction="#editSongClicked" text="Edit" />
-      <Button fx:id="closeApp" layoutX="1025.0" layoutY="618.0" mnemonicParsing="false" onAction="#closeAppClicked" text="Close" />
+      <Button fx:id="closeApp" layoutX="1025.0" layoutY="618.0" mnemonicParsing="false" onAction="#closeAppClicked" text="Close" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="45.0" />
       <Button fx:id="deleteSongButton" layoutX="785.0" layoutY="547.0" mnemonicParsing="false" onAction="#deleteSongClicked" text="Delete" />
    </children>
 </AnchorPane>
