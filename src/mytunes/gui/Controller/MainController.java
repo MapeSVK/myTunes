@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +31,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mytunes.be.PlayList;
@@ -125,13 +128,29 @@ public class MainController implements Initializable {
                 }
         }
         );
+        
+        searchField.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                if (event.getCode() == KeyCode.ENTER)
+                {
+                    String searchString = searchField.getText();
+                    searchForString(searchString);
+                }
+            }
+        });
     }    
 
     //Update the listView to show the songs found in the selected play list
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        playlistSongsListView.setItems(selectedPlayList.getSongs());
+        if (selectedPlayList != null)
+        {
+            playlistSongsListView.setItems(selectedPlayList.getSongs());
+        }
     }
     
     private void setUpPlayListCellFactories()
@@ -178,6 +197,11 @@ public class MainController implements Initializable {
     @FXML
     private void searchClicked(MouseEvent event) {
         String searchString = searchField.getText();
+        searchForString(searchString);
+    }
+    
+    private void searchForString(String searchString)
+    {
         model.searchSong(searchString);
     }
 

@@ -21,7 +21,8 @@ import mytunes.dal.DAException;
  */
 public class MediaPlayerModel
 {
-    private ObservableList<UserMedia> songs = FXCollections.observableArrayList();
+    private ObservableList<UserMedia> songsAll = FXCollections.observableArrayList();
+    private ObservableList<UserMedia> filteredList = FXCollections.observableArrayList();
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
     private ObservableList<String> categories = FXCollections.observableArrayList();
     
@@ -41,7 +42,7 @@ public class MediaPlayerModel
             {
                 throw new ModelException("No song selected!");
             }
-            songs.remove(selectedSong);
+            songsAll.remove(selectedSong);
             bllManager.deleteSong(selectedSong);
         }
         catch (BLLException ex)
@@ -85,7 +86,7 @@ public class MediaPlayerModel
         try
         {
             bllManager.addNewSong(newSong);
-            songs.add(newSong);
+            songsAll.add(newSong);
         } 
         catch (BLLException ex)
         {
@@ -201,9 +202,24 @@ public class MediaPlayerModel
 
     }
     
+    //TODO: finish the search method
     public void searchSong(String searchString)
     {
-    
+        filteredList.clear();
+        
+        if (searchString.isEmpty()) //If the filter is empty, add all songs to the list
+        {
+            filteredList.addAll(songsAll);
+            return;
+        }
+        
+        for (UserMedia userMedia : songsAll) //Otherwise, loop through all the songs, and add them to the list, if they contain the search word
+        {
+            if (userMedia.getTitle().contains(searchString) || userMedia.getArtist().contains(searchString))
+            {
+                filteredList.add(userMedia);
+            }
+        }
     }
     
     //Add a category to the list, to make it appear in the comboBox
@@ -223,21 +239,6 @@ public class MediaPlayerModel
         
         categories.add(category);
     }
-
-    public ObservableList<PlayList> getPlayLists()
-    {
-        return playlists;
-    }
-
-    public ObservableList<UserMedia> getSongs()
-    {
-        return songs;
-    }
-    
-    public ObservableList<String> getCategories()
-    {
-        return categories;
-    }
     
     public void playMedia(PlayList playList) throws Exception
     {
@@ -249,10 +250,11 @@ public class MediaPlayerModel
     {
         try
         {
-            songs.clear();
-            songs.addAll(bllManager.loadMedia()); //Get the songs
+            songsAll.clear();
+            songsAll.addAll(bllManager.loadMedia()); //Get the songs
             categories.addAll(bllManager.getCategories());  //Get the categories
             playlists.addAll(bllManager.getPlayLists());
+            filteredList.addAll(songsAll);
         } 
         catch (BLLException ex)
         {
@@ -331,5 +333,21 @@ public class MediaPlayerModel
         {
             throw new ModelException(ex.getMessage());
         }
+    }
+    
+    
+    public ObservableList<PlayList> getPlayLists()
+    {
+        return playlists;
+    }
+
+    public ObservableList<UserMedia> getSongs()
+    {
+        return filteredList;
+    }
+    
+    public ObservableList<String> getCategories()
+    {
+        return categories;
     }
 }
