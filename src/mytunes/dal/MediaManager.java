@@ -25,7 +25,6 @@ public class MediaManager {
 
     public List<UserMedia> getMedia() throws DAException {
         List<UserMedia> mediaList = new ArrayList();
-
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Music");
             ResultSet result = pstatement.executeQuery();
@@ -44,7 +43,6 @@ public class MediaManager {
         }
         return mediaList;
     }
-
     public void saveMedia(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music(title, artist, category, time, path)"
@@ -66,20 +64,6 @@ public class MediaManager {
             throw new DAException(e.getMessage());
         }
     }
-
-    public void removeMedia(UserMedia media) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
-            pstatement.setInt(1, media.getId());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Media could not be deleted!");
-            }
-        } catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
     public void editMedia(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("UPDATE Music SET title=?, artist=?, category=?, time=?, path=? WHERE id=?");
@@ -92,6 +76,18 @@ public class MediaManager {
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Media could not be edited!");
+            }
+        } catch (Exception e) {
+            throw new DAException(e.getMessage());
+        }
+    }
+    public void removeMedia(UserMedia media) throws DAException {
+        try (Connection con = cm.getConnection()) {
+            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
+            pstatement.setInt(1, media.getId());
+            int affected = pstatement.executeUpdate();
+            if (affected < 1) {
+                throw new DAException("Media could not be deleted!");
             }
         } catch (Exception e) {
             throw new DAException(e.getMessage());
