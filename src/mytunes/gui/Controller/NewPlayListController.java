@@ -54,6 +54,9 @@ public class NewPlayListController implements Initializable
                 }
             }
         });
+        
+        model = MediaPlayerModel.getInstance();
+        this.selectedPlayList = model.getSelectedPlayList();
     }    
 
     @FXML
@@ -93,12 +96,6 @@ public class NewPlayListController implements Initializable
         }
         
         closeWindow();
-    }
-    
-    public void setModel(MediaPlayerModel model)
-    {
-        this.model = model;
-        this.selectedPlayList = model.getSelectedPlayList();
     }
     
     private void closeWindow()

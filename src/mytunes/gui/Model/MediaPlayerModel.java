@@ -21,29 +21,41 @@ import mytunes.dal.DAException;
  */
 public class MediaPlayerModel
 {
-    private ObservableList<UserMedia> songsAll = FXCollections.observableArrayList();
+    private ObservableList<UserMedia> allMedia = FXCollections.observableArrayList();
     private ObservableList<UserMedia> filteredList = FXCollections.observableArrayList();
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
     private ObservableList<String> categories = FXCollections.observableArrayList();
     
-    private UserMedia selectedSong;
+    private UserMedia selectedMedia;
     private PlayList selectedPlayList;
     private BLLManager bllManager = new BLLManager();
     
     
+    private static MediaPlayerModel instance;
+    
+    public static MediaPlayerModel getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new MediaPlayerModel();
+        }
+        
+        return instance;
+    }
+    
     /**
      * Delete a song. Update the the observable list, and call the method from the BLL
      */
-    public void deleteSong(UserMedia selectedSong) throws ModelException
+    public void deleteMedia(UserMedia selectedMedia) throws ModelException
     {
         try
         {
-            if (selectedSong == null)
+            if (selectedMedia == null)
             {
                 throw new ModelException("No song selected!");
             }
-            songsAll.remove(selectedSong);
-            bllManager.deleteSong(selectedSong);
+            allMedia.remove(selectedMedia);
+            bllManager.deleteSong(selectedMedia);
         }
         catch (BLLException ex)
         {
@@ -66,27 +78,27 @@ public class MediaPlayerModel
     }
 
     
-    public void editSong(UserMedia selectedSong) throws ModelException
+    public void editMedia(UserMedia selectedMedia) throws ModelException
     {
-        if (selectedSong == null)
+        if (selectedMedia == null)
         {
             throw new ModelException("No song selected");
         }
         
-        this.selectedSong  = selectedSong;
+        this.selectedMedia  = selectedMedia;
     }
     
     /**
      * Add a new song to the UI, and update the DB
-     * @param newSong
+     * @param newMedia
      * @throws ModelException 
      */
-    public void addNewSong(UserMedia newSong) throws ModelException
+    public void addNewMedia(UserMedia newMedia) throws ModelException
     {
         try
         {
-            bllManager.addNewSong(newSong);
-            songsAll.add(newSong);
+            bllManager.addNewSong(newMedia);
+            allMedia.add(newMedia);
         } 
         catch (BLLException ex)
         {
@@ -122,7 +134,7 @@ public class MediaPlayerModel
     }
     
     //Try to move the song up on the list
-    public void moveSongUp(UserMedia selected, PlayList current) throws ModelException
+    public void moveSelectionUp(UserMedia selected, PlayList current) throws ModelException
     {
         if (selected == null)
         {
@@ -138,7 +150,7 @@ public class MediaPlayerModel
         current.moveSongUp(index);
     }
     
-    public void moveSongDown(UserMedia selected, PlayList current) throws ModelException
+    public void moveMediaDown(UserMedia selected, PlayList current) throws ModelException
     {
         if (selected == null)
         {
@@ -155,18 +167,18 @@ public class MediaPlayerModel
         current.moveSongDown(index);
     }
     
-    public void deleteSongFromPlaylist(UserMedia songToDelete, PlayList selectedPlayList) throws ModelException 
+    public void deleteMediaFromPlaylist(UserMedia mediaToDelete, PlayList selectedPlayList) throws ModelException 
     {
-        if (songToDelete == null)
+        if (mediaToDelete == null)
         {
            throw new ModelException("No song selected!");
         }
  
-        selectedPlayList.removeSong(songToDelete);
+        selectedPlayList.removeSong(mediaToDelete);
         
         try
         {
-            bllManager.removeSongFromPlayList(songToDelete, selectedPlayList);
+            bllManager.removeSongFromPlayList(mediaToDelete, selectedPlayList);
         } 
         catch (BLLException ex)
         {
@@ -175,9 +187,9 @@ public class MediaPlayerModel
     }
     
     //Add the selecetd song to the selected playlist
-    public void addSongToPlaylist(UserMedia selectedSong, PlayList selectedPlayList) throws ModelException
+    public void addSongToPlaylist(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException
     {
-        if (selectedSong == null)
+        if (selectedMedia == null)
         {
            throw new ModelException("No song selected!");
         }
@@ -185,15 +197,15 @@ public class MediaPlayerModel
         {
             throw new ModelException("No play list selected");
         }
-        if (selectedPlayList.containsSong(selectedSong))
+        if (selectedPlayList.containsSong(selectedMedia))
         {
             throw new ModelException("Playlist already contains this song!");
         }
         
-        selectedPlayList.addSong(selectedSong);
+        selectedPlayList.addSong(selectedMedia);
         try
         {
-            bllManager.addSongToPlayList(selectedSong, selectedPlayList);
+            bllManager.addSongToPlayList(selectedMedia, selectedPlayList);
         } 
         catch (BLLException ex)
         {
@@ -202,18 +214,18 @@ public class MediaPlayerModel
 
     }
     
-    //TODO: finish the search method
-    public void searchSong(String searchString)
+    //Search for a given string, and use the matching songs to populate the table view.
+    public void searchForMedia(String searchString)
     {
         filteredList.clear();
         
         if (searchString.isEmpty()) //If the filter is empty, add all songs to the list
         {
-            filteredList.addAll(songsAll);
+            filteredList.addAll(allMedia);
             return;
         }
         
-        for (UserMedia userMedia : songsAll) //Otherwise, loop through all the songs, and add them to the list, if they contain the search word
+        for (UserMedia userMedia : allMedia) //Otherwise, loop through all the songs, and add them to the list, if they contain the search word
         {
             if (userMedia.getTitle().contains(searchString) || userMedia.getArtist().contains(searchString))
             {
@@ -250,11 +262,11 @@ public class MediaPlayerModel
     {
         try
         {
-            songsAll.clear();
-            songsAll.addAll(bllManager.loadMedia()); //Get the songs
+            allMedia.clear();
+            allMedia.addAll(bllManager.loadMedia()); //Get the songs
             categories.addAll(bllManager.getCategories());  //Get the categories
             playlists.addAll(bllManager.getPlayLists());
-            filteredList.addAll(songsAll);
+            filteredList.addAll(allMedia);
         } 
         catch (BLLException ex)
         {
@@ -293,15 +305,16 @@ public class MediaPlayerModel
         }
     }
     
-    public UserMedia getSelectedSong()
+    public UserMedia getSelectedMedia()
     {
-        return this.selectedSong;
+        return this.selectedMedia;
     }
     
     public PlayList getSelectedPlayList()
     {
         return this.selectedPlayList;
     }
+    
     /**
      * Update the name of an already existing play list
      * @param selectedPlayList 
@@ -323,7 +336,7 @@ public class MediaPlayerModel
      * @param selectedSong
      * @throws ModelException 
      */
-    public void updateSong(UserMedia selectedSong) throws ModelException
+    public void updateMedia(UserMedia selectedSong) throws ModelException
     {
         try
         {
@@ -341,7 +354,7 @@ public class MediaPlayerModel
         return playlists;
     }
 
-    public ObservableList<UserMedia> getSongs()
+    public ObservableList<UserMedia> getMedia()
     {
         return filteredList;
     }

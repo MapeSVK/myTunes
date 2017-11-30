@@ -24,7 +24,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 
@@ -63,12 +65,27 @@ public class NewSongController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+        model = MediaPlayerModel.getInstance();
+        chooseCategoryComboBox.setItems(model.getCategories());
     }    
     
     
     
     @FXML
-    private void chooseFileClicked(ActionEvent event) {
+    private void chooseFileClicked(ActionEvent event) 
+    {
+        FileChooser fc = new FileChooser(); //Open a file chooser dialog
+        fc.setTitle("Select a music file");
+        String path = fc.showOpenDialog(new Stage()).getAbsolutePath(); //Get the selected path
+        
+        if (!path.endsWith(".mp3") && !path.endsWith(".wav"))   //Only accept .mp3 and .wav files
+        {
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Please select a .mp3 or a .wav file!", ButtonType.OK);
+            a.show();
+            return;
+        }
+        
+        songPathField.setText(path);
     }
 
     @FXML
@@ -78,10 +95,7 @@ public class NewSongController implements Initializable {
         {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/CategoryAdd.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            
-            CategoryAddController controller = fxmlLoader.getController();
-            controller.setModel(model);
-            
+                        
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
@@ -114,6 +128,7 @@ public class NewSongController implements Initializable {
             String title = titleOfSongField.getText();
             String artist = songArtistField.getText();
             String category = chooseCategoryComboBox.getValue();
+            String path = songPathField.getText();
             Time time = Time.valueOf(songTimeField.getText());
             
             if (selectedSong != null)   //We are updating an already existing song
@@ -122,8 +137,9 @@ public class NewSongController implements Initializable {
                 selectedSong.setTitle(title);
                 selectedSong.setTime(time);
                 selectedSong.setCategory(category);
+                selectedSong.setPath(path);
                 
-                model.updateSong(selectedSong);
+                model.updateMedia(selectedSong);
             }
             else //We are creating a new song
             {
@@ -132,9 +148,9 @@ public class NewSongController implements Initializable {
                 newSong.setTitle(title);
                 newSong.setTime(time);
                 newSong.setCategory(category);
-                newSong.setPath("Test path");
+                newSong.setPath(path);
                 
-                model.addNewSong(newSong);
+                model.addNewMedia(newSong);
             }
             closeWindow();
         } 
@@ -147,24 +163,15 @@ public class NewSongController implements Initializable {
     
     public void fillData()
     {
-        selectedSong = model.getSelectedSong();
+        selectedSong = model.getSelectedMedia();
         
         songArtistField.setText(selectedSong.getArtist());
         songTimeField.setText(selectedSong.getTime().toString());
         titleOfSongField.setText(selectedSong.getTitle());
         chooseCategoryComboBox.setValue(selectedSong.getCategory());
+        songPathField.setText(selectedSong.getPath());
     }
-    
-    /**
-     * Add the shared model, and bind the comboBox to the ObservableList inside the model
-     * @param model 
-     */
-    public void setModel(MediaPlayerModel model)
-    {
-        this.model = model;
-        chooseCategoryComboBox.setItems(model.getCategories());
-    }
-    
+
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
