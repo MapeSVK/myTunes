@@ -14,6 +14,7 @@ import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.DAManager;
+import mytunes.dal.PlayListManager;
 
 /**
  *
@@ -22,15 +23,16 @@ import mytunes.dal.DAManager;
 public class BLLManager
 {
     private DAManager mediaDAO = new DAManager();
+    private PlayListManager listManager = new PlayListManager();
     private MediaPlayer player;
     
     private List<String> categories = new ArrayList(); //A collection of categories
 
-    public void deleteSong(UserMedia selectedSong) throws BLLException
+    public void deleteMedia(UserMedia selectedMedia) throws BLLException
     {
         try
         {
-            mediaDAO.removeSong(selectedSong);
+            mediaDAO.removeMedia(selectedMedia);
         } 
         catch (DAException ex)
         {
@@ -50,14 +52,14 @@ public class BLLManager
         if (!selected.isEmpty())
         {
             //Delete the song from the DB
-            for (UserMedia song : selected.getSongs())
+            for (UserMedia song : selected.getMediaList())
             {
                 removeSongFromPlayList(song, selected);
             }
-            selected.clearSongs();
+            selected.clearMediaList();
         }
         
-        mediaDAO.deletePlayList(selected);
+        listManager.deletePlayList(selected);
     }
 
     //Save a new song to the DB
@@ -76,7 +78,7 @@ public class BLLManager
 
     public void addNewPlayList(PlayList pl) throws DAException
     {
-        mediaDAO.saveList(pl);
+        listManager.saveList(pl);
     }
 
     public void play(PlayList playList)
@@ -112,7 +114,7 @@ public class BLLManager
     {
         try
         {
-            mediaDAO.saveSongToList(selectedPlayList, selectedSong);
+            listManager.saveMediaToList(selectedPlayList, selectedSong);
         } 
         catch (DAException ex)
         {
@@ -142,7 +144,7 @@ public class BLLManager
     {
         try
         {
-            return mediaDAO.getPlayLists();
+            return listManager.getPlayLists();
         } 
         catch (DAException ex)
         {
@@ -155,7 +157,7 @@ public class BLLManager
     {
         try
         {
-            mediaDAO.deleteSongFromList(selectedPlayList, songToDelete);
+            listManager.deleteMediaFromList(selectedPlayList, songToDelete);
         } 
         catch (DAException ex)
         {
@@ -167,7 +169,7 @@ public class BLLManager
     {
         try
         {
-        mediaDAO.editPlaylist(selectedPlayList);
+        listManager.editPlaylist(selectedPlayList);
         }
         catch (DAException ex)
         {

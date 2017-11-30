@@ -21,7 +21,6 @@ import mytunes.be.UserMedia;
 public class DAManager {
 
     private ConnectionManager cm = new ConnectionManager();
-    private List<PlayList> playlistList = new ArrayList();
 
     public List<UserMedia> getSongs() throws DAException {
         List<UserMedia> songList = new ArrayList();
@@ -69,7 +68,7 @@ public class DAManager {
         }
     }
 
-    public void removeSong(UserMedia song) throws DAException {
+    public void removeMedia(UserMedia song) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
             pstatement.setInt(1, song.getId());
@@ -102,123 +101,5 @@ public class DAManager {
         }
     }
 
-    public void editPlaylist(PlayList plist) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("UPDATE Playlist SET title=? WHERE id=?");
-            pstatement.setString(1, plist.getTitle());
-            pstatement.setInt(2, plist.getId());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Playlist could not be edited!");
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
-    public List<PlayList> getPlayLists() throws DAException {
-        List<PlayList> playListList = new ArrayList();
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Playlist");
-            ResultSet result = pstatement.executeQuery();
-            while (result.next()) {
-                PlayList tempList = new PlayList();
-                tempList.setId(result.getInt("id"));
-                tempList.setTitle(result.getString("title"));
-                playListList.add(tempList);
-            }
-
-            PreparedStatement pstaStatement2 = con.prepareStatement(
-                    "SELECT Music.* , MusicInList.listID "
-                    + "FROM Music, MusicInList "
-                    + "WHERE MusicInList.musicID = Music.id");
-            ResultSet result2 = pstaStatement2.executeQuery();
-            while (result2.next()) {
-                for (PlayList playList : playListList) {
-                    if (playList.getId() == result2.getInt("listID")) {
-                        UserMedia tempSong = new UserMedia();
-                        tempSong.setId(result2.getInt("id"));
-                        tempSong.setTitle(result2.getString("title"));
-                        tempSong.setArtist(result2.getString("artist"));
-                        tempSong.setCategory(result2.getString("category"));
-                        tempSong.setTime(result2.getTime("time"));
-                        tempSong.setPath(result2.getString("path"));
-                        playList.addSong(tempSong);
-                    }
-                }
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-        return playListList;
-    }
-
-    public void deletePlayList(PlayList plist) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement("DELETE FROM Playlist WHERE id=?");
-            pstatement.setInt(1, plist.getId());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Playlist could not be deleted!");
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
-    public void saveList(PlayList plist) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement(
-                    "INSERT INTO Playlist(title)"
-                    + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
-            pstatement.setString(1, plist.getTitle());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Playlist could not be saved!");
-            }
-            ResultSet rs = pstatement.getGeneratedKeys();
-            if (rs.next()) {
-                plist.setId(rs.getInt(1));
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
-    public void saveSongToList(PlayList list, UserMedia song) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement(
-                    "INSERT INTO MusicInList(listID, musicID)"
-                    + "VALUES(?, ?)");
-            pstatement.setInt(1, list.getId());
-            pstatement.setInt(2, song.getId());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Song cannot be added to the playlist!");
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
-
-    public void deleteSongFromList(PlayList list, UserMedia song) throws DAException {
-        try (Connection con = cm.getConnection()) {
-            PreparedStatement pstatement = con.prepareStatement(
-                    "DELETE FROM MusicInList WHERE musicID=? AND listID=?");
-            pstatement.setInt(1, song.getId());
-            pstatement.setInt(2, list.getId());
-            int affected = pstatement.executeUpdate();
-            if (affected < 1) {
-                throw new DAException("Song cannot be deleted from the list!");
-            }
-        }
-        catch (Exception e) {
-            throw new DAException(e.getMessage());
-        }
-    }
+    
 }
