@@ -37,13 +37,8 @@ public class CategoryAddController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        model = MediaPlayerModel.getInstance();
     }    
-
-    void setModel(MediaPlayerModel model)
-    {
-        this.model = model;
-    }
 
     @FXML
     private void btnSaveClick(ActionEvent event)

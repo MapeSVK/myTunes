@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -97,7 +96,7 @@ public class MainController implements Initializable {
     private final Image img_up = new Image("file:images/up.png");
     private final Image img_addArrow = new Image("file:images/previous.png");
     
-    private MediaPlayerModel model = new MediaPlayerModel();
+    private MediaPlayerModel model;
 
     public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
@@ -108,13 +107,15 @@ public class MainController implements Initializable {
         downArrow.setImage(img_down);
         addArrow.setImage(img_addArrow);
         
+        model = MediaPlayerModel.getInstance();
+        
         setUpPlayListCellFactories();
         setUpSongsCellFactories();
         
         loadMedia();
         
         playlistTableView.setItems(model.getPlayLists());
-        songsTableView.setItems(model.getSongs());
+        songsTableView.setItems(model.getMedia());
         
         
         //Create a new listener and bind it to the play list tableView. Used to update the listview of the current playlist, when the selection changes
@@ -129,6 +130,7 @@ public class MainController implements Initializable {
         }
         );
         
+        //Add a new event handler, so that search can be performed by pressing enter
         searchField.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             @Override
@@ -202,7 +204,7 @@ public class MainController implements Initializable {
     
     private void searchForString(String searchString)
     {
-        model.searchSong(searchString);
+        model.searchForMedia(searchString);
     }
 
     //Adds a selected song to the selected playlist
@@ -232,7 +234,7 @@ public class MainController implements Initializable {
             UserMedia selectedSong = playlistSongsListView.getSelectionModel().getSelectedItem();
             PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
             
-            model.deleteSongFromPlaylist(selectedSong, selectedPlayList);
+            model.deleteMediaFromPlaylist(selectedSong, selectedPlayList);
         } 
         catch (ModelException ex)
         {
@@ -250,9 +252,6 @@ public class MainController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
             
             Parent root1 = (Parent) fxmlLoader.load();
-            
-            NewPlayListController controller = fxmlLoader.getController();
-            controller.setModel(model);
             
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -279,7 +278,6 @@ public class MainController implements Initializable {
             Parent root1 = (Parent) fxmlLoader.load();
             
             NewPlayListController controller = fxmlLoader.getController();
-            controller.setModel(model);
             controller.setText(playlistTableView.getSelectionModel().getSelectedItem());
             
             Stage stage = new Stage();
@@ -315,7 +313,7 @@ public class MainController implements Initializable {
         {
             UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
             PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
-            model.moveSongUp(selcted, current);
+            model.moveSelectionUp(selcted, current);
             
             playlistSongsListView.getSelectionModel().select(selcted);
         } 
@@ -333,7 +331,7 @@ public class MainController implements Initializable {
         {
             UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
             PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
-            model.moveSongDown(selcted, current);
+            model.moveMediaDown(selcted, current);
             
             playlistSongsListView.getSelectionModel().select(selcted);
         }
@@ -353,9 +351,6 @@ public class MainController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             
-            NewSongController controller = fxmlLoader.getController();
-            controller.setModel(model);
-            
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
@@ -374,13 +369,12 @@ public class MainController implements Initializable {
         try
         {
             UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
-            model.editSong(selectedSong);
+            model.editMedia(selectedSong);
             
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             
             NewSongController controller = fxmlLoader.getController();
-            controller.setModel(model);
             controller.fillData();
             
             Stage stage = new Stage();
@@ -399,7 +393,7 @@ public class MainController implements Initializable {
         UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
         try
         {
-            model.deleteSong(selectedSong);
+            model.deleteMedia(selectedSong);
         } 
         catch (ModelException ex)
         {
