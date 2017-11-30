@@ -47,7 +47,7 @@ public class PlayListManager {
                         tempMedia.setTitle(result2.getString("title"));
                         tempMedia.setArtist(result2.getString("artist"));
                         tempMedia.setCategory(result2.getString("category"));
-                        tempMedia.setTime(result2.getTime("time"));
+                        tempMedia.setTime(result2.getInt("time"));
                         tempMedia.setPath(result2.getString("path"));
                         playList.addMedia(tempMedia);
                     }
