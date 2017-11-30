@@ -78,9 +78,9 @@ public class NewSongController implements Initializable {
         fc.setTitle("Select a music file");
         String path = fc.showOpenDialog(new Stage()).getAbsolutePath(); //Get the selected path
         
-        if (!path.endsWith(".mp3") && !path.endsWith(".wav"))   //Only accept .mp3 and .wav files
+        if (!path.endsWith(".mp3") && !path.endsWith(".wav") && !path.endsWith(".flac") && !path.endsWith(".wma"))   //Accept common file types
         {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Please select a .mp3 or a .wav file!", ButtonType.OK);
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Please select a .mp3, a .wav, a .flac or a .wma file!", ButtonType.OK);
             a.show();
             return;
         }
@@ -125,6 +125,7 @@ public class NewSongController implements Initializable {
     {
         try
         {
+            //Retrieve the data from the inputs
             String title = titleOfSongField.getText();
             String artist = songArtistField.getText();
             String category = chooseCategoryComboBox.getValue();
@@ -161,6 +162,7 @@ public class NewSongController implements Initializable {
         }
     }
     
+    //If we have a selection, use it to fill out the inputs
     public void fillData()
     {
         selectedSong = model.getSelectedMedia();
