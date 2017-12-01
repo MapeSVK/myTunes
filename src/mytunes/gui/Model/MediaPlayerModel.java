@@ -55,7 +55,15 @@ public class MediaPlayerModel
             {
                 throw new ModelException("No song selected!");
             }
-
+            
+            for (PlayList list : playlists) //Remove the song from all the playlists 
+            {
+                if (list.containsMedia(selectedMedia))
+                {
+                    list.removeMedia(selectedMedia);
+                }
+            }
+            
             filteredList.remove(selectedMedia);
             allMedia.remove(selectedMedia);
             bllManager.deleteMedia(selectedMedia);
@@ -167,6 +175,7 @@ public class MediaPlayerModel
         current.moveSongUp(index);
     }
     
+    //Change the place of a song in a playlist (move down)
     public void moveMediaDown(UserMedia selected, PlayList current) throws ModelException
     {
         if (selected == null)
@@ -184,6 +193,7 @@ public class MediaPlayerModel
         current.moveSongDown(index);
     }
     
+    //Remove a song from at selected playlist
     public void deleteMediaFromPlaylist(UserMedia mediaToDelete, PlayList selectedPlayList) throws ModelException 
     {
         if (mediaToDelete == null)
@@ -270,6 +280,7 @@ public class MediaPlayerModel
         categories.add(category);
     }
     
+    //Attempt to play the songs in the selected play list
     public void playMedia() throws ModelException
     {
         try
@@ -299,18 +310,19 @@ public class MediaPlayerModel
             throw new ModelException(ex.getMessage());
         }
     }
-
+    
+    //Tries to create a new play list
     public void createNewPlayList(String playListName) throws ModelException
     {
         try
         {
             if (playListName.equals(""))
             {
-                throw new ModelException("Empty name!");
+                throw new ModelException("Empty name!");    //Do not create a playlist with an empty name
             }
+            
             PlayList p = new PlayList();
             p.setTitle(playListName);
-            System.out.println(p.toString());
             
             for (PlayList pl : playlists)   //Loop through the playlist and check their names
             {
@@ -389,8 +401,14 @@ public class MediaPlayerModel
         return categories;
     }
     
-    public void getMetaData(Media media)
+    public void getMetaData(String path)
     {
-        bllManager.getMetaData(media);
+        bllManager.getMetaData(path);
+    }
+    
+    //Sets the current play list in the BLLManager.
+    public void setPlayList(PlayList list)
+    {
+        bllManager.setCurrentPlayList(list);
     }
 }

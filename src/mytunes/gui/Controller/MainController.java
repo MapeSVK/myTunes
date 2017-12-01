@@ -145,13 +145,14 @@ public class MainController implements Initializable
         });
     }    
 
-    //Update the listView to show the songs found in the selected play list
+    //Update the listView to show the songs found in the selected play list, and update the BLLManager to contain the latest selection
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
         if (selectedPlayList != null)
         {
             playlistSongsListView.setItems(selectedPlayList.getMediaList());
+            model.setPlayList(selectedPlayList);
         }
     }
     

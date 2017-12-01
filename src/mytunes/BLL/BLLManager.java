@@ -180,8 +180,7 @@ public class BLLManager {
        this.currentPlayList = list; 
     }
     
-    public void getMetaData(Media media)
+    public void getMetaData(String path)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
