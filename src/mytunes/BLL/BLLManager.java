@@ -180,7 +180,8 @@ public class BLLManager {
        this.currentPlayList = list; 
     }
     
-    public void getMetaData(String path)
+    public UserMedia getMetaData(String path)
     {
+        
     }
 }
