@@ -17,7 +17,7 @@ import mytunes.be.UserMedia;
  *
  * @author Bence
  */
-public class MediaManager {
+public class MediaDBManager {
 
     private ConnectionManager cm = new ConnectionManager();
 

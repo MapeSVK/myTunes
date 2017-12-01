@@ -13,8 +13,8 @@ import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
-import mytunes.dal.MediaManager;
-import mytunes.dal.PlayListManager;
+import mytunes.dal.MediaDBManager;
+import mytunes.dal.PlayListDBManager;
 
 /**
  *
@@ -22,8 +22,8 @@ import mytunes.dal.PlayListManager;
  */
 public class BLLManager {
 
-    private MediaManager mediaManager = new MediaManager();
-    private PlayListManager listManager = new PlayListManager();
+    private MediaDBManager mediaManager = new MediaDBManager();
+    private PlayListDBManager listManager = new PlayListDBManager();
     private MediaPlayer player;
     private List<String> categories = new ArrayList(); //A collection of categories
 

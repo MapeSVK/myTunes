@@ -37,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
+import mytunes.dal.MetaReader;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
 
@@ -97,7 +98,7 @@ public class MainController implements Initializable
     
     private MediaPlayerModel model;
 
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {        
         next.setImage(img_next);
         previous.setImage(img_previous);
         play.setImage(img_play);

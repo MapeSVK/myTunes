@@ -18,7 +18,7 @@ import mytunes.be.UserMedia;
  *
  * @author Dominik
  */
-public class PlayListManager {
+public class PlayListDBManager {
 
     private ConnectionManager cm = new ConnectionManager();
 
