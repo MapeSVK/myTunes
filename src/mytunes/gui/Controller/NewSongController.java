@@ -8,6 +8,7 @@ package mytunes.gui.Controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Time;
@@ -80,7 +81,17 @@ public class NewSongController implements Initializable {
             FileChooser fc = new FileChooser(); //Open a file chooser dialog
             fc.setTitle("Select a music file");
             File file = fc.showOpenDialog(new Stage()); //Get the selected path
-            String path = file.getAbsolutePath();
+        try
+        {
+            String path = file.toURI().toURL().toString();
+            System.out.println(path);
+            media = new Media(path);
+            getMetaData(media);
+        } 
+        catch (MalformedURLException ex)
+        {
+            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     //Open a new window, which lets us add a new, custom category
@@ -108,8 +119,7 @@ public class NewSongController implements Initializable {
     {
         closeWindow();
     }
-    
-    
+
     @FXML
     private void saveSongClicked(ActionEvent event) 
     {        
@@ -126,13 +136,11 @@ public class NewSongController implements Initializable {
             String artist = songArtistField.getText();
             String category = chooseCategoryComboBox.getValue();
             String path = songPathField.getText();
-            int time = Integer.parseInt(songTimeField.getText());
             
             if (selectedSong != null)   //We are updating an already existing song
             {
                 selectedSong.setArtist(artist);
                 selectedSong.setTitle(title);
-                selectedSong.setTime(time);
                 selectedSong.setCategory(category);
                 selectedSong.setPath(path);
                 
@@ -143,7 +151,6 @@ public class NewSongController implements Initializable {
                 UserMedia newSong = new UserMedia();
                 newSong.setArtist(artist);
                 newSong.setTitle(title);
-                newSong.setTime(time);
                 newSong.setCategory(category);
                 newSong.setPath(path);
                 
@@ -188,6 +195,15 @@ public class NewSongController implements Initializable {
         if (event.getCode().equals(KeyCode.ENTER))
         {
             saveData();
+        }
+    }
+    
+    private void getMetaData(Media media)
+    {
+        ObservableMap<String, Object> metadata = media.getMetadata();
+        for (String key : metadata.keySet())
+        {
+            System.out.println(metadata.get(key));
         }
     }
 }

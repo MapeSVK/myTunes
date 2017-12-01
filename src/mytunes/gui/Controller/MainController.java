@@ -174,7 +174,7 @@ public class MainController implements Initializable
         songsColumnTitle.setCellValueFactory(new PropertyValueFactory("title"));
         songsColumArtist.setCellValueFactory(new PropertyValueFactory("artist"));
         songsColumnCategory.setCellValueFactory(new PropertyValueFactory("category"));
-        songsColumnTime.setCellValueFactory(new PropertyValueFactory("time"));
+        songsColumnTime.setCellValueFactory(new PropertyValueFactory("timeString"));
         
         //Set the width of the columns
         songsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

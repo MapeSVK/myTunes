@@ -16,7 +16,8 @@ public class UserMedia {
     private final StringProperty path = new SimpleStringProperty();
     private Media media;
     private int time; 
-
+    private String timeString;
+    
     public UserMedia(int id, String title, String artist, String category, String path, Media media, int time)
     {
         this.id.set(id);
@@ -118,6 +119,15 @@ public class UserMedia {
         return time;
     }
 
+    public String getTimeString()
+    {
+        String seconds = Integer.toString(time/1000);
+        String minutes = Integer.toString(time/1000/60);
+        String hours = Integer.toString(time/1000/60/60);
+        
+        timeString = hours + ":" + minutes + ":" + seconds;
+        return timeString;
+    }
     @Override
     public String toString()
     {
