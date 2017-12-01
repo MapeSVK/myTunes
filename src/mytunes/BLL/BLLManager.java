@@ -34,7 +34,14 @@ public class BLLManager {
     private PlayList currentPlayList;
 
     public void deleteMedia(UserMedia selectedMedia) throws BLLException {
-        try {
+        
+        if (selectedMedia == null)
+        {
+            throw new BLLException("No song selected song!");
+        }
+        
+        try 
+        {
             mediaManager.removeMedia(selectedMedia);
         }
         catch (DAException ex) {

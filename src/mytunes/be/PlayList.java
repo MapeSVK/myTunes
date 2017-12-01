@@ -113,12 +113,27 @@ public class PlayList {
     public void removeMedia(UserMedia mediaToDelete)
     {
         mediaList.remove(mediaToDelete);
+        for (int i = 0; i < mediaList.size(); i++)
+        {
+            if (mediaList.get(i).getId() == mediaToDelete.getId())
+            {
+                mediaList.remove(mediaList.get(i));
+            }
+        }
     }
     
     //Check if a song is already in the playlist
     public boolean containsMedia(UserMedia media)
     {
-        return mediaList.contains(media);
+        //return mediaList.contains(media);
+        for (UserMedia userMedia : mediaList)
+        {
+            if (userMedia.getId() == media.getId())
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     //Checks if the list of song is empty

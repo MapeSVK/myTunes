@@ -24,8 +24,8 @@ import mytunes.dal.DAException;
  */
 public class MediaPlayerModel
 {
-    private ObservableList<UserMedia> allMedia = FXCollections.observableArrayList();
-    private ObservableList<UserMedia> filteredList = FXCollections.observableArrayList();
+    private ObservableList<UserMedia> allMedia = FXCollections.observableArrayList(); //Contains all the songs
+    private ObservableList<UserMedia> filteredList = FXCollections.observableArrayList();   //Contains the songs that match the current filter (if there is one)
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();
     private ObservableList<String> categories = FXCollections.observableArrayList();
     
@@ -52,17 +52,13 @@ public class MediaPlayerModel
     public void deleteMedia(UserMedia selectedMedia) throws ModelException
     {
         try
-        {
-            if (selectedMedia == null)
-            {
-                throw new ModelException("No song selected!");
-            }
-            
+        {            
             for (PlayList list : playlists) //Remove the song from all the playlists 
             {
                 if (list.containsMedia(selectedMedia))
                 {
                     list.removeMedia(selectedMedia);
+                    bllManager.removeMediaFromPlayList(selectedMedia, list);
                 }
             }
             
