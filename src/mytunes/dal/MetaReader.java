@@ -16,11 +16,6 @@ import org.farng.mp3.TagException;
  */
 public class MetaReader {
 
-    public MetaReader() throws IOException, TagException {
-        MP3File mp3file = new MP3File("testmusic.mp3");
-        System.out.println(mp3file.getID3v2Tag());
-    }
-
     public UserMedia getMetaData(String path) throws DAException {
         try {
             UserMedia tempmedia = new UserMedia();
