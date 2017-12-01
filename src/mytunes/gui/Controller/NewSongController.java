@@ -74,6 +74,7 @@ public class NewSongController implements Initializable {
         chooseCategoryComboBox.setItems(model.getCategories());
     }    
     
+    //Opens a new window that lets us select a file
     @FXML
     private void chooseFileClicked(ActionEvent event) 
     {
@@ -197,13 +198,9 @@ public class NewSongController implements Initializable {
             saveData();
         }
     }
-    
+
     private void getMetaData(Media media)
     {
-        ObservableMap<String, Object> metadata = media.getMetadata();
-        for (String key : metadata.keySet())
-        {
-            System.out.println(metadata.get(key));
-        }
+        model.getMetaData(media);
     }
 }

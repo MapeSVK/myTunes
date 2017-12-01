@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
 
 /**
  *
@@ -24,7 +25,13 @@ public class PlayList {
     private final StringProperty title = new SimpleStringProperty();
     private int count; //The number of songs in the play list
     private final IntegerProperty timeInMS = new SimpleIntegerProperty();
+    private int currentlyPlayingIndex;
 
+    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex)
+    {
+        this.currentlyPlayingIndex = currentlyPlayingIndex;
+    }
+    
     public int getTimeInMS()
     {
         return timeInMS.get();
@@ -139,7 +146,6 @@ public class PlayList {
                 return i;
             }
         }
-        
         return -1;
     }
     
@@ -165,7 +171,18 @@ public class PlayList {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
 
+    public UserMedia getCurrentlyPlaying()
+    {
+        return mediaList.get(currentlyPlayingIndex);
+    }
 
+    public void next()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-
+    public void previous()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

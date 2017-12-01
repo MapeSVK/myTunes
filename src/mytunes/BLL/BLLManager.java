@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
@@ -26,6 +27,7 @@ public class BLLManager {
     private PlayListManager listManager = new PlayListManager();
     private MediaPlayer player;
     private List<String> categories = new ArrayList(); //A collection of categories
+    private PlayList currentPlayList;
 
     public void deleteMedia(UserMedia selectedMedia) throws BLLException {
         try {
@@ -64,12 +66,43 @@ public class BLLManager {
         }
     }
 
-    public void addNewPlayList(PlayList pl) throws DAException {
+    public void addNewPlayList(PlayList pl) throws DAException 
+    {
         listManager.saveList(pl);
     }
 
-    public void play(PlayList playList) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //Attemt to play all the media in the selected playlist
+    public void play() throws BLLException 
+    {
+        if (currentPlayList == null)
+        {
+            throw new BLLException("No playlist selected");
+        }
+        while  (true)
+        {
+            player = new MediaPlayer(currentPlayList.getCurrentlyPlaying().getMedia());
+            currentPlayList.next();
+        }
+    }
+
+    public void next() throws BLLException
+    {
+        if (currentPlayList == null)
+        {
+            throw new BLLException("No playlist selected");
+        }
+        
+        currentPlayList.next();
+    }
+
+    public void previous() throws BLLException
+    {
+        if (currentPlayList == null)
+        {
+            throw new BLLException("No playlist selected");
+        }
+        
+        currentPlayList.previous();
     }
 
     //Use the DAL to load the songs, and categories
@@ -140,5 +173,15 @@ public class BLLManager {
         catch (DAException ex) {
             throw new BLLException(ex);
         }
+    }
+
+    public void setCurrentPlayList(PlayList list)
+    {
+       this.currentPlayList = list; 
+    }
+    
+    public void getMetaData(Media media)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

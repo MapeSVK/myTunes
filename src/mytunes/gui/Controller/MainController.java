@@ -7,6 +7,7 @@ package mytunes.gui.Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -184,36 +185,56 @@ public class MainController implements Initializable
         songsColumnTime.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
 
     }
-    
+
     
     @FXML
-    private void nextArrowClicked(MouseEvent event) {
-        model.nextMedia();
+    private void nextArrowClicked(MouseEvent event) 
+    {
+        try
+        {
+            model.nextMedia();
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
-    private void previousArrowClicked(MouseEvent event) {
-        model.previousMedia();
+    private void previousArrowClicked(MouseEvent event)
+    {
+        try
+        {
+            model.previousMedia();
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
-
+    
+    //Attempt to play the songs in the selected playlist
     @FXML
     private void playArrowClicked(MouseEvent event) {
         try
         {
-            PlayList playList = playlistTableView.getSelectionModel().getSelectedItem();
-            model.playMedia(playList);
+            PlayList playList = playlistTableView.getSelectionModel().getSelectedItem(); //Get the selected playlist
+            songName.setText("Currently playing: " + playList.getCurrentlyPlaying().getTitle()); //Get the currently playing song, and set the label text to its title
+            model.playMedia();  //Attempt to play the songs
         } 
         catch (Exception ex)
         {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
-            a.show();
+            showAlert(ex);
         }
     }
     
     //Searc the songs for the entered text
     @FXML
-    private void searchClicked(MouseEvent event) {
+    private void searchClicked(MouseEvent event) 
+    {
         String searchString = searchField.getText();
         searchForString(searchString);
     }
@@ -410,7 +431,16 @@ public class MainController implements Initializable
 
     //Try to delete the selected song from the table view
     @FXML
-    private void deleteSongClicked(ActionEvent event) {
+    private void deleteSongClicked(ActionEvent event) 
+    {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete the song?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> selection = a.showAndWait();
+        
+        if (selection.get() == ButtonType.NO)
+        {
+            return;
+        }
+        
         UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
         try
         {

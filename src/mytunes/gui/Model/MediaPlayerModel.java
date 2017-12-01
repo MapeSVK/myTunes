@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
 import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
@@ -55,6 +56,7 @@ public class MediaPlayerModel
                 throw new ModelException("No song selected!");
             }
 
+            filteredList.remove(selectedMedia);
             allMedia.remove(selectedMedia);
             bllManager.deleteMedia(selectedMedia);
         }
@@ -119,14 +121,28 @@ public class MediaPlayerModel
     }
 
     
-    public void previousMedia()
+    public void previousMedia() throws ModelException
     {
-        
+        try
+        {
+            bllManager.next();
+        }
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
-    public void nextMedia()
+    public void nextMedia() throws ModelException
     {
-        
+        try
+        {
+            bllManager.previous();
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     public void volumeChanged()
@@ -254,9 +270,16 @@ public class MediaPlayerModel
         categories.add(category);
     }
     
-    public void playMedia(PlayList playList) throws Exception
+    public void playMedia() throws ModelException
     {
-        bllManager.play(playList);
+        try
+        {
+            bllManager.play();
+        }
+        catch (Exception ex)
+        {
+            throw new  ModelException(ex.getMessage());
+        }
     }
 
     //Get all songs, playlists and categories from the database on startup
@@ -364,5 +387,10 @@ public class MediaPlayerModel
     public ObservableList<String> getCategories()
     {
         return categories;
+    }
+    
+    public void getMetaData(Media media)
+    {
+        bllManager.getMetaData(media);
     }
 }
