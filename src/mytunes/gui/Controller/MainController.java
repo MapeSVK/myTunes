@@ -333,6 +333,14 @@ public class MainController implements Initializable
     @FXML
     private void deletePlaylistClicked(ActionEvent event) 
     {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete this play list?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> selection = a.showAndWait();
+        
+        if (selection.get() == ButtonType.NO)
+        {
+            return;
+        }
+        
         try
         {
             PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();

@@ -178,11 +178,17 @@ public class PlayList {
 
     public void next()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (currentlyPlayingIndex < mediaList.size())
+        {
+            currentlyPlayingIndex++;
+        }
     }
 
     public void previous()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (currentlyPlayingIndex > 0)
+        {
+            currentlyPlayingIndex--;
+        }
     }
 }
