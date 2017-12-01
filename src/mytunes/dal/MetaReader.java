@@ -5,7 +5,9 @@
  */
 package mytunes.dal;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import mytunes.be.UserMedia;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
@@ -16,10 +18,11 @@ import org.farng.mp3.TagException;
  */
 public class MetaReader {
 
-    public UserMedia getMetaData(String path) throws DAException {
+    public UserMedia getMetaData(URI path) throws DAException {
         try {
+            File file = new File(path);
             UserMedia tempmedia = new UserMedia();
-            MP3File mp3file = new MP3File(path);
+            MP3File mp3file = new MP3File(file);
             
             if (mp3file.hasID3v2Tag()) {
                 tempmedia.setTitle(mp3file.getID3v2Tag().getSongTitle());

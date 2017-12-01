@@ -5,6 +5,8 @@
  */
 package mytunes.BLL;
 
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -182,11 +184,11 @@ public class BLLManager {
        this.currentPlayList = list; 
     }
     
-    public UserMedia getMetaData(String path) throws BLLException
+    public UserMedia getMetaData(URI path) throws BLLException
     {
         try
         {
-            return metaReader.getMetaData(path);
+            return metaReader.getMetaData( path);
         } 
         catch (DAException ex)
         {

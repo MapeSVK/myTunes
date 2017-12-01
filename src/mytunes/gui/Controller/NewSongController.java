@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Time;
@@ -54,17 +55,11 @@ public class NewSongController implements Initializable {
     @FXML
     private TextField songPathField;
     @FXML
-    private Button chooseFileButton;
-    @FXML
-    private Button newCategoryButton;
-    @FXML
     private Button cancelNewSongButton;
-    @FXML
-    private Button saveSongButton;
     
     private MediaPlayerModel model;
     private UserMedia selectedSong;
-    private Media media;
+   
     /**
      * Initializes the controller class.
      */
@@ -79,19 +74,13 @@ public class NewSongController implements Initializable {
     @FXML
     private void chooseFileClicked(ActionEvent event) 
     {
-        try
-        {
-            FileChooser fc = new FileChooser(); //Open a file chooser dialog
-            fc.setTitle("Select a music file");
-            String path = fc.showOpenDialog(new Stage()).toURI().toURL().toString(); //Get the selected path
-            System.out.println(path);
-            UserMedia uMedia = getMetaData(path);
-            setFields(uMedia);
-        } 
-        catch (MalformedURLException ex)
-        {
-            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FileChooser fc = new FileChooser(); //Open a file chooser dialog
+        fc.setTitle("Select a music file");
+        URI path = fc.showOpenDialog(new Stage()).toURI();
+        UserMedia uMedia = getMetaData(path);
+        uMedia.setPath(path.getPath());
+        setFields(uMedia);
+        selectedSong = uMedia;
     }
 
     //Open a new window, which lets us add a new, custom category
@@ -122,46 +111,31 @@ public class NewSongController implements Initializable {
 
     @FXML
     private void saveSongClicked(ActionEvent event) 
-    {        
-        saveData();
-    }
-    
-    //Try saving the data entered into the texfields
-    private void saveData()
-    {
+    {     
         try
         {
-            //Retrieve the data from the inputs
-            String title = titleOfSongField.getText();
-            String artist = songArtistField.getText();
-            String category = chooseCategoryComboBox.getValue();
-            String path = songPathField.getText();
-            
-            if (selectedSong != null)   //We are updating an already existing song
-            {
-                selectedSong.setArtist(artist);
-                selectedSong.setTitle(title);
-                selectedSong.setCategory(category);
-                selectedSong.setPath(path);
-                
-                model.updateMedia(selectedSong);
-            }
-            else //We are creating a new song
-            {
-                UserMedia newSong = new UserMedia();
-                newSong.setArtist(artist);
-                newSong.setTitle(title);
-                newSong.setCategory(category);
-                newSong.setPath(path);
-                
-                model.addNewMedia(newSong);
-            }
-            closeWindow();
+            model.addNewMedia(selectedSong);
         } 
-        catch (Exception ex)
+        catch (ModelException ex)
         {
-            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
+        }
+    }
+    
+    //Save the media, when the enter key is pressed
+    @FXML
+    private void onKeyPressed(KeyEvent event)
+    {
+        if (event.getCode().equals(KeyCode.ENTER))
+        {
+            try
+            {
+                model.addNewMedia(selectedSong);
+            } 
+            catch (ModelException ex)
+            {
+                showAlert(ex);
+            }
         }
     }
     
@@ -189,16 +163,7 @@ public class NewSongController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    private void onKeyPressed(KeyEvent event)
-    {
-        if (event.getCode().equals(KeyCode.ENTER))
-        {
-            saveData();
-        }
-    }
-
-    private UserMedia getMetaData(String path)
+    private UserMedia getMetaData(URI path)
     {
         try
         {
@@ -215,7 +180,7 @@ public class NewSongController implements Initializable {
     {
         if (uMedia == null)
         {
-            return;
+            showAlert(new Exception("Empty song!"));
         }
         songArtistField.setText(uMedia.getArtist());
         songTimeField.setText(uMedia.getTimeString());

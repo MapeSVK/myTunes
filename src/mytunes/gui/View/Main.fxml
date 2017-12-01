@@ -29,7 +29,7 @@
             <Image url="@../../../images/play.png" />
          </image>
       </ImageView>
-      <Label fx:id="songName" alignment="CENTER" layoutX="240.0" layoutY="33.0" prefHeight="17.0" prefWidth="564.0" text="LabelLabelLabelLabelLabelLabelLabelLabelLabel" />
+      <Label fx:id="songName" alignment="CENTER" layoutX="240.0" layoutY="33.0" prefHeight="17.0" prefWidth="564.0" />
       <TextField fx:id="searchField" layoutX="850.0" layoutY="28.0" promptText="Search..." />
       <ImageView fx:id="search" fitHeight="27.0" fitWidth="35.0" layoutX="1041.0" layoutY="28.0" onMouseClicked="#searchClicked" pickOnBounds="true" preserveRatio="true">
          <image>

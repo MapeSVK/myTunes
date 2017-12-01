@@ -5,6 +5,8 @@
  */
 package mytunes.gui.Model;
 
+import java.io.File;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -110,6 +112,7 @@ public class MediaPlayerModel
         {
             bllManager.addNewMedia(newMedia);
             allMedia.add(newMedia);
+            filteredList.add(newMedia);
         } 
         catch (BLLException ex)
         {
@@ -401,7 +404,7 @@ public class MediaPlayerModel
         return categories;
     }
     
-    public UserMedia getMetaData(String path) throws ModelException
+    public UserMedia getMetaData(URI path) throws ModelException
     {
         try
         {
