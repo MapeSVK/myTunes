@@ -193,7 +193,7 @@ public class PlayList {
 
     public void next()
     {
-        if (currentlyPlayingIndex < mediaList.size())
+        if (currentlyPlayingIndex < mediaList.size() - 1)
         {
             currentlyPlayingIndex++;
         }

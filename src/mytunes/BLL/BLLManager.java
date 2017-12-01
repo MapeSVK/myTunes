@@ -83,6 +83,7 @@ public class BLLManager {
     }
 
     //Attemt to play all the media in the selected playlist
+    //TODO: finish the player (associate the the file with the path with a Media object)
     public void play() throws BLLException 
     {
         if (currentPlayList == null)

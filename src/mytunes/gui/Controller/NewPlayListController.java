@@ -64,8 +64,6 @@ public class NewPlayListController implements Initializable
     {
         saveData();
     }
-    
-    
 
     @FXML
     private void btnCancelClick(ActionEvent event)

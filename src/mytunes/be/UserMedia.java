@@ -138,6 +138,11 @@ public class UserMedia {
     {
         return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
+
+    public void setMedia(Media media)
+    {
+        this.media = media;
+    }
  
 }
 

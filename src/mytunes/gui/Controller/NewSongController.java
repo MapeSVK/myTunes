@@ -76,8 +76,10 @@ public class NewSongController implements Initializable {
     {
         FileChooser fc = new FileChooser(); //Open a file chooser dialog
         fc.setTitle("Select a music file");
-        URI path = fc.showOpenDialog(new Stage()).toURI();
+        File file = fc.showOpenDialog(new Stage());
+        URI path = file.toURI();
         UserMedia uMedia = getMetaData(path);
+        uMedia.setMedia(new Media(path.toString()));
         uMedia.setPath(path.getPath());
         setFields(uMedia);
         selectedSong = uMedia;
@@ -114,6 +116,7 @@ public class NewSongController implements Initializable {
     {     
         try
         {
+            readDataFromTextFields();
             model.addNewMedia(selectedSong);
         } 
         catch (ModelException ex)
@@ -130,6 +133,7 @@ public class NewSongController implements Initializable {
         {
             try
             {
+                readDataFromTextFields();
                 model.addNewMedia(selectedSong);
             } 
             catch (ModelException ex)
@@ -145,7 +149,7 @@ public class NewSongController implements Initializable {
         selectedSong = model.getSelectedMedia();
         
         songArtistField.setText(selectedSong.getArtist());
-        songTimeField.setText(selectedSong.getTime()+ "");
+        songTimeField.setText(selectedSong.getTime() + "");
         titleOfSongField.setText(selectedSong.getTitle());
         chooseCategoryComboBox.setValue(selectedSong.getCategory());
         songPathField.setText(selectedSong.getPath());
@@ -187,5 +191,22 @@ public class NewSongController implements Initializable {
         titleOfSongField.setText(uMedia.getTitle());
         chooseCategoryComboBox.setValue(uMedia.getCategory());
         songPathField.setText(uMedia.getPath());    
+        songTimeField.setText(uMedia.getMedia().getDuration().toString());
+    }
+    
+    private void readDataFromTextFields()
+    {
+        if (selectedSong.getArtist().isEmpty())
+        {
+            selectedSong.setArtist(songArtistField.getText());
+        }
+        if (selectedSong.getTitle().isEmpty())
+        {
+            selectedSong.setArtist(songTimeField.getText());
+        }
+        if (selectedSong.getCategory().isEmpty())
+        {
+            selectedSong.setArtist(chooseCategoryComboBox.getValue());
+        }
     }
 }
