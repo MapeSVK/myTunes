@@ -118,7 +118,12 @@ public class UserMedia {
     {
         return time;
     }
-
+    
+    public Media getMedia()
+    {
+        return this.media;
+    }
+    
     public String getTimeString()
     {
         String seconds = Integer.toString(time/1000);

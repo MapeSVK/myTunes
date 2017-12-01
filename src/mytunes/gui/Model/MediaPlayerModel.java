@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
 import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
@@ -54,7 +55,16 @@ public class MediaPlayerModel
             {
                 throw new ModelException("No song selected!");
             }
-
+            
+            for (PlayList list : playlists) //Remove the song from all the playlists 
+            {
+                if (list.containsMedia(selectedMedia))
+                {
+                    list.removeMedia(selectedMedia);
+                }
+            }
+            
+            filteredList.remove(selectedMedia);
             allMedia.remove(selectedMedia);
             bllManager.deleteMedia(selectedMedia);
         }
@@ -119,14 +129,28 @@ public class MediaPlayerModel
     }
 
     
-    public void previousMedia()
+    public void previousMedia() throws ModelException
     {
-        
+        try
+        {
+            bllManager.next();
+        }
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
-    public void nextMedia()
+    public void nextMedia() throws ModelException
     {
-        
+        try
+        {
+            bllManager.previous();
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     public void volumeChanged()
@@ -151,6 +175,7 @@ public class MediaPlayerModel
         current.moveSongUp(index);
     }
     
+    //Change the place of a song in a playlist (move down)
     public void moveMediaDown(UserMedia selected, PlayList current) throws ModelException
     {
         if (selected == null)
@@ -168,6 +193,7 @@ public class MediaPlayerModel
         current.moveSongDown(index);
     }
     
+    //Remove a song from at selected playlist
     public void deleteMediaFromPlaylist(UserMedia mediaToDelete, PlayList selectedPlayList) throws ModelException 
     {
         if (mediaToDelete == null)
@@ -254,9 +280,17 @@ public class MediaPlayerModel
         categories.add(category);
     }
     
-    public void playMedia(PlayList playList) throws Exception
+    //Attempt to play the songs in the selected play list
+    public void playMedia() throws ModelException
     {
-        bllManager.play(playList);
+        try
+        {
+            bllManager.play();
+        }
+        catch (Exception ex)
+        {
+            throw new  ModelException(ex.getMessage());
+        }
     }
 
     //Get all songs, playlists and categories from the database on startup
@@ -276,18 +310,19 @@ public class MediaPlayerModel
             throw new ModelException(ex.getMessage());
         }
     }
-
+    
+    //Tries to create a new play list
     public void createNewPlayList(String playListName) throws ModelException
     {
         try
         {
             if (playListName.equals(""))
             {
-                throw new ModelException("Empty name!");
+                throw new ModelException("Empty name!");    //Do not create a playlist with an empty name
             }
+            
             PlayList p = new PlayList();
             p.setTitle(playListName);
-            System.out.println(p.toString());
             
             for (PlayList pl : playlists)   //Loop through the playlist and check their names
             {
@@ -364,5 +399,16 @@ public class MediaPlayerModel
     public ObservableList<String> getCategories()
     {
         return categories;
+    }
+    
+    public void getMetaData(String path)
+    {
+        bllManager.getMetaData(path);
+    }
+    
+    //Sets the current play list in the BLLManager.
+    public void setPlayList(PlayList list)
+    {
+        bllManager.setCurrentPlayList(list);
     }
 }

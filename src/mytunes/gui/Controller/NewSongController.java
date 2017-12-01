@@ -74,19 +74,17 @@ public class NewSongController implements Initializable {
         chooseCategoryComboBox.setItems(model.getCategories());
     }    
     
+    //Opens a new window that lets us select a file
     @FXML
     private void chooseFileClicked(ActionEvent event) 
     {
-            //TODO: finish this
-            FileChooser fc = new FileChooser(); //Open a file chooser dialog
-            fc.setTitle("Select a music file");
-            File file = fc.showOpenDialog(new Stage()); //Get the selected path
         try
         {
-            String path = file.toURI().toURL().toString();
+            FileChooser fc = new FileChooser(); //Open a file chooser dialog
+            fc.setTitle("Select a music file");
+            String path = fc.showOpenDialog(new Stage()).toURI().toURL().toString(); //Get the selected path
             System.out.println(path);
-            media = new Media(path);
-            getMetaData(media);
+            getMetaData(path);
         } 
         catch (MalformedURLException ex)
         {
@@ -197,13 +195,9 @@ public class NewSongController implements Initializable {
             saveData();
         }
     }
-    
-    private void getMetaData(Media media)
+
+    private void getMetaData(String path)
     {
-        ObservableMap<String, Object> metadata = media.getMetadata();
-        for (String key : metadata.keySet())
-        {
-            System.out.println(metadata.get(key));
-        }
+        model.getMetaData(path);
     }
 }
