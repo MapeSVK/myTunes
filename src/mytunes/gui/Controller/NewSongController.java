@@ -34,6 +34,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
+import mytunes.gui.Model.ModelException;
 
 /**
  * FXML Controller class
@@ -84,7 +85,8 @@ public class NewSongController implements Initializable {
             fc.setTitle("Select a music file");
             String path = fc.showOpenDialog(new Stage()).toURI().toURL().toString(); //Get the selected path
             System.out.println(path);
-            getMetaData(path);
+            UserMedia uMedia = getMetaData(path);
+            setFields(uMedia);
         } 
         catch (MalformedURLException ex)
         {
@@ -196,8 +198,29 @@ public class NewSongController implements Initializable {
         }
     }
 
-    private void getMetaData(String path)
+    private UserMedia getMetaData(String path)
     {
-        model.getMetaData(path);
+        try
+        {
+            return model.getMetaData(path);
+        } 
+        catch (ModelException ex)
+        {
+            showAlert(ex);
+        }
+        return null;
+    }
+
+    private void setFields(UserMedia uMedia)
+    {
+        if (uMedia == null)
+        {
+            return;
+        }
+        songArtistField.setText(uMedia.getArtist());
+        songTimeField.setText(uMedia.getTimeString());
+        titleOfSongField.setText(uMedia.getTitle());
+        chooseCategoryComboBox.setValue(uMedia.getCategory());
+        songPathField.setText(uMedia.getPath());    
     }
 }

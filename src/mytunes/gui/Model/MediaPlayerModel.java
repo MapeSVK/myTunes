@@ -401,9 +401,16 @@ public class MediaPlayerModel
         return categories;
     }
     
-    public void getMetaData(String path)
+    public UserMedia getMetaData(String path) throws ModelException
     {
-        bllManager.getMetaData(path);
+        try
+        {
+            return bllManager.getMetaData(path);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex.getMessage());
+        }
     }
     
     //Sets the current play list in the BLLManager.

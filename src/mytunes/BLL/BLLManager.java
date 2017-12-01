@@ -15,6 +15,7 @@ import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.MediaDBManager;
+import mytunes.dal.MetaReader;
 import mytunes.dal.PlayListDBManager;
 
 /**
@@ -24,6 +25,7 @@ import mytunes.dal.PlayListDBManager;
 public class BLLManager {
 
     private MediaDBManager mediaManager = new MediaDBManager();
+    private MetaReader metaReader = new MetaReader();
     private PlayListDBManager listManager = new PlayListDBManager();
     private MediaPlayer player;
     private List<String> categories = new ArrayList(); //A collection of categories
@@ -180,8 +182,15 @@ public class BLLManager {
        this.currentPlayList = list; 
     }
     
-    public UserMedia getMetaData(String path)
+    public UserMedia getMetaData(String path) throws BLLException
     {
-        
+        try
+        {
+            return metaReader.getMetaData(path);
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
     }
 }
