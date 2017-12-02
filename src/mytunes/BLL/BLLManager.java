@@ -5,13 +5,11 @@
  */
 package mytunes.BLL;
 
-import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
@@ -29,7 +27,7 @@ public class BLLManager {
     private MediaDBManager mediaManager = new MediaDBManager();
     private MetaReader metaReader = new MetaReader();
     private PlayListDBManager listManager = new PlayListDBManager();
-    private MediaPlayer player;
+    private Player player = new Player();
     private List<String> categories = new ArrayList(); //A collection of categories
     private PlayList currentPlayList;
 
@@ -88,13 +86,10 @@ public class BLLManager {
     {
         if (currentPlayList == null)
         {
-            throw new BLLException("No playlist selected");
+            throw new BLLException("No play list selected!");
         }
-        while  (true)
-        {
-            player = new MediaPlayer(currentPlayList.getCurrentlyPlaying().getMedia());
-            currentPlayList.next();
-        }
+        
+        player.play(currentPlayList);
     }
 
     public void next() throws BLLException
