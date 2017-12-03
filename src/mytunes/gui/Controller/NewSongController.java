@@ -111,6 +111,7 @@ public class NewSongController implements Initializable {
         closeWindow();
     }
 
+    //Attempt to save the new media
     @FXML
     private void saveSongClicked(ActionEvent event) 
     {     
@@ -146,13 +147,21 @@ public class NewSongController implements Initializable {
     //If we have a selection, use it to fill out the inputs
     public void fillData()
     {
-        selectedSong = model.getSelectedMedia();
-        
-        songArtistField.setText(selectedSong.getArtist());
-        songTimeField.setText(selectedSong.getTime() + "");
-        titleOfSongField.setText(selectedSong.getTitle());
-        chooseCategoryComboBox.setValue(selectedSong.getCategory());
-        songPathField.setText(selectedSong.getPath());
+        try
+        {
+            selectedSong = model.getSelectedMedia();
+            
+            songArtistField.setText(selectedSong.getArtist());
+            songTimeField.setText(selectedSong.getTime() + "");
+            titleOfSongField.setText(selectedSong.getTitle());
+            chooseCategoryComboBox.setValue(selectedSong.getCategory());
+            songPathField.setText(selectedSong.getPath());
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     private void showAlert(Exception ex)
@@ -166,7 +175,8 @@ public class NewSongController implements Initializable {
         Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
         stage.close();
     }
-
+    
+    //Get the metadata of the file indicated by the URI
     private UserMedia getMetaData(URI path)
     {
         try

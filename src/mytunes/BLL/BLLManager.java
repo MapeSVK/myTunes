@@ -6,11 +6,9 @@
 package mytunes.BLL;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.media.MediaPlayer;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
@@ -22,176 +20,88 @@ import mytunes.dal.PlayListDBManager;
  *
  * @author sebok
  */
-public class BLLManager {
-
-    private MediaDBManager mediaManager = new MediaDBManager();
+public class BLLManager 
+{    
+    private PlayList selectedPlayList; //The currently selected play list
+    private UserMedia selectedMedia; //The currently selected media
+    
+    private MediaObjectManager mediaObjectManager = new MediaObjectManager();
+    private PlayListManager playListManager = new PlayListManager();
     private MetaReader metaReader = new MetaReader();
-    private PlayListDBManager listManager = new PlayListDBManager();
-    private Player player = new Player();
-    private List<String> categories = new ArrayList(); //A collection of categories
-    private PlayList currentPlayList;
-
-    public void deleteMedia(UserMedia selectedMedia) throws BLLException {
-        
-        if (selectedMedia == null)
-        {
-            throw new BLLException("No song selected song!");
-        }
-        
-        try 
-        {
-            mediaManager.removeMedia(selectedMedia);
-        }
-        catch (DAException ex) {
-            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
-            throw new BLLException(ex);
-        }
+    
+    //Load the information of the stored media from the DB
+    public List<UserMedia> loadMedia() throws BLLException
+    {
+        return mediaObjectManager.getMedia();
     }
 
-    public void deletePlayList(PlayList selected) throws BLLException, DAException {
-        if (selected == null) {
+    //Set the selected playlist to the new selection (for example, when the selection inside the plasListTableView changes)
+    public void setSelectedPLayList(PlayList selected) throws BLLException
+    {
+        if (selected == null)
+        {
             throw new BLLException("No playlist selected!");
         }
-
-        //If the playlist is not empty, delete the song first
-        if (!selected.isEmpty()) {
-            //Delete the song from the DB
-            for (UserMedia media : selected.getMediaList()) {
-                removeMediaFromPlayList(media, selected);
-            }
-            selected.clearMediaList();
-        }
-        listManager.deletePlayList(selected);
-    }
-
-    //Save a new song to the DB
-    public void addNewMedia(UserMedia newMedia) throws BLLException {
-        try {
-            mediaManager.saveMedia(newMedia);
-        }
-        catch (DAException ex) {
-            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
-            throw new BLLException(ex);
-        }
-    }
-
-    public void addNewPlayList(PlayList pl) throws DAException 
-    {
-        listManager.saveList(pl);
-    }
-
-    //Attemt to play all the media in the selected playlist
-    //TODO: finish the player (associate the the file with the path with a Media object)
-    public void play() throws BLLException 
-    {
-        if (currentPlayList == null)
-        {
-            throw new BLLException("No play list selected!");
-        }
         
-        player.play(currentPlayList);
-    }
-
-    public void next() throws BLLException
-    {
-        if (currentPlayList == null)
-        {
-            throw new BLLException("No playlist selected");
-        }
-        
-        currentPlayList.next();
-    }
-
-    public void previous() throws BLLException
-    {
-        if (currentPlayList == null)
-        {
-            throw new BLLException("No playlist selected");
-        }
-        
-        currentPlayList.previous();
-    }
-
-    //Use the DAL to load the songs, and categories
-    public List<UserMedia> loadMedia() throws BLLException {
-        try {
-            List<UserMedia> media = mediaManager.getMedia();
-
-            for (UserMedia userMedia : media) //Loop through each song
-            {
-                if (!categories.contains(userMedia.getCategory())) //If its category is not yet saved, add it to the category list
-                {
-                    categories.add(userMedia.getCategory());
-                }
-            }
-            return media;
-        }
-        catch (DAException ex) {
-            throw new BLLException(ex);
-        }
-    }
-
-    public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
-        try {
-            listManager.saveMediaToList(selectedPlayList, selectedMedia);
-        }
-        catch (DAException ex) {
-            throw new BLLException(ex);
-        }
-    }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void updateMedia(UserMedia selectedMedia) throws BLLException {
-        try {
-            mediaManager.editMedia(selectedMedia);
-        }
-        catch (DAException ex) {
-            Logger.getLogger(BLLManager.class.getName()).log(Level.SEVERE, null, ex);
-            throw new BLLException(ex);
-        }
-    }
-
-    public List<PlayList> getPlayLists() throws BLLException {
-        try {
-            return listManager.getPlayLists();
-        }
-        catch (DAException ex) {
-            throw new BLLException(ex);
-        }
-    }
-
-    //Remove a song from a play list in the DB
-    public void removeMediaFromPlayList(UserMedia mediaToDelete, PlayList selectedPlayList) throws BLLException {
-        try {
-            listManager.deleteMediaFromList(selectedPlayList, mediaToDelete);
-        }
-        catch (DAException ex) {
-            throw new BLLException(ex);
-        }
-    }
-
-    public void updatePlayList(PlayList selectedPlayList) throws BLLException {
-        try {
-            listManager.editPlaylist(selectedPlayList);
-        }
-        catch (DAException ex) {
-            throw new BLLException(ex);
-        }
-    }
-
-    public void setCurrentPlayList(PlayList list)
-    {
-       this.currentPlayList = list; 
+        this.selectedPlayList = selected;
     }
     
+    //Set the selected media to the new selection (for example, when the selection inside the songsTableView changes)
+    public void setSelectedPMedia(UserMedia selected) throws BLLException
+    {
+        if (selected == null)
+        {
+            throw new BLLException("No song  selected!");
+        }
+        
+        this.selectedMedia = selected;
+    }
+    
+    //Return the selected play list
+    public PlayList getSelectedPlayList() throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        return selectedPlayList;
+    }
+    
+    //Return the selected media
+    public UserMedia getSelectedMedia()throws BLLException
+    {
+        if (selectedMedia == null)
+        {
+            throw new BLLException("No media selected!");
+        }
+        
+        return this.selectedMedia;
+    }
+    
+    //Attempt to save a playlist to the DN
+    public void saveNewPlayList(PlayList newPlayList) throws BLLException
+    {
+        playListManager.saveNewPlayList(newPlayList);
+    }
+    
+    //Attempt to update a play list in the DB
+    public void updatePlayList(PlayList selectedPlayList) throws BLLException
+    {
+        playListManager.updatePlayList(selectedPlayList);
+    }
+
+    public void addNewMedia(UserMedia selectedSong) throws BLLException
+    {
+        mediaObjectManager.addNew(selectedSong);
+    }
+    
+    //Attempts to retrieve the metadata of the file associated with the URI
     public UserMedia getMetaData(URI path) throws BLLException
     {
         try
         {
-            return metaReader.getMetaData( path);
+            return metaReader.getMetaData(path);
         } 
         catch (DAException ex)
         {

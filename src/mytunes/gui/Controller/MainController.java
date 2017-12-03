@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -99,6 +100,7 @@ public class MainController implements Initializable
     
     private MediaPlayerModel model;
 
+
     public void initialize(URL url, ResourceBundle rb) {        
         next.setImage(img_next);
         previous.setImage(img_previous);
@@ -118,45 +120,9 @@ public class MainController implements Initializable
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getMedia());
         
-        
-        //Create a new listener and bind it to the play list tableView. Used to update the listview of the current playlist, when the selection changes
-        playlistTableView.getSelectionModel().selectedItemProperty().addListener(
-            new ChangeListener()
-            {
-                @Override
-                public void changed(ObservableValue observable, Object oldValue, Object newValue)
-                {
-                    updateListView();
-                }
-        }
-        );
-        
-        //Add a new event handler, so that search can be performed by pressing enter
-        searchField.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
-            {
-                if (event.getCode() == KeyCode.ENTER)
-                {
-                    String searchString = searchField.getText();
-                    searchForString(searchString);
-                }
-            }
-        });
+        setListenersAndEventHandlers();
     }    
-
-    //Update the listView to show the songs found in the selected play list, and update the BLLManager to contain the latest selection
-    private void updateListView()
-    {
-        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        if (selectedPlayList != null)
-        {
-            playlistSongsListView.setItems(selectedPlayList.getMediaList());
-            model.setPlayList(selectedPlayList);
-        }
-    }
-    
+       
     private void setUpPlayListCellFactories()
     {
         //Set up cell factories
@@ -185,302 +151,31 @@ public class MainController implements Initializable
         songsColumArtist.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
         songsColumnCategory.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
         songsColumnTime.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
-
-    }
-
-    
-    @FXML
-    private void nextArrowClicked(MouseEvent event) 
-    {
-        try
-        {
-            model.nextMedia();
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
-    @FXML
-    private void previousArrowClicked(MouseEvent event)
-    {
-        try
-        {
-            model.previousMedia();
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Attempt to play the songs in the selected playlist
-    @FXML
-    private void playArrowClicked(MouseEvent event) {
-        try
-        {
-            PlayList playList = playlistTableView.getSelectionModel().getSelectedItem(); //Get the selected playlist
-            songName.setText("Currently playing: " + playList.getCurrentlyPlaying().getTitle()); //Get the currently playing song, and set the label text to its title
-            model.playMedia();  //Attempt to play the songs
-        } 
-        catch (Exception ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Searc the songs for the entered text
-    @FXML
-    private void searchClicked(MouseEvent event) 
-    {
-        String searchString = searchField.getText();
-        searchForString(searchString);
-    }
-    
-    //Runs when the user clicks the "Search" button (image), or presses enter while inside the searchbox
-    private void searchForString(String searchString)
-    {
-        model.searchForMedia(searchString);
-    }
-
-    //Adds a selected song to the selected playlist
-    @FXML
-    private void addArrowClicked(MouseEvent event) 
-    {
-        try
-        {
-            UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
-            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-            
-            model.addSongToPlaylist(selectedSong, selectedPlayList);
-        }
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Deletes the slected song from the playlists it is on
-    @FXML
-    private void deleteSongFromPlaylistClicked(ActionEvent event) 
-    {
-        try
-        {
-            UserMedia selectedSong = playlistSongsListView.getSelectionModel().getSelectedItem();
-            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-            
-            model.deleteMediaFromPlaylist(selectedSong, selectedPlayList);
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Opens a new window whixh allows us to name a new window
-    @FXML
-    private void addNewPlaylistClicked(ActionEvent event)
-    {
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
-            
-            Parent root1 = (Parent) fxmlLoader.load();
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } 
-        catch (IOException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Opens a the same window that thw addNewPlayList() uses, but fills out the text field with the name of the selected playlist.
-    //Allows us to change the name of said playlist
-    @FXML
-    private void editPlaylistClicked(ActionEvent event) 
-    {
-        try
-        {
-            PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-            model.editPlaylist(selectedPlayList);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
-            
-            Parent root1 = (Parent) fxmlLoader.load();
-            
-            NewPlayListController controller = fxmlLoader.getController();
-            controller.setText(playlistTableView.getSelectionModel().getSelectedItem());
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } 
-        catch (Exception ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
-    //Try to delete the selected playlist
-    @FXML
-    private void deletePlaylistClicked(ActionEvent event) 
-    {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete this play list?", ButtonType.YES, ButtonType.NO);
-        Optional<ButtonType> selection = a.showAndWait();
-        
-        if (selection.get() == ButtonType.NO)
-        {
-            return;
-        }
-        
-        try
-        {
-            PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
-            model.deletePlaylist(selected);
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Move the selected song up on the playlist
-    @FXML
-    private void upArrowClicked(MouseEvent event) 
-    {
-        try
-        {
-            UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
-            PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
-            model.moveSelectionUp(selcted, current);
-            
-            playlistSongsListView.getSelectionModel().select(selcted);
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Move the selected song down on the playlist
-    @FXML
-    private void downArrowClicked(MouseEvent event) 
-    {
-        try
-        {
-            UserMedia selcted = playlistSongsListView.getSelectionModel().getSelectedItem();
-            PlayList current = playlistTableView.getSelectionModel().getSelectedItem();
-            model.moveMediaDown(selcted, current);
-            
-            playlistSongsListView.getSelectionModel().select(selcted);
-        }
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
-    //Create new window to add a new song
-    @FXML
-    private void addNewSongClicked(ActionEvent event)
-    {
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } 
-        catch (IOException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-    
-    //Create new window to edit a song
-    @FXML
-    private void editSongClicked(ActionEvent event)
-    {
-        try
-        {
-            UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
-            model.editMedia(selectedSong);
-            
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            
-            NewSongController controller = fxmlLoader.getController();
-            controller.fillData();
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } 
-        catch (Exception ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
-    //Try to delete the selected song from the table view
-    @FXML
-    private void deleteSongClicked(ActionEvent event) 
-    {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete the song?", ButtonType.YES, ButtonType.NO);
-        Optional<ButtonType> selection = a.showAndWait();
-        
-        if (selection.get() == ButtonType.NO)
-        {
-            return;
-        }
-        
-        UserMedia selectedSong = songsTableView.getSelectionModel().getSelectedItem();
-        try
-        {
-            model.deleteMedia(selectedSong);
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
     }
   
-    /**
-     * Closes the window
-     * @param event 
-     */
-    @FXML
-    private void closeAppClicked(ActionEvent event)
+    //Update the listView to show the songs found in the selected play list, and update the BLLManager to contain the latest selection
+    private void updateListView()
     {
-        Stage stage = (Stage) volumeController.getScene().getWindow();
-        stage.close();
-    }
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
 
-    //Loads all media on startup.
-    //The filter is currently a placeholder
+        playlistSongsListView.setItems(selectedPlayList.getMediaList());
+        try
+        {
+            model.setSelectedPlayList(selectedPlayList);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
+ 
+    //Call a method to load data from the DB
     private void loadMedia()
     {
         try
         {
-            model.loadMedia();
+            model.loadDataFromDB();
         } 
         catch (ModelException ex)
         {
@@ -488,12 +183,125 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
+    
+    //Set up listeners
+    private void setListenersAndEventHandlers()
+    {
+        //Update the list view containing the songs in the selected play list, whenever a new play list is selected
+        playlistTableView.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener()
+            {
+                @Override
+                public void changed(ObservableValue observable, Object oldValue, Object newValue)
+                {
+                    updateListView();
+                }
+        }
+        );
+        
+        //Add a new event handler, so that search can be performed by pressing enter
+        searchField.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                if (event.getCode() == KeyCode.ENTER)
+                {
+                    String searchString = searchField.getText();
+                    searchForString(searchString);
+                }
+            }
+        });
+    }
 
-    //Shows an alert window with the description of the error
-    private void showAlert(Exception ex)
+    @FXML
+    private void nextArrowClicked()
+    {
+        
+    }
+    
+    
+    @FXML
+    private void previousArrowClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void playArrowClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void searchClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void addArrowClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void addNewPlaylistClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void editPlaylistClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void deletePlaylistClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void deleteSongFromPlaylistClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void upArrowClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void downArrowClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void addNewSongClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void editSongClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void closeAppClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void deleteSongClicked(ActionEvent event)
+    {
+    }
+
+    
+    private void searchForString(String search)
+    {
+       model.searchString(search);
+    }
+    
+    //Show a new alert window, with the text of the error
+    private void showAlert(ModelException ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
     }
-    
+
 }

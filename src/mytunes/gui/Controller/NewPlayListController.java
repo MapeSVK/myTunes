@@ -56,7 +56,14 @@ public class NewPlayListController implements Initializable
         });
         
         model = MediaPlayerModel.getInstance();
-        this.selectedPlayList = model.getSelectedPlayList();
+        try
+        {
+            this.selectedPlayList = model.getSelectedPlayList();
+        } 
+        catch (ModelException ex)
+        {
+            showAlert(ex);
+        }
     }    
 
     @FXML
