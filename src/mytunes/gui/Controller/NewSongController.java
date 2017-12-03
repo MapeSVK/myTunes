@@ -191,7 +191,7 @@ public class NewSongController implements Initializable {
         titleOfSongField.setText(uMedia.getTitle());
         chooseCategoryComboBox.setValue(uMedia.getCategory());
         songPathField.setText(uMedia.getPath());    
-        songTimeField.setText(uMedia.getMedia().getDuration().toString());
+        songTimeField.setText(Integer.toString(uMedia.getTime()));
     }
     
     private void readDataFromTextFields()

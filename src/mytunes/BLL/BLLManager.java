@@ -191,7 +191,7 @@ public class BLLManager {
     {
         try
         {
-            return metaReader.getMetaData( path);
+            return metaReader.getMetaData(path);
         } 
         catch (DAException ex)
         {
