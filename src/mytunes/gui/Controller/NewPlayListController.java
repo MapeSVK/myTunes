@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import mytunes.be.Mode;
 import mytunes.be.PlayList;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
@@ -34,8 +35,10 @@ public class NewPlayListController implements Initializable
     @FXML
     private TextField txtFieldName;
 
-    private PlayList selectedPlayList;
+    private PlayList list;
     private MediaPlayerModel model;
+    
+    private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
     /**
      * Initializes the controller class.
      */
@@ -56,7 +59,30 @@ public class NewPlayListController implements Initializable
         });
         
         model = MediaPlayerModel.getInstance();
-        this.selectedPlayList = model.getSelectedPlayList();
+        try
+        {
+            if (model.getPlayListMode() == Mode.EDIT)
+            {
+                mode = Mode.EDIT;
+                list = model.getSelectedPlayList();
+                setText(list);
+            }
+            else
+            {
+                mode = Mode.NEW;
+                list = new PlayList();
+            }
+        }
+        catch(ModelException ex)
+        {
+            Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
+        catch (Exception ex)
+        {
+            Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }    
 
     @FXML
@@ -77,14 +103,14 @@ public class NewPlayListController implements Initializable
         try
         {
             String playListName = txtFieldName.getText();
-            if (selectedPlayList == null)   //If the selectedPlayList is null, we are creating a new play list
+            if (mode == Mode.NEW)   //If the selectedPlayList is null, we are creating a new play list
             {
                 model.createNewPlayList(playListName);
             }
             else
             {
-                selectedPlayList.setTitle(playListName);
-                model.updatePlayList(selectedPlayList);
+                list.setTitle(playListName);
+                model.updatePlayList(list);
             }
         } 
         catch (ModelException ex)
@@ -92,7 +118,7 @@ public class NewPlayListController implements Initializable
             Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-        
+       
         closeWindow();
     }
     

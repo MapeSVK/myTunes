@@ -17,6 +17,11 @@ public class ModelException extends Exception
         super(message);
     }
 
+    public ModelException(Exception ex)
+    {
+        super(ex.getMessage());
+    }
+    
     @Override
     public String getMessage()
     {

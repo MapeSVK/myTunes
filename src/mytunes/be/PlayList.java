@@ -27,13 +27,9 @@ public class PlayList {
     private final IntegerProperty timeInMS = new SimpleIntegerProperty();
     private int currentlyPlayingIndex;
 
-<<<<<<< HEAD
-    
-    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex)
+
+    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex) 
     {
-=======
-    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex) {
->>>>>>> c1ee9e22985925f60de7eb4bf9f2b56d4050f5bc
         this.currentlyPlayingIndex = currentlyPlayingIndex;
     }
 
@@ -158,37 +154,29 @@ public class PlayList {
     }
 
     //Move the song with the specified index up
-    public void moveSongUp(int index) {
+    public void moveSongUp(int index) 
+    {
         UserMedia switchSong = mediaList.get(index - 1);
         mediaList.set(index - 1, mediaList.get(index));
         mediaList.set(index, switchSong);
     }
 
     //Move the song with the specified index up
-    public void moveSongDown(int index) {
+    public void moveSongDown(int index) 
+    {
         UserMedia switchSong = mediaList.get(index + 1);
         mediaList.set(index + 1, mediaList.get(index));
         mediaList.set(index, switchSong);
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
 
-    public UserMedia getCurrentlyPlaying() {
+    public UserMedia getCurrentlyPlaying() 
+    {
         return mediaList.get(currentlyPlayingIndex);
-    }
-
-    public void next() {
-        if (currentlyPlayingIndex < mediaList.size() - 1) {
-            currentlyPlayingIndex++;
-        }
-    }
-
-    public void previous() {
-        if (currentlyPlayingIndex > 0) {
-            currentlyPlayingIndex--;
-        }
     }
 }
