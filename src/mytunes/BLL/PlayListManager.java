@@ -5,6 +5,9 @@
  */
 package mytunes.BLL;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.PlayList;
 import mytunes.dal.DAException;
 import mytunes.dal.PlayListDBManager;
@@ -35,6 +38,19 @@ public class PlayListManager
         {
            listDBManager.editPlaylist(selectedPlayList);
         }
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+    
+    //Attempt to load the play list from the DB
+    List<PlayList> loadPlayLists() throws BLLException
+    {
+        try
+        {
+            return listDBManager.getPlayLists();
+        } 
         catch (DAException ex)
         {
             throw new BLLException(ex);

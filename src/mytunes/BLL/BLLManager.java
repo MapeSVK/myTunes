@@ -35,6 +35,12 @@ public class BLLManager
         return mediaObjectManager.getMedia();
     }
     
+    //Attempt to retrieve the play list stores in the DB
+    public List<PlayList> loadPlayLists() throws BLLException
+    {
+        return playListManager.loadPlayLists();
+    }
+    
     public List<String> getCategories() throws BLLException
     {
         return mediaObjectManager.getCategories();
@@ -132,5 +138,16 @@ public class BLLManager
         {
             throw new BLLException(ex);
         }
+    }
+    
+    //Attempt to remove the media instance from the list and the DB
+    public void removeMedia(UserMedia selected) throws BLLException
+    {
+        if (selected == null)
+        {
+            throw new BLLException("No song selected!");
+        }
+        
+        mediaObjectManager.remove(selected);
     }
 }

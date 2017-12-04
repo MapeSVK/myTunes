@@ -123,6 +123,7 @@ public class NewSongController implements Initializable {
     private void saveSongClicked(ActionEvent event)
     {
         saveDataFromTextFields();
+        closeWindow();
     }
     
     //Save the song when the "Enter" key is pressed, and close the window
@@ -132,6 +133,7 @@ public class NewSongController implements Initializable {
         if (event.getCode() == KeyCode.ENTER)
         {
             saveDataFromTextFields();
+            closeWindow();
         }
     }
 
@@ -190,14 +192,24 @@ public class NewSongController implements Initializable {
     //Read the data from the text fields, and save it to the UserMedia instance
     private void saveDataFromTextFields()
     {
-        String artist = songArtistField.getText();
-        String title = titleOfSongField.getText();
-        String path = songPathField.getText();
-        String category = chooseCategoryComboBox.getValue();
-        
-        media.setArtist(artist);
-        media.setTitle(title);
-        media.setCategory(category);
-        media.setPath(path);
+        try
+        {
+            String artist = songArtistField.getText();
+            String title = titleOfSongField.getText();
+            String path = songPathField.getText();
+            String category = chooseCategoryComboBox.getValue();
+            
+            media.setArtist(artist);
+            media.setTitle(title);
+            media.setCategory(category);
+            media.setPath(path);
+            
+            model.addNewMedia(media);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 }

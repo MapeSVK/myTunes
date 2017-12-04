@@ -7,6 +7,8 @@ package mytunes.BLL;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.MediaDBManager;
@@ -60,6 +62,19 @@ public class MediaObjectManager
         try
         {
             mediaDBManager.saveMedia(selectedSong);
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+    
+    //Attempt to remove the selected object from the DB
+    void remove(UserMedia selected) throws BLLException
+    {
+        try
+        {
+            mediaDBManager.removeMedia(selected);
         } 
         catch (DAException ex)
         {

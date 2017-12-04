@@ -217,6 +217,24 @@ public class MainController implements Initializable
 //******************************************************************************************************************************************************************//
 //GUI controls events
     
+    //Remove a media from the table view and the DB
+    @FXML
+    private void deleteSongClicked(ActionEvent event)
+    {
+        UserMedia selected = songsTableView.getSelectionModel().getSelectedItem();
+        
+        try
+        {
+            model.removeMedia(selected);
+        }
+        catch(ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+
+        }
+    }
+    
     @FXML
     private void nextArrowClicked()
     {
@@ -266,11 +284,6 @@ public class MainController implements Initializable
     {
     }
 
-
-    @FXML
-    private void deleteSongClicked(ActionEvent event)
-    {
-    }
     
 //******************************************************************************************************************************************************************//
 //Editor windows

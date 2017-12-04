@@ -5,18 +5,14 @@
  */
 package mytunes.gui.Model;
 
-import java.io.File;
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.media.Media;
 import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
-import mytunes.dal.DAException;
 
 /**
  * Model class, responsible for separating the data from the display 
@@ -32,6 +28,19 @@ public class MediaPlayerModel
     private BLLManager bllManager = new BLLManager();
         
     private static MediaPlayerModel instance;
+    
+    public MediaPlayerModel()
+    {
+        allMedia.addListener(new ListChangeListener<UserMedia>()    //Set up a change listener, so we can update the filtered list, when the main list changes
+        {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends UserMedia> c)
+            {
+                filteredList.clear();
+                filteredList.addAll(allMedia);
+            }
+        });
+    }
     
     //If the model already have an instance return it.
     //Otherwise create a new instance, and return that.
@@ -63,8 +72,8 @@ public class MediaPlayerModel
         try
         {
             allMedia.addAll(bllManager.loadMedia());
+            playlists.addAll(bllManager.loadPlayLists());
             categories.addAll(bllManager.getCategories());
-            filteredList = allMedia;
         } 
         catch (BLLException ex)
         {
@@ -216,6 +225,7 @@ public class MediaPlayerModel
         try 
         {
             bllManager.addNewMedia(selectedSong);
+            allMedia.add(selectedSong);
         }
         catch (BLLException ex)
         {
@@ -244,6 +254,20 @@ public class MediaPlayerModel
             return bllManager.getMetaData(path);
         } 
         catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+    }
+
+    //Attempt to remove the media instance from the list and the DB
+    public void removeMedia(UserMedia selected) throws ModelException
+    {
+        try
+        {
+           bllManager.removeMedia(selected);
+           allMedia.remove(selected);
+        }
+        catch(BLLException ex)
         {
             throw new ModelException(ex);
         }
