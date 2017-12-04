@@ -298,9 +298,9 @@ public class MediaPlayerModel
         try
         {
             allMedia.clear();
-            allMedia.addAll(bllManager.loadMedia()); //Get the songs
+            allMedia.addAll(bllManager.getAllMedia()); //Get the songs
             categories.addAll(bllManager.getCategories());  //Get the categories
-            playlists.addAll(bllManager.getPlayLists());
+            playlists.addAll(bllManager.getAllPlayList());
             filteredList.addAll(allMedia);
         } 
         catch (BLLException ex)

@@ -26,6 +26,14 @@ import org.jaudiotagger.tag.vorbiscomment.VorbisCommentTag;
  */
 public class MetaReader {
 
+    /**
+     * Reads the metadata from the media file at the given location and puts
+     * the appropriate data to a UserMedia and returns it.
+     * 
+     * @param path
+     * @return UserMedia
+     * @throws DAException 
+     */
     public UserMedia getMetaData(URI path) throws DAException {
         UserMedia tempmedia = new UserMedia();
         try {
@@ -49,7 +57,7 @@ public class MetaReader {
                 tempmedia.setTime(header.getTrackLength());
             } else {
                 Tag tag = audiofile.getTag();
-
+                
                 tempmedia.setTitle(tag.getFirst(FieldKey.TITLE));
                 tempmedia.setArtist(tag.getFirst(FieldKey.ARTIST));
                 tempmedia.setCategory(tag.getFirst(FieldKey.GENRE));

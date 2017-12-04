@@ -27,14 +27,17 @@ public class PlayList {
     private final IntegerProperty timeInMS = new SimpleIntegerProperty();
     private int currentlyPlayingIndex;
 
+<<<<<<< HEAD
     
     public void setCurrentlyPlayingIndex(int currentlyPlayingIndex)
     {
+=======
+    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex) {
+>>>>>>> c1ee9e22985925f60de7eb4bf9f2b56d4050f5bc
         this.currentlyPlayingIndex = currentlyPlayingIndex;
     }
-    
-    public int getTimeInMS()
-    {
+
+    public int getTimeInMS() {
         return timeInMS.get();
     }
     
@@ -53,172 +56,138 @@ public class PlayList {
     
     
 
-    public void setTimeInMS(int value)
-    {
+    public void setTimeInMS(int value) {
         timeInMS.set(value);
     }
 
-    public IntegerProperty timeInMSProperty()
-    {
+    public IntegerProperty timeInMSProperty() {
         return timeInMS;
     }
-    
-    public PlayList() 
-    {
+
+    public PlayList() {
     }
 
-    public PlayList(int id, String title)
-    {
+    public PlayList(int id, String title) {
         this.id.set(id);
         this.title.set(title);
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title.get();
     }
 
-    public void setTitle(String value)
-    {
+    public void setTitle(String value) {
         title.set(value);
     }
 
-    public StringProperty titleProperty()
-    {
+    public StringProperty titleProperty() {
         return title;
     }
-    
-    public int getId()
-    {
+
+    public int getId() {
         return id.get();
     }
 
-    public void setId(int value)
-    {
+    public void setId(int value) {
         id.set(value);
     }
 
-    public IntegerProperty idProperty()
-    {
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    public ObservableList<UserMedia> getMediaList() 
-    {
+    public ObservableList<UserMedia> getMediaList() {
         return mediaList;
     }
 
-    public void setMediaList(ObservableList<UserMedia> mediaList) 
-    {
+    public void setMediaList(ObservableList<UserMedia> mediaList) {
         this.mediaList = mediaList;
     }
 
-    public int getCount()
-    {
+    public int getCount() {
         this.count = mediaList.size();
         return count;
     }
-    
+
     //Add a song to the playlist
-    public void addMedia(UserMedia selectedMedia)
-    {
+    public void addMedia(UserMedia selectedMedia) {
         mediaList.add(selectedMedia);
     }
-    
+
     //Remove the selected song from this playlist
-    public void removeMedia(UserMedia mediaToDelete)
-    {
+    public void removeMedia(UserMedia mediaToDelete) {
         mediaList.remove(mediaToDelete);
-        for (int i = 0; i < mediaList.size(); i++)
-        {
-            if (mediaList.get(i).getId() == mediaToDelete.getId())
-            {
+        for (int i = 0; i < mediaList.size(); i++) {
+            if (mediaList.get(i).getId() == mediaToDelete.getId()) {
                 mediaList.remove(mediaList.get(i));
             }
         }
     }
-    
+
     //Check if a song is already in the playlist
-    public boolean containsMedia(UserMedia media)
-    {
+    public boolean containsMedia(UserMedia media) {
         //return mediaList.contains(media);
-        for (UserMedia userMedia : mediaList)
-        {
-            if (userMedia.getId() == media.getId())
-            {
+        for (UserMedia userMedia : mediaList) {
+            if (userMedia.getId() == media.getId()) {
                 return true;
             }
         }
         return false;
     }
-    
+
     //Checks if the list of song is empty
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return mediaList.isEmpty();
     }
-    
+
     //Clears all the song from the play list
-    public void clearMediaList()
-    {
+    public void clearMediaList() {
         mediaList.clear();
     }
-    
+
     //Gets the index of a song in the playlist
-    public int getIndexOfMedia(UserMedia selected)
-    {
+    public int getIndexOfMedia(UserMedia selected) {
         int i = -1;
-        
-        for (UserMedia media : mediaList)
-        {
+        for (UserMedia media : mediaList) {
             i++;
-            if (selected.equals(media))
-            {
+            if (selected.equals(media)) {
                 return i;
             }
         }
         return -1;
     }
-    
+
     //Move the song with the specified index up
-    public void moveSongUp(int index)
-    {
-        UserMedia switchSong = mediaList.get(index-1);
-        mediaList.set(index-1, mediaList.get(index));
+    public void moveSongUp(int index) {
+        UserMedia switchSong = mediaList.get(index - 1);
+        mediaList.set(index - 1, mediaList.get(index));
         mediaList.set(index, switchSong);
     }
-    
+
     //Move the song with the specified index up
-    public void moveSongDown(int index)
-    {
-        UserMedia switchSong = mediaList.get(index+1);
-        mediaList.set(index+1, mediaList.get(index));
+    public void moveSongDown(int index) {
+        UserMedia switchSong = mediaList.get(index + 1);
+        mediaList.set(index + 1, mediaList.get(index));
         mediaList.set(index, switchSong);
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "PlayList{ id=" + id + ", title=" + title + '}';
     }
 
-    public UserMedia getCurrentlyPlaying()
-    {
+    public UserMedia getCurrentlyPlaying() {
         return mediaList.get(currentlyPlayingIndex);
     }
 
-    public void next()
-    {
-        if (currentlyPlayingIndex < mediaList.size() - 1)
-        {
+    public void next() {
+        if (currentlyPlayingIndex < mediaList.size() - 1) {
             currentlyPlayingIndex++;
         }
     }
 
-    public void previous()
-    {
-        if (currentlyPlayingIndex > 0)
-        {
+    public void previous() {
+        if (currentlyPlayingIndex > 0) {
             currentlyPlayingIndex--;
         }
     }
