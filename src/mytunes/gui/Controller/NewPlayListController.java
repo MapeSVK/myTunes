@@ -65,6 +65,7 @@ public class NewPlayListController implements Initializable
             {
                 mode = Mode.EDIT;
                 list = model.getSelectedPlayList();
+                setText(list);
             }
             else
             {
@@ -73,6 +74,11 @@ public class NewPlayListController implements Initializable
             }
         }
         catch(ModelException ex)
+        {
+            Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
+        catch (Exception ex)
         {
             Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
@@ -112,7 +118,7 @@ public class NewPlayListController implements Initializable
             Logger.getLogger(NewPlayListController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-        
+       
         closeWindow();
     }
     

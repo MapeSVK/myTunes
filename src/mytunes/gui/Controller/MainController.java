@@ -158,7 +158,10 @@ public class MainController implements Initializable
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-
+        if (selectedPlayList == null)
+        {
+            return;
+        }
         playlistSongsListView.setItems(selectedPlayList.getMediaList());
         try
         {
@@ -342,7 +345,7 @@ public class MainController implements Initializable
 //******************************************************************************************************************************************************************//
 //Editor windows
     
-    
+    //Open a new window where we can add a new song
     @FXML
     private void addNewSongClicked(ActionEvent event)
     {
@@ -364,6 +367,7 @@ public class MainController implements Initializable
         }
     }
     
+    //Open an new window where we can edit an existing song
     @FXML
     private void editSongClicked(ActionEvent event)
     {        
@@ -393,6 +397,7 @@ public class MainController implements Initializable
 
     }
     
+    //Open a new window where we can add a new play list
     @FXML
     private void addNewPlaylistClicked(ActionEvent event)
     {
@@ -414,10 +419,34 @@ public class MainController implements Initializable
             showAlert(ex);
         } 
     }
-
+    
+    //Open a new window where we can edit an existing play list
     @FXML
     private void editPlaylistClicked(ActionEvent event)
     {
+        try
+        {   
+            model.setPlayListMode(Mode.EDIT);
+            model.setSelectedPlayList(playlistTableView.getSelectionModel().getSelectedItem());
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
     }
     
 //******************************************************************************************************************************************************************//

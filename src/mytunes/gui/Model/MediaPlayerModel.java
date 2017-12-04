@@ -6,6 +6,8 @@
 package mytunes.gui.Model;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -348,8 +350,15 @@ public class MediaPlayerModel
     public void removePlayList(PlayList selected) throws ModelException
     {
         if (selected != null)
-        {
-            //TODO: delete all song from a playlist before deleting said play list
+        {            
+            List<UserMedia> inList = new ArrayList<>();
+            
+            inList.addAll(selected.getMediaList());
+            
+            for (UserMedia userMedia : inList)  //Remove the UserMedia objects found in the play list before deleting it
+            {
+                removeMediaFromPlayList(userMedia, selected);
+            }
         }
         
         try
