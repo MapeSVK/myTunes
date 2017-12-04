@@ -19,11 +19,6 @@ public class PlayListManager
 
     void saveNewPlayList(PlayList newPlayList) throws BLLException
     {
-        if (newPlayList == null)
-        {
-            throw new BLLException("Play list does not exists!");
-        }
-        
         try
         {
             listDBManager.saveList(newPlayList);
@@ -31,7 +26,8 @@ public class PlayListManager
         catch (DAException ex)
         {
             throw new BLLException(ex);
-        }    }
+        }   
+    }
 
     void updatePlayList(PlayList selectedPlayList) throws BLLException
     {

@@ -7,16 +7,11 @@ package mytunes.gui.Controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.sql.Time;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,12 +22,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
@@ -58,42 +55,58 @@ public class NewSongController implements Initializable {
     private Button cancelNewSongButton;
     
     private MediaPlayerModel model;
-    private UserMedia selectedSong;
-   
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
-        model = MediaPlayerModel.getInstance();
-        chooseCategoryComboBox.setItems(model.getCategories());
-    }    
+    private UserMedia media;
     
-    //Opens a new window that lets us select a file
-    @FXML
-    private void chooseFileClicked(ActionEvent event) 
+    private enum Mode {NEW, EDIT}   
+    private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
     {
-        FileChooser fc = new FileChooser(); //Open a file chooser dialog
-        fc.setTitle("Select a music file");
-        File file = fc.showOpenDialog(new Stage());
-        URI path = file.toURI();
-        UserMedia uMedia = getMetaData(path);
-        uMedia.setMedia(new Media(path.toString()));
-        uMedia.setPath(path.getPath());
-        setFields(uMedia);
-        selectedSong = uMedia;
+        try
+        {
+            model = MediaPlayerModel.getInstance();            
+            chooseCategoryComboBox.setItems(model.getCategories());
+            if (model.hasSelectedMedia())
+            {
+                mode = Mode.EDIT;
+                media = model.getSelectedMedia();
+                fillData();
+            }
+            else
+            {
+                mode = Mode.NEW;
+                media = new UserMedia();
+            }
+        } catch (ModelException ex)
+        {
+            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
+    
+    //Open a file chooser dialog and read in the meta data of the selected file
+    @FXML
+    private void chooseFileClicked(ActionEvent event)
+    {
+        FileChooser fc = new FileChooser();
+        URI uri = fc.showOpenDialog(new ContextMenu()).toURI();
+        
+        media = getMetaData(uri);
+        fillData();
     }
 
-    //Open a new window, which lets us add a new, custom category
+    //Open a new window, that lets us add a new category tot he list
     @FXML
-    private void addNewCategoryClicked(ActionEvent event) 
-    {    
+    private void addNewCategoryClicked(ActionEvent event)
+    {
+        
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/CategoryAdd.fxml"));
+            
             Parent root1 = (Parent) fxmlLoader.load();
-                        
+            
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
@@ -104,119 +117,87 @@ public class NewSongController implements Initializable {
             showAlert(ex);
         }
     }
+    
+    //Save the song when the button is cliked, and close the window
+    @FXML
+    private void saveSongClicked(ActionEvent event)
+    {
+        saveDataFromTextFields();
+    }
+    
+    //Save the song when the "Enter" key is pressed, and close the window
+    @FXML
+    private void onKeyPressed(KeyEvent event)
+    {
+        if (event.getCode() == KeyCode.ENTER)
+        {
+            saveDataFromTextFields();
+        }
+    }
 
+    
+//*********************************************************************************************************************************************************** 
+//Helper methods
+    
+    //Retrieve the metadata of the file represented by the uri
+    private UserMedia getMetaData(URI uri)
+    {
+        UserMedia m = new UserMedia();
+        try
+        {
+            m = model.getMetaData(uri);
+        }
+        catch(ModelException ex)
+        {
+            showAlert(ex);
+        }
+        m.setPath(uri.getPath());
+        return m;
+    }
+    
+    //Close the window
     @FXML
     private void cancelNewSongClicked(ActionEvent event) 
     {
         closeWindow();
     }
-
-    //Attempt to save the new media
-    @FXML
-    private void saveSongClicked(ActionEvent event) 
-    {     
-        try
-        {
-            readDataFromTextFields();
-            model.addNewMedia(selectedSong);
-        } 
-        catch (ModelException ex)
-        {
-            showAlert(ex);
-        }
-    }
     
-    //Save the media, when the enter key is pressed
-    @FXML
-    private void onKeyPressed(KeyEvent event)
-    {
-        if (event.getCode().equals(KeyCode.ENTER))
-        {
-            try
-            {
-                readDataFromTextFields();
-                model.addNewMedia(selectedSong);
-            } 
-            catch (ModelException ex)
-            {
-                showAlert(ex);
-            }
-        }
-    }
-    
-    //If we have a selection, use it to fill out the inputs
-    public void fillData()
-    {
-        try
-        {
-            selectedSong = model.getSelectedMedia();
-            
-            songArtistField.setText(selectedSong.getArtist());
-            songTimeField.setText(selectedSong.getTime() + "");
-            titleOfSongField.setText(selectedSong.getTitle());
-            chooseCategoryComboBox.setValue(selectedSong.getCategory());
-            songPathField.setText(selectedSong.getPath());
-        } 
-        catch (ModelException ex)
-        {
-            Logger.getLogger(NewSongController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
+    //Show an alert window
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
     }
     
+    //Close this window
     private void closeWindow()
     {
         Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
         stage.close();
     }
     
-    //Get the metadata of the file indicated by the URI
-    private UserMedia getMetaData(URI path)
+    //Fill the textfields with the data of the media instance
+    private void fillData()
     {
-        try
-        {
-            return model.getMetaData(path);
-        } 
-        catch (ModelException ex)
-        {
-            showAlert(ex);
-        }
-        return null;
-    }
-
-    private void setFields(UserMedia uMedia)
-    {
-        if (uMedia == null)
-        {
-            showAlert(new Exception("Empty song!"));
-        }
-        songArtistField.setText(uMedia.getArtist());
-        songTimeField.setText(uMedia.getTimeString());
-        titleOfSongField.setText(uMedia.getTitle());
-        chooseCategoryComboBox.setValue(uMedia.getCategory());
-        songPathField.setText(uMedia.getPath());    
-        songTimeField.setText(uMedia.getMedia().getDuration().toString());
+        songArtistField.setText(media.getArtist());
+        titleOfSongField.setText(media.getTitle());
+        songTimeField.setText(media.getTimeString());
+        songPathField.setText(media.getPath());
+        
+        chooseCategoryComboBox.setValue(media.getCategory());
     }
     
-    private void readDataFromTextFields()
+    //Read the data from the text fields, and save it to the UserMedia instance
+    private void saveDataFromTextFields()
     {
-        if (selectedSong.getArtist().isEmpty())
-        {
-            selectedSong.setArtist(songArtistField.getText());
-        }
-        if (selectedSong.getTitle().isEmpty())
-        {
-            selectedSong.setArtist(songTimeField.getText());
-        }
-        if (selectedSong.getCategory().isEmpty())
-        {
-            selectedSong.setArtist(chooseCategoryComboBox.getValue());
-        }
+        String artist = songArtistField.getText();
+        String title = titleOfSongField.getText();
+        String path = songPathField.getText();
+        String category = chooseCategoryComboBox.getValue();
+        
+        media.setArtist(artist);
+        media.setTitle(title);
+        media.setCategory(category);
+        media.setPath(path);
     }
 }

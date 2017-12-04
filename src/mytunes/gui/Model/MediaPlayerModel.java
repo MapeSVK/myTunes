@@ -45,12 +45,25 @@ public class MediaPlayerModel
         return instance;
     }
     
+    //Check if we have selected a media object
+    public boolean hasSelectedMedia()
+    {
+        return bllManager.hasMedia();
+    }
+    
+    //Check if we have selected a PlayList object
+    public boolean hasSelectedPlayList()
+    {
+        return bllManager.hasPlayList();
+    }
+    
     //Attempt to load the information from the DB
     public void loadDataFromDB() throws ModelException
     {
         try
         {
             allMedia.addAll(bllManager.loadMedia());
+            categories.addAll(bllManager.getCategories());
             filteredList = allMedia;
         } 
         catch (BLLException ex)

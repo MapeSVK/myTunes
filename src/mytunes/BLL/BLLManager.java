@@ -34,7 +34,12 @@ public class BLLManager
     {
         return mediaObjectManager.getMedia();
     }
-
+    
+    public List<String> getCategories() throws BLLException
+    {
+        return mediaObjectManager.getCategories();
+    }
+    
     //Set the selected playlist to the new selection (for example, when the selection inside the plasListTableView changes)
     public void setSelectedPLayList(PlayList selected) throws BLLException
     {
@@ -79,9 +84,25 @@ public class BLLManager
         return this.selectedMedia;
     }
     
+    public boolean hasMedia()
+    {
+        return selectedMedia != null;
+    }
+
+    public boolean hasPlayList()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     //Attempt to save a playlist to the DN
     public void saveNewPlayList(PlayList newPlayList) throws BLLException
     {
+        if (newPlayList == null)
+        {
+            throw new BLLException("Play list does not exists!");
+        }
+        
         playListManager.saveNewPlayList(newPlayList);
     }
     
@@ -93,6 +114,10 @@ public class BLLManager
 
     public void addNewMedia(UserMedia selectedSong) throws BLLException
     {
+        if (selectedSong == null)
+        {
+            throw new BLLException("No media!");
+        }
         mediaObjectManager.addNew(selectedSong);
     }
     

@@ -214,12 +214,14 @@ public class MainController implements Initializable
         });
     }
 
+//******************************************************************************************************************************************************************//
+//GUI controls events
+    
     @FXML
     private void nextArrowClicked()
     {
         
-    }
-    
+    }   
     
     @FXML
     private void previousArrowClicked(MouseEvent event)
@@ -231,23 +233,16 @@ public class MainController implements Initializable
     {
     }
 
+    //Search for the string
     @FXML
     private void searchClicked(MouseEvent event)
     {
+        String searchString = searchField.getText();
+        searchForString(searchString);
     }
 
     @FXML
     private void addArrowClicked(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void addNewPlaylistClicked(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void editPlaylistClicked(ActionEvent event)
     {
     }
 
@@ -271,37 +266,95 @@ public class MainController implements Initializable
     {
     }
 
-    @FXML
-    private void addNewSongClicked(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void editSongClicked(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void closeAppClicked(ActionEvent event)
-    {
-    }
 
     @FXML
     private void deleteSongClicked(ActionEvent event)
     {
     }
-
     
+//******************************************************************************************************************************************************************//
+//Editor windows
+    
+    
+    @FXML
+    private void addNewSongClicked(ActionEvent event)
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
+    
+    @FXML
+    private void editSongClicked(ActionEvent event)
+    {        
+        try
+        {
+            model.setSelectedMedia(songsTableView.getSelectionModel().getSelectedItem());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+
+    }
+    
+    @FXML
+    private void addNewPlaylistClicked(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void editPlaylistClicked(ActionEvent event)
+    {
+    }
+    
+//******************************************************************************************************************************************************************//
+//Helper methods
+    
+    //Search the kist in the model for the give string
     private void searchForString(String search)
     {
        model.searchString(search);
     }
     
     //Show a new alert window, with the text of the error
-    private void showAlert(ModelException ex)
+    private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
+    }
+    
+    //Close the application
+    @FXML
+    private void closeAppClicked(ActionEvent event)
+    {
+        Stage stage = (Stage) play.getScene().getWindow();
+        stage.close();
     }
 
 }
