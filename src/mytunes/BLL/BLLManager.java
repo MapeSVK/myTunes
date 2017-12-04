@@ -150,4 +150,37 @@ public class BLLManager
         
         mediaObjectManager.remove(selected);
     }
+    
+    //Add the selected media to the selected play list
+    public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedMedia == null)
+        {
+            throw new BLLException("No media selected");
+        }
+        
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No play list selected!");
+        }
+        
+        playListManager.addMediaToPlayList(selectedMedia, selectedPlayList);
+    }
+    
+    //Remove the selected medi from the selected play list
+    public void removeMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+
+        if (selectedMedia == null)
+        {
+            throw new BLLException("No media selected");
+        }
+        
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No play list selected!");
+        }
+        
+        playListManager.removeSongFromPlayList(selectedMedia, selectedPlayList);
+    }
 }

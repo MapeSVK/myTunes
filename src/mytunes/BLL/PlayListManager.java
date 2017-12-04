@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mytunes.be.PlayList;
+import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.PlayListDBManager;
 
@@ -50,6 +51,31 @@ public class PlayListManager
         try
         {
             return listDBManager.getPlayLists();
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+    
+    //Update the selected play list in the DB
+    void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
+            listDBManager.saveMediaToList(selectedPlayList, selectedMedia);
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+
+    void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
+            listDBManager.deleteMediaFromList(selectedPlayList, selectedMedia);
         } 
         catch (DAException ex)
         {

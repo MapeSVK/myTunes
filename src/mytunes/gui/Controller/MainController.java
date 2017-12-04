@@ -220,7 +220,12 @@ public class MainController implements Initializable
     //Remove a media from the table view and the DB
     @FXML
     private void deleteSongClicked(ActionEvent event)
-    {
+    {   
+        if (showConfirmationDialog("Are you sure you want to delete this song?"))
+        {
+            return;
+        }
+        
         UserMedia selected = songsTableView.getSelectionModel().getSelectedItem();
         
         try
@@ -258,20 +263,55 @@ public class MainController implements Initializable
         String searchString = searchField.getText();
         searchForString(searchString);
     }
-
+    
+    //Add the selected song to the selected playlist
     @FXML
     private void addArrowClicked(MouseEvent event)
     {
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+        UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
+        
+        try
+        {
+            model.addMediaToPlayList(selectedMedia, selectedPlayList);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
     private void deletePlaylistClicked(ActionEvent event)
     {
+        if (showConfirmationDialog("Are you sure you want to delete this play list?"))
+        {
+            return;
+        }
     }
 
+    //Delete the selected song from the selected play list
     @FXML
     private void deleteSongFromPlaylistClicked(ActionEvent event)
     {
+        if (showConfirmationDialog("Are you sure you want to delete this song from the play list?"))
+        {
+            return;
+        }
+        
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+        UserMedia selectedMedia = playlistSongsListView.getSelectionModel().getSelectedItem();
+        
+        try
+        {
+            model.deleteMediaFromPlayList(selectedMedia, selectedPlayList);
+        } 
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     @FXML
@@ -369,5 +409,19 @@ public class MainController implements Initializable
         Stage stage = (Stage) play.getScene().getWindow();
         stage.close();
     }
-
+    
+    //Show a window with the specified prompt text
+    //Returns with the value the user selected (continue or not)
+    private boolean showConfirmationDialog(String prompt)
+    {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, prompt, ButtonType.YES, ButtonType.NO);
+        confirmation.showAndWait();
+        
+        if (confirmation.getResult() == ButtonType.NO)
+        {
+            return true;
+        }
+        
+        return false;
+    }
 }

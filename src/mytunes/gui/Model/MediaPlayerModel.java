@@ -6,6 +6,8 @@
 package mytunes.gui.Model;
 
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -143,6 +145,34 @@ public class MediaPlayerModel
         }
     }
     
+        
+    //Returns the currently selected playlist, which is stored in the BLL
+    public PlayList getSelectedPlayList() throws ModelException
+    {
+        try
+        {
+            return bllManager.getSelectedPlayList();
+        }
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+    }
+    
+        
+    //Return the currently selected media
+    public UserMedia getSelectedMedia() throws ModelException
+    {
+        try
+        {
+            return bllManager.getSelectedMedia();
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+    }
+    
     //Filter the songs based on the supplied string
     public void searchString(String search)
     {
@@ -159,19 +189,6 @@ public class MediaPlayerModel
             {
                 filteredList.add(userMedia);
             }
-        }
-    }
-    
-    //Returns the currently selected playlist, which is stored in the BLL
-    public PlayList getSelectedPlayList() throws ModelException
-    {
-        try
-        {
-            return bllManager.getSelectedPlayList();
-        }
-        catch (BLLException ex)
-        {
-            throw new ModelException(ex);
         }
     }
     
@@ -233,17 +250,44 @@ public class MediaPlayerModel
         }
     }
     
-    //Return the currently selected media
-    public UserMedia getSelectedMedia() throws ModelException
+    //Attempt to add the selected media to the selected play list
+    public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException
     {
+        if (selectedPlayList.containsMedia(selectedMedia))
+        {
+            throw new ModelException("Play list already contains the selected media");
+        }
+        
         try
         {
-            return bllManager.getSelectedMedia();
+            bllManager.addMediaToPlayList(selectedMedia, selectedPlayList);
         } 
         catch (BLLException ex)
         {
             throw new ModelException(ex);
         }
+        
+        selectedPlayList.addMedia(selectedMedia);
+    }
+    
+    //Attempt to delete the song from the playlist
+    public void deleteMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException
+    {
+        if (!selectedPlayList.containsMedia(selectedMedia)) //This should never occur
+        {
+            throw new ModelException("This playlist does not contain the selected media!");
+        }
+        
+        try
+        {
+            bllManager.removeMediaFromPlayList(selectedMedia, selectedPlayList);
+        } 
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+        
+        selectedPlayList.removeMedia(selectedMedia);
     }
     
     //Attempts to retrieve the metadata of the file associated with the URI
