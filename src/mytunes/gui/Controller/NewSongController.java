@@ -187,7 +187,7 @@ public class NewSongController implements Initializable {
             showAlert(new Exception("Empty song!"));
         }
         songArtistField.setText(uMedia.getArtist());
-        songTimeField.setText(uMedia.getTimeString());
+        
         titleOfSongField.setText(uMedia.getTitle());
         chooseCategoryComboBox.setValue(uMedia.getCategory());
         songPathField.setText(uMedia.getPath());    
@@ -202,11 +202,18 @@ public class NewSongController implements Initializable {
         }
         if (selectedSong.getTitle().isEmpty())
         {
-            selectedSong.setArtist(songTimeField.getText());
+            selectedSong.setTitle(titleOfSongField.getText());
         }
         if (selectedSong.getCategory().isEmpty())
         {
             selectedSong.setArtist(chooseCategoryComboBox.getValue());
+        }
+        if (selectedSong.getTime() == 0)
+        {
+             /*selectedSong.getTimeString(Integer.parseInt(songTimeField.getText()));
+            */
+            selectedSong.setTime(Integer.parseInt(songTimeField.getText()));
+            selectedSong.getTimeString();
         }
     }
 }

@@ -5,6 +5,7 @@
  */
 package mytunes.be;
 
+import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,9 +23,11 @@ public class PlayList {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private int count; //The number of songs in the play list
+    private int totalTime;
     private final IntegerProperty timeInMS = new SimpleIntegerProperty();
     private int currentlyPlayingIndex;
 
+    
     public void setCurrentlyPlayingIndex(int currentlyPlayingIndex)
     {
         this.currentlyPlayingIndex = currentlyPlayingIndex;
@@ -34,6 +37,21 @@ public class PlayList {
     {
         return timeInMS.get();
     }
+    
+    public int getTotalTime()
+    {
+        totalTime = 0;
+        for (UserMedia song : mediaList)
+        {
+            
+            totalTime =+ song.getTime();
+            
+        }
+        
+        return totalTime;
+    }
+    
+    
 
     public void setTimeInMS(int value)
     {

@@ -1,10 +1,12 @@
 package mytunes.be;
 
+import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
+import static javafx.util.Duration.seconds;
 
 
 public class UserMedia {
@@ -126,11 +128,16 @@ public class UserMedia {
     
     public String getTimeString()
     {
-        String seconds = Integer.toString(time/1000);
-        String minutes = Integer.toString(time/1000/60);
-        String hours = Integer.toString(time/1000/60/60);
         
-        timeString = hours + ":" + minutes + ":" + seconds;
+        
+        
+         int day = (int)TimeUnit.SECONDS.toDays(time);        
+ long hours = TimeUnit.SECONDS.toHours(time) - (day *24);
+ long minute = TimeUnit.SECONDS.toMinutes(time) - (TimeUnit.SECONDS.toHours(time)* 60);
+ long second = TimeUnit.SECONDS.toSeconds(time) - (TimeUnit.SECONDS.toMinutes(time) *60);
+
+        timeString = String.format("%02d:%02d:%02d", hours, minute, second);
+        
         return timeString;
     }
     @Override
