@@ -22,7 +22,14 @@ public class PlayListDBManager {
 
     private ConnectionManager cm = new ConnectionManager();
 
-    public List<PlayList> getPlayLists() throws DAException {
+    /**
+     * Returns a list of PlayList from the database and fills the list in each PlayList
+     * with the connected media.
+     * 
+     * @return List
+     * @throws DAException 
+     */
+    public List<PlayList> getAll() throws DAException {
         List<PlayList> playListList = new ArrayList();
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Playlist");
@@ -60,19 +67,25 @@ public class PlayListDBManager {
         return playListList;
     }
 
-    public void saveList(PlayList plist) throws DAException {
+    /**
+     * Saves the data of a given UserMedia to the database.
+     * 
+     * @param playlist
+     * @throws DAException 
+     */
+    public void save(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement(
                     "INSERT INTO Playlist(title)"
                     + "VALUES(?)", Statement.RETURN_GENERATED_KEYS);
-            pstatement.setString(1, plist.getTitle());
+            pstatement.setString(1, playlist.getTitle());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Playlist could not be saved!");
             }
             ResultSet rs = pstatement.getGeneratedKeys();
             if (rs.next()) {
-                plist.setId(rs.getInt(1));
+                playlist.setId(rs.getInt(1));
             }
         }
         catch (Exception e) {
@@ -80,11 +93,17 @@ public class PlayListDBManager {
         }
     }
 
-    public void editPlaylist(PlayList plist) throws DAException {
+    /**
+     * Updates and already existing database entry with the data from a given PlayList.
+     * 
+     * @param playlist
+     * @throws DAException 
+     */
+    public void edit(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("UPDATE Playlist SET title=? WHERE id=?");
-            pstatement.setString(1, plist.getTitle());
-            pstatement.setInt(2, plist.getId());
+            pstatement.setString(1, playlist.getTitle());
+            pstatement.setInt(2, playlist.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Playlist could not be edited!");
@@ -95,10 +114,16 @@ public class PlayListDBManager {
         }
     }
 
-    public void deletePlayList(PlayList plist) throws DAException {
+    /**
+     * Removes the database entry of the given UserMedia from the database.
+     * 
+     * @param playlist
+     * @throws DAException 
+     */
+    public void delete(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Playlist WHERE id=?");
-            pstatement.setInt(1, plist.getId());
+            pstatement.setInt(1, playlist.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Playlist could not be deleted!");
@@ -109,12 +134,20 @@ public class PlayListDBManager {
         }
     }
 
-    public void saveMediaToList(PlayList list, UserMedia media) throws DAException {
+    /**
+     * Adds a database entry that creates a connection between the given playlist
+     * and the given media.
+     * 
+     * @param playlist
+     * @param media
+     * @throws DAException 
+     */
+    public void addMediaToList(PlayList playlist, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement(
                     "INSERT INTO MusicInList(listID, musicID)"
                     + "VALUES(?, ?)");
-            pstatement.setInt(1, list.getId());
+            pstatement.setInt(1, playlist.getId());
             pstatement.setInt(2, media.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
@@ -126,12 +159,20 @@ public class PlayListDBManager {
         }
     }
 
-    public void deleteMediaFromList(PlayList list, UserMedia media) throws DAException {
+    /**
+     * Deletes the database entry that creates a connection between the given playlist
+     * and the given media.
+     * 
+     * @param playlist
+     * @param media
+     * @throws DAException 
+     */
+    public void deleteMediaFromList(PlayList playlist, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement(
                     "DELETE FROM MusicInList WHERE musicID=? AND listID=?");
             pstatement.setInt(1, media.getId());
-            pstatement.setInt(2, list.getId());
+            pstatement.setInt(2, playlist.getId());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
                 throw new DAException("Media cannot be deleted from the list!");

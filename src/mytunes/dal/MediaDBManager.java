@@ -21,7 +21,13 @@ public class MediaDBManager {
 
     private ConnectionManager cm = new ConnectionManager();
 
-    public List<UserMedia> getMedia() throws DAException {
+    /**
+     * Returns a list of UserMedia from the database.
+     * 
+     * @return List
+     * @throws DAException 
+     */
+    public List<UserMedia> getAll() throws DAException {
         List<UserMedia> mediaList = new ArrayList();
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("SELECT * FROM Music");
@@ -41,7 +47,14 @@ public class MediaDBManager {
         }
         return mediaList;
     }
-    public void saveMedia(UserMedia media) throws DAException {
+    
+    /**
+     * Saves the data of a given UserMedia to the database.
+     * 
+     * @param media
+     * @throws DAException 
+     */
+    public void save(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("INSERT INTO Music(title, artist, category, time, path)"
                     + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -62,7 +75,14 @@ public class MediaDBManager {
             throw new DAException(e.getMessage());
         }
     }
-    public void editMedia(UserMedia media) throws DAException {
+    
+    /**
+     * Updates and already existing database entry with the data from a given UserMedia.
+     * 
+     * @param media
+     * @throws DAException 
+     */
+    public void edit(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("UPDATE Music SET title=?, artist=?, category=?, time=?, path=? WHERE id=?");
             pstatement.setString(1, media.getTitle());
@@ -79,7 +99,14 @@ public class MediaDBManager {
             throw new DAException(e.getMessage());
         }
     }
-    public void removeMedia(UserMedia media) throws DAException {
+    
+    /**
+     * Removes the database entry of the given UserMedia from the database.
+     * 
+     * @param media
+     * @throws DAException 
+     */
+    public void delete(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
             PreparedStatement pstatement = con.prepareStatement("DELETE FROM Music WHERE id=?");
             pstatement.setInt(1, media.getId());
