@@ -188,20 +188,4 @@ public class PlayList {
     {
         return mediaList.get(currentlyPlayingIndex);
     }
-
-    public void next()
-    {
-        if (currentlyPlayingIndex < mediaList.size() - 1)
-        {
-            currentlyPlayingIndex++;
-        }
-    }
-
-    public void previous()
-    {
-        if (currentlyPlayingIndex > 0)
-        {
-            currentlyPlayingIndex--;
-        }
-    }
 }

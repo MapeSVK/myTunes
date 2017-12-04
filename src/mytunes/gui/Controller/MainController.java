@@ -330,15 +330,43 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-
+    
+    //Move the selected media up in the selected list (UI only)
     @FXML
     private void upArrowClicked(MouseEvent event)
     {
+        UserMedia selected = playlistSongsListView.getSelectionModel().getSelectedItem();
+        PlayList list = playlistTableView.getSelectionModel().getSelectedItem();
+        
+        try
+        {
+            model.moveSongUp(selected, list);
+            playlistSongsListView.getSelectionModel().select(selected);
+        }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
-
+    
+    //Move the selected media down in the selected list (UI only)
     @FXML
     private void downArrowClicked(MouseEvent event)
     {
+        UserMedia selected = playlistSongsListView.getSelectionModel().getSelectedItem();
+        PlayList list = playlistTableView.getSelectionModel().getSelectedItem();
+
+        try
+        {
+            model.moveSongDown(selected, list);
+            playlistSongsListView.getSelectionModel().select(selected);
+        }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
     }
 
     

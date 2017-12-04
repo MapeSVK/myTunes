@@ -372,4 +372,50 @@ public class MediaPlayerModel
         
         playlists.remove(selected);
     }
+
+    public void moveSongUp(UserMedia selected, PlayList list) throws ModelException
+    {
+        if (selected == null)
+        {
+            throw new ModelException("No song selected!");
+        }
+        
+        if (list == null)
+        {
+            throw new ModelException("No play list selected!");
+        }
+        
+        int index = list.getIndexOfMedia(selected);
+        
+        if (index == 0)
+        {
+            throw new ModelException("Media is alredy on the top of the list!");
+        }
+        
+        list.moveSongUp(index);
+    }
+
+    public void moveSongDown(UserMedia selected, PlayList list) throws ModelException
+    {
+        if (selected == null)
+        {
+            throw new ModelException("No song selected!");
+        }
+        
+        if (list == null)
+        {
+            throw new ModelException("No play list selected!");
+        }    
+        
+                
+        int index = list.getIndexOfMedia(selected);
+        
+        if (index == list.getCount() - 1)
+        {
+            throw new ModelException("Media is alredy on the bottom of the list!");
+        }
+        
+        list.moveSongDown(index);
+    
+    }
 }
