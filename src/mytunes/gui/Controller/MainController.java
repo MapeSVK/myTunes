@@ -37,6 +37,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import mytunes.be.Mode;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.MetaReader;
@@ -281,13 +282,26 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-
+    
+    //Delete the selected play list
     @FXML
     private void deletePlaylistClicked(ActionEvent event)
     {
         if (showConfirmationDialog("Are you sure you want to delete this play list?"))
         {
             return;
+        }
+        
+        PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
+        
+        try
+        {
+            model.removePlayList(selected);
+        }
+        catch (ModelException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
         }
     }
 
@@ -305,7 +319,7 @@ public class MainController implements Initializable
         
         try
         {
-            model.deleteMediaFromPlayList(selectedMedia, selectedPlayList);
+            model.removeMediaFromPlayList(selectedMedia, selectedPlayList);
         } 
         catch (ModelException ex)
         {
@@ -334,6 +348,7 @@ public class MainController implements Initializable
     {
         try
         {
+            model.setMediaMode(Mode.NEW);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             
             Parent root1 = (Parent) fxmlLoader.load();
@@ -354,7 +369,9 @@ public class MainController implements Initializable
     {        
         try
         {
+            model.setMediaMode(Mode.EDIT);
             model.setSelectedMedia(songsTableView.getSelectionModel().getSelectedItem());
+            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
             
             Parent root1 = (Parent) fxmlLoader.load();
@@ -379,6 +396,23 @@ public class MainController implements Initializable
     @FXML
     private void addNewPlaylistClicked(ActionEvent event)
     {
+        try
+        {   
+            model.setPlayListMode(Mode.NEW);
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
+            
+            Parent root1 = (Parent) fxmlLoader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        } 
     }
 
     @FXML

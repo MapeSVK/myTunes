@@ -97,7 +97,7 @@ public class BLLManager
 
     public boolean hasPlayList()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return selectedPlayList != null;
     }
     
     
@@ -167,7 +167,7 @@ public class BLLManager
         playListManager.addMediaToPlayList(selectedMedia, selectedPlayList);
     }
     
-    //Remove the selected medi from the selected play list
+    //Remove the selected media from the selected play list
     public void removeMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
     {
 
@@ -182,5 +182,16 @@ public class BLLManager
         }
         
         playListManager.removeSongFromPlayList(selectedMedia, selectedPlayList);
+    }
+
+    //Remove the selected play list
+    public void removePlayList(PlayList selected) throws BLLException
+    {
+        if (selected == null)
+        {
+            throw new BLLException("No play list selected!");
+        }
+        
+        playListManager.removePlayList(selected);
     }
 }

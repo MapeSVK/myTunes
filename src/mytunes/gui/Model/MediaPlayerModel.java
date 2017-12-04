@@ -15,6 +15,8 @@ import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
+import mytunes.be.Mode;
+import mytunes.gui.Controller.NewPlayListController;
 
 /**
  * Model class, responsible for separating the data from the display 
@@ -31,6 +33,9 @@ public class MediaPlayerModel
         
     private static MediaPlayerModel instance;
     
+    private Mode mediaMode;
+    private Mode playListMode;
+
     public MediaPlayerModel()
     {
         allMedia.addListener(new ListChangeListener<UserMedia>()    //Set up a change listener, so we can update the filtered list, when the main list changes
@@ -100,6 +105,28 @@ public class MediaPlayerModel
     {
         return this.categories;
     }
+    
+    
+    public void setMediaMode(Mode mediaMode)
+    {
+        this.mediaMode = mediaMode;
+    }
+
+    public void setPlayListMode(Mode playListMode)
+    {
+        this.playListMode = playListMode;
+    }
+
+    public Mode getMediaMode()
+    {
+        return mediaMode;
+    }
+
+    public Mode getPlayListMode()
+    {
+        return playListMode;
+    }
+    
     
     //Add a new category to the list
     public void addNewCategory(String category) throws ModelException
@@ -271,7 +298,7 @@ public class MediaPlayerModel
     }
     
     //Attempt to delete the song from the playlist
-    public void deleteMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException
+    public void removeMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException
     {
         if (!selectedPlayList.containsMedia(selectedMedia)) //This should never occur
         {
@@ -315,5 +342,25 @@ public class MediaPlayerModel
         {
             throw new ModelException(ex);
         }
+    }
+    
+    //Attempt to remove the play list
+    public void removePlayList(PlayList selected) throws ModelException
+    {
+        if (selected != null)
+        {
+            //TODO: delete all song from a playlist before deleting said play list
+        }
+        
+        try
+        {
+            bllManager.removePlayList(selected);
+        }
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+        
+        playlists.remove(selected);
     }
 }

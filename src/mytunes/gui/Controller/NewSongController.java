@@ -5,7 +5,6 @@
  */
 package mytunes.gui.Controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -26,10 +25,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
@@ -67,7 +64,7 @@ public class NewSongController implements Initializable {
         {
             model = MediaPlayerModel.getInstance();            
             chooseCategoryComboBox.setItems(model.getCategories());
-            if (model.hasSelectedMedia())
+            if (model.getMediaMode() == mytunes.be.Mode.EDIT)
             {
                 mode = Mode.EDIT;
                 media = model.getSelectedMedia();

@@ -70,12 +70,26 @@ public class PlayListManager
             throw new BLLException(ex);
         }
     }
-
+    
+    //Update the selected play list in the DB
     void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
     {
         try
         {
             listDBManager.deleteMediaFromList(selectedPlayList, selectedMedia);
+        } 
+        catch (DAException ex)
+        {
+            throw new BLLException(ex);
+        }
+    }
+
+    //Remove the selected play list from the DB
+    void removePlayList(PlayList selected) throws BLLException
+    {
+        try
+        {
+            listDBManager.deletePlayList(selected);
         } 
         catch (DAException ex)
         {
