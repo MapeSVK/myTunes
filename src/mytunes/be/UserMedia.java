@@ -1,5 +1,6 @@
 package mytunes.be;
 
+import java.io.File;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
@@ -36,17 +37,19 @@ public class UserMedia {
     }
     
     //Creates a media from the path (for examle, when loading a UserMedia object from hte DB)
-    public void createMediaFromPath()
+    public void createMediaFromPath() throws Exception
     {
+        System.out.println("");
         try
         {
-            System.out.println(URI.create(path.get()).toString());
-            this.media = new Media(URI.create(path.get()).toString());
+            File f = new File(path.get());
+            this.media = new Media(f.toURI().toString());
         }
         catch (Exception ex)
         {
             //If the save did not occure on the current machine, an error will occur, and the Media object will no be created
             //The data, hovewer, will not be displayed (but it will appear on the tableView)
+            System.out.println(ex.getMessage());
         }
     }
     

@@ -17,11 +17,7 @@ class Player
 {
     private Media media;
     private double volume;
-<<<<<<< HEAD
     private MediaPlayer mediaPlayer;  
-=======
-    private MediaPlayer player;    
->>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
 
     public Player(Media media) 
     {
@@ -32,11 +28,11 @@ class Player
     }
     
     public void play() {
-        player.play();
+        mediaPlayer.play();
     }
     
     public void pause() {
-        player.pause();
+        mediaPlayer.pause();
     }
     
     public void setVolume(double volume) {
@@ -45,17 +41,13 @@ class Player
     }
 
     public Duration getCurrentTime() {
-        return player.currentTimeProperty().getValue();
+        return mediaPlayer.currentTimeProperty().getValue();
     }
 
     public void setMedia(Media media) 
     {
        this.media = media;
-<<<<<<< HEAD
-       player = new MediaPlayer(media);
-=======
-       player = new MediaPlayer(this.media);
->>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
+       mediaPlayer = new MediaPlayer(media);
     }
     
 }
