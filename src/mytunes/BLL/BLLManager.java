@@ -26,7 +26,7 @@ public class BLLManager {
     private DALManager dalManger = new DALManager();
     private MediaObjectManager mediaObjectManager = new MediaObjectManager(dalManger);
     private PlayListManager playListManager = new PlayListManager(dalManger);
-    private Player player;
+    private Player player = new Player();
 
     //Load the information of the stored media from the DB
     public List<UserMedia> loadMedia() throws BLLException {

@@ -15,7 +15,7 @@ import javafx.util.Duration;
  */
 class Player
 {
-    private Media media = new Media("");
+    private Media media;
     private MediaPlayer player = new MediaPlayer(media);
     
     public Player(Media media) {
