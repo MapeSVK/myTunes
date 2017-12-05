@@ -203,7 +203,14 @@ public class NewSongController implements Initializable {
             workingUserMedia.setCategory(category);
             workingUserMedia.setPath(path);
             
-            model.addNewMedia(workingUserMedia);
+            if (mode == Mode.NEW)
+            {
+                model.addNewMedia(workingUserMedia);
+            }
+            else
+            {
+                model.editMedia(workingUserMedia);
+            }
         } 
         catch (ModelException ex)
         {

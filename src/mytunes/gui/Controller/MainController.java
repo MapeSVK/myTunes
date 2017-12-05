@@ -286,12 +286,17 @@ public class MainController implements Initializable
     @FXML
     private void deletePlaylistClicked(ActionEvent event)
     {
-        if (showConfirmationDialog("Are you sure you want to delete this play list?"))
-        {
-            return;
-        }
+
         
         PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
+        
+        if (selected != null)
+        {
+            if (showConfirmationDialog("Are you sure you want to delete this play list?"))
+            {
+                return;
+            }
+        }
         
         try
         {
