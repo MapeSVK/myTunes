@@ -128,18 +128,16 @@ public class UserMedia {
     
     public String getTimeString()
     {
-        
-        
-        
-         int day = (int)TimeUnit.SECONDS.toDays(time);        
- long hours = TimeUnit.SECONDS.toHours(time) - (day *24);
- long minute = TimeUnit.SECONDS.toMinutes(time) - (TimeUnit.SECONDS.toHours(time)* 60);
- long second = TimeUnit.SECONDS.toSeconds(time) - (TimeUnit.SECONDS.toMinutes(time) *60);
+        int day = (int)TimeUnit.SECONDS.toDays(time);        
+        long hours = TimeUnit.SECONDS.toHours(time) - (day *24);
+        long minute = TimeUnit.SECONDS.toMinutes(time) - (TimeUnit.SECONDS.toHours(time)* 60);
+        long second = TimeUnit.SECONDS.toSeconds(time) - (TimeUnit.SECONDS.toMinutes(time) *60);
 
         timeString = String.format("%02d:%02d:%02d", hours, minute, second);
-        
+
         return timeString;
     }
+    
     @Override
     public String toString()
     {

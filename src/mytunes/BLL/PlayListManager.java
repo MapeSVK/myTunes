@@ -6,13 +6,10 @@
 package mytunes.BLL;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
 import mytunes.dal.DALManager;
-import mytunes.dal.PlayListDBManager;
 
 /**
  * Handles operations such as saving and retrieving PlayList objects

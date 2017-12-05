@@ -129,7 +129,7 @@ public class MainController implements Initializable
         //Set up cell factories
         playListColumnName.setCellValueFactory(new PropertyValueFactory("title"));
         playListColumnSongsCount.setCellValueFactory(new PropertyValueFactory("count"));
-        playListColumnTotalTime.setCellValueFactory(new PropertyValueFactory("totalTime"));
+        playListColumnTotalTime.setCellValueFactory(new PropertyValueFactory("timeFormattedAsString"));
         
         //Set the width of the columns
         playlistTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
