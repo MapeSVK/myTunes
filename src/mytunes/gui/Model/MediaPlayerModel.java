@@ -462,11 +462,6 @@ public class MediaPlayerModel
        bllManager.playMedia(media);
     }
     
-    public void setMedia(Media media)
-    {
-        bllManager.setMedia(media);
-    }
-    
     public void setVolume(double vol) {
         bllManager.setVolume(vol);
     }
@@ -474,5 +469,9 @@ public class MediaPlayerModel
     public Duration getCurrentTime() 
     {
         return bllManager.getCurrentTime();
+    }
+
+    public void pauseMedia() {
+        bllManager.pauseMedia();
     }
 }

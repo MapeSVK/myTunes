@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -53,6 +54,8 @@ public class MainController implements Initializable {
     @FXML
     private ImageView play;
     @FXML
+    private ImageView pause;
+    @FXML
     private ImageView search;
     @FXML
     private ImageView addArrow;
@@ -68,7 +71,7 @@ public class MainController implements Initializable {
     private TextField searchField;
     @FXML
     private TableView<PlayList> playlistTableView;
-    @FXML
+    @FXML 
     private ListView<UserMedia> playlistSongsListView;
     @FXML
     private TableView<UserMedia> songsTableView;
@@ -90,17 +93,35 @@ public class MainController implements Initializable {
     private final Image img_next = new Image("file:images/next.png");
     private final Image img_previous = new Image("file:images/previous.png");
     private final Image img_play = new Image("file:images/play.png");
+    private final Image img_pause = new Image("file:images/pause.png");
     private final Image img_search = new Image("file:images/search.png");
     private final Image img_down = new Image("file:images/down.png");
     private final Image img_up = new Image("file:images/up.png");
     private final Image img_addArrow = new Image("file:images/previous.png");
-
+   
     private MediaPlayerModel model;
+    @FXML
+    private Button newPlaylistButton;
+    @FXML
+    private Button editPlaylistButton;
+    @FXML
+    private Button deletePlaylistButton;
+    @FXML
+    private Button deleteSongFromPlaylistButton;
+    @FXML
+    private Button newSongButton;
+    @FXML
+    private Button editSongButton;
+    @FXML
+    private Button closeApp;
+    @FXML
+    private Button deleteSongButton;
 
     public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
         previous.setImage(img_previous);
         play.setImage(img_play);
+        pause.setImage(img_pause);
         search.setImage(img_search);
         upArrow.setImage(img_up);
         downArrow.setImage(img_down);
@@ -232,6 +253,19 @@ public class MainController implements Initializable {
     private void playArrowClicked(MouseEvent event) {
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
         model.playMedia(selectedMedia.getMedia());
+        play.setVisible(false);
+        play.setDisable(true);
+        pause.setDisable(false);
+        pause.setVisible(true);
+    }
+    
+    @FXML
+    private void pauseBtnClicked(MouseEvent event) {
+        model.pauseMedia();
+        play.setVisible(true);
+        play.setDisable(false);
+        pause.setDisable(true);
+        pause.setVisible(false);
     }
 
     @FXML
@@ -239,7 +273,6 @@ public class MainController implements Initializable {
         model.setVolume(volumeController.getValue());
     }
     
-
     //Search for the string
     @FXML
     private void searchClicked(MouseEvent event) {

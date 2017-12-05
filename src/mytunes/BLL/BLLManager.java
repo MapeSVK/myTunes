@@ -242,10 +242,6 @@ public class BLLManager {
         player.setMedia(media);
         player.play();
     }
-    
-    public void setMedia(Media media) {
-        player = new Player(media);
-    }
 
     public void setVolume(double vol) 
     {
@@ -254,5 +250,9 @@ public class BLLManager {
     
     public Duration getCurrentTime() {
         return player.getCurrentTime();
+    }
+
+    public void pauseMedia() {
+        player.pause();
     }
 }
