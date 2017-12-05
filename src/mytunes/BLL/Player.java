@@ -19,23 +19,17 @@ import mytunes.be.UserMedia;
  *
  * @author sebok
  */
-class Player
-{
-    private Media media;
-    private final DoubleProperty volume = new SimpleDoubleProperty();
-    private MediaPlayer player;    
+class Player {
 
-    public Player(Media media) 
-    {
-       this.media = media;
+    private Media media;
+    private MediaPlayer player;
+
+    public Player(Media media) {
+        this.media = media;
     }
 
     public Player() {
 
-    }
-    
-    public double getVolume() {
-        return volume.get();
     }
 
     public void setVolume(double value) {
@@ -44,14 +38,10 @@ class Player
         }
     }
 
-    public DoubleProperty volumeProperty() {
-        return volume;
-    }
-    
     public void play() {
         player.play();
     }
-    
+
     public void pause() {
         player.pause();
     }
@@ -60,10 +50,9 @@ class Player
         return player.currentTimeProperty().getValue();
     }
 
-    public void setMedia(Media media) 
-    {
-       this.media = media;
-       player = new MediaPlayer(this.media);
+    public void setMedia(Media media) {
+        this.media = media;
+        player = new MediaPlayer(this.media);
     }
-    
+
 }
