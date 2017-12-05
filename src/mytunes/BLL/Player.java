@@ -22,6 +22,9 @@ class Player
     public Player(Media media) {
        this.media = media;
     }
+
+    public Player() {
+    }
     
     public void play() {
         player.play();

@@ -209,8 +209,7 @@ public class MediaPlayerModel
     
      //Attempt to remove the media instance from the list and the DB
     public void removeMedia(UserMedia selected) throws ModelException
-    {
-        
+    {       
         for (PlayList list : playlists)
         {
             if (list.containsMedia(selected))
@@ -221,7 +220,7 @@ public class MediaPlayerModel
         
         try
         {
-            bllManager.removeMedia(selected);
+            bllManager.deleteMedia(selected);
         }
         catch (BLLException ex)
         {
@@ -268,7 +267,7 @@ public class MediaPlayerModel
         
         try
         {
-            bllManager.removePlayList(selected);
+            bllManager.deletePlayList(selected);
         }
         catch (BLLException ex)
         {

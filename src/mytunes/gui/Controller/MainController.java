@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -97,22 +96,6 @@ public class MainController implements Initializable {
     private final Image img_addArrow = new Image("file:images/previous.png");
 
     private MediaPlayerModel model;
-    @FXML
-    private Button newPlaylistButton;
-    @FXML
-    private Button editPlaylistButton;
-    @FXML
-    private Button deletePlaylistButton;
-    @FXML
-    private Button deleteSongFromPlaylistButton;
-    @FXML
-    private Button newSongButton;
-    @FXML
-    private Button editSongButton;
-    @FXML
-    private Button closeApp;
-    @FXML
-    private Button deleteSongButton;
 
     public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
@@ -283,20 +266,16 @@ public class MainController implements Initializable {
 
     //Delete the selected play list
     @FXML
-    private void deletePlaylistClicked(ActionEvent event)
-    {
+    private void deletePlaylistClicked(ActionEvent event) {
         PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
-        
-        if (selected != null)
-        {
-            if (showConfirmationDialog("Are you sure you want to delete this play list?"))
-            {
+
+        if (selected != null) {
+            if (showConfirmationDialog("Are you sure you want to delete this play list?")) {
                 return;
             }
         }
-        
-        try
-        {
+
+        try {
             model.removePlayList(selected);
         }
         catch (ModelException ex) {
@@ -477,7 +456,6 @@ public class MainController implements Initializable {
         if (confirmation.getResult() == ButtonType.NO) {
             return true;
         }
-
         return false;
     }
 }
