@@ -23,13 +23,13 @@ public class PlayList {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final IntegerProperty count = new SimpleIntegerProperty();
-    private double totalTimeInMiliseconds;
+    private double totalTimeInSeconds;
     private final StringProperty timeFormattedAsString = new SimpleStringProperty();
     
     public PlayList()
     {
         setCount(0);
-        totalTimeInMiliseconds = 0;
+        totalTimeInSeconds = 0;
     }
     
     public String getTimeFormattedAsString()
@@ -50,7 +50,7 @@ public class PlayList {
     //Update the StringProperty to reflect the latest changes (addition or deletion)
     private void updateStringTime()
     {
-        long timeInLong = new Double(totalTimeInMiliseconds).longValue();
+        long timeInLong = new Double(totalTimeInSeconds).longValue();
         
         int day = (int)TimeUnit.SECONDS.toDays(timeInLong);        
         long hours = TimeUnit.SECONDS.toHours(timeInLong) - (day *24);
@@ -116,7 +116,7 @@ public class PlayList {
     public void addMedia(UserMedia selectedMedia) 
     {
         mediaList.add(selectedMedia);
-        totalTimeInMiliseconds += selectedMedia.getTime();
+        totalTimeInSeconds += selectedMedia.getTime();
         updateStringTime();
         setCount(getCount()+1);
     }
@@ -124,7 +124,7 @@ public class PlayList {
     //Remove the selected song from this playlist
     public void removeMedia(UserMedia mediaToDelete) {
         mediaList.remove(mediaToDelete);
-        totalTimeInMiliseconds -= mediaToDelete.getTime();
+        totalTimeInSeconds -= mediaToDelete.getTime();
         updateStringTime();
         setCount(getCount()-1);
     }

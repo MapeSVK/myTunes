@@ -17,14 +17,5 @@ class Player
 {
     private MediaPlayer player;
     
-    void play(PlayList playList)
-    {
-        for (UserMedia m : playList.getMediaList())
-        {
-            player = new MediaPlayer(m.getMedia());
-            player.play();
-        }
-    }
-    
-    
+
 }

@@ -212,9 +212,11 @@ public class MediaPlayerModel
             filteredList = allMedia;
         }
         
+        search = search.toLowerCase();
+        
         for (UserMedia userMedia : allMedia)
         {
-            if (userMedia.getArtist().contains(search) || userMedia.getTitle().contains(search))    //If the artis's name or the title of the song contains the string, treat it as a match
+            if (userMedia.getArtist().toLowerCase().contains(search) || userMedia.getTitle().toLowerCase().contains(search))    //If the artis's name or the title of the song contains the string, treat it as a match
             {
                 filteredList.add(userMedia);
             }
