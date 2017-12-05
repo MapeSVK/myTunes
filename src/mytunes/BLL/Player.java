@@ -5,49 +5,54 @@
  */
 package mytunes.BLL;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import mytunes.be.UserMedia;
 
 /**
  *
  * @author sebok
  */
-class Player
-{
-    private Media media;
-    private double volume;
-    private MediaPlayer mediaPlayer;  
+class Player {
 
-    public Player(Media media) 
-    {
-       this.media = media;
+    private Media media;
+    private MediaPlayer player;
+
+    public Player(Media media) {
+        this.media = media;
     }
 
     public Player() {
+
     }
-    
+
+    public void setVolume(double value) {
+        if (player != null) {
+            player.setVolume(value);
+        }
+    }
+
     public void play() {
-        mediaPlayer.play();
+        player.play();
     }
-    
+
     public void pause() {
-        mediaPlayer.pause();
-    }
-    
-    public void setVolume(double volume) {
-        this.volume = volume;
-        //player.volumeProperty().setValue(this.volume);
+        player.pause();
     }
 
     public Duration getCurrentTime() {
-        return mediaPlayer.currentTimeProperty().getValue();
+        return player.currentTimeProperty().getValue();
     }
 
-    public void setMedia(Media media) 
-    {
-       this.media = media;
-       mediaPlayer = new MediaPlayer(media);
+    public void setMedia(Media media) {
+        this.media = media;
+        player = new MediaPlayer(this.media);
     }
-    
+
 }
