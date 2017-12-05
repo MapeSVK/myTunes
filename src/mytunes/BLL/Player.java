@@ -5,9 +5,10 @@
  */
 package mytunes.BLL;
 
+import java.io.File;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import mytunes.be.PlayList;
-import mytunes.be.UserMedia;
+import javafx.util.Duration;
 
 /**
  *
@@ -16,6 +17,30 @@ import mytunes.be.UserMedia;
 class Player
 {
     private MediaPlayer player;
-    
+    private Media media;
 
+    public Player(Media media) {
+        player = new MediaPlayer(media);
+    }
+    
+    public void play() {
+        player.play();
+    }
+    
+    public void pause() {
+        player.pause();
+    }
+    
+    public void setVolume(float volume) {
+        player.volumeProperty().setValue(volume);
+    }
+
+    public Duration getCurrentTime() {
+        return player.currentTimeProperty().getValue();
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+    
 }

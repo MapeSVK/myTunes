@@ -8,8 +8,6 @@ package mytunes.gui.Model;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -18,7 +16,6 @@ import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.be.Mode;
-import mytunes.gui.Controller.NewPlayListController;
 
 /**
  * Model class, responsible for separating the data from the display 

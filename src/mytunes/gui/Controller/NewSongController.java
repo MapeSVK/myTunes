@@ -25,7 +25,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mytunes.be.UserMedia;
@@ -98,7 +97,6 @@ public class NewSongController implements Initializable {
     @FXML
     private void addNewCategoryClicked(ActionEvent event)
     {
-        
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/CategoryAdd.fxml"));
