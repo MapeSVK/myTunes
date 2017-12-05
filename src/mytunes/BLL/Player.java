@@ -15,12 +15,16 @@ import javafx.util.Duration;
  */
 class Player
 {
-    private MediaPlayer player;
-    private Media media;
-
+    private Media media = new Media("");
+    private MediaPlayer player = new MediaPlayer(media);
+    
     public Player(Media media) {
         player = new MediaPlayer(media);
     }
+
+    public Player() {
+    }
+    
     
     public void play() {
         player.play();
@@ -30,7 +34,7 @@ class Player
         player.pause();
     }
     
-    public void setVolume(float volume) {
+    public void setVolume(double volume) {
         player.volumeProperty().setValue(volume);
     }
 
@@ -39,7 +43,7 @@ class Player
     }
 
     public void setMedia(Media media) {
-        this.media = media;
+       this.media = media;
     }
     
 }

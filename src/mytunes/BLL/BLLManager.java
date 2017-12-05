@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.media.Media;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
@@ -25,6 +26,7 @@ public class BLLManager {
     private DALManager dalManger = new DALManager();
     private MediaObjectManager mediaObjectManager = new MediaObjectManager(dalManger);
     private PlayListManager playListManager = new PlayListManager(dalManger);
+    private Player player;
 
     //Load the information of the stored media from the DB
     public List<UserMedia> loadMedia() throws BLLException {
@@ -197,5 +199,14 @@ public class BLLManager {
         }
 
         playListManager.removePlayList(selected);
+    }
+    
+    public void playMedia(Media media) {
+        player.setMedia(media);
+        player.play();
+    }
+
+    public void setVolume(double vol) {
+        player.setVolume(vol);
     }
 }
