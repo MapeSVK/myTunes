@@ -6,10 +6,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
-<<<<<<< HEAD
-
-=======
->>>>>>> b365324f0be59c81698fe5939907a868b62f5871
 
 public class UserMedia {
 
@@ -109,7 +105,7 @@ public class UserMedia {
     }
 
     public String getTimeString() {
-        long timeInLong = Double.doubleToLongBits(this.time);
+        long timeInLong = new Double(time).longValue();
         
         int day = (int) TimeUnit.SECONDS.toDays(timeInLong);
         long hours = TimeUnit.SECONDS.toHours(timeInLong) - (day * 24);

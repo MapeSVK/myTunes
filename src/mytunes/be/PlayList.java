@@ -50,10 +50,12 @@ public class PlayList {
     //Update the StringProperty to reflect the latest changes (addition or deletion)
     private void updateStringTime()
     {
-        int day = (int)TimeUnit.SECONDS.toDays((long) totalTimeInMiliseconds);        
-        double hours = TimeUnit.SECONDS.toHours((long) totalTimeInMiliseconds) - (day *24);
-        double minute = TimeUnit.SECONDS.toMinutes((long) totalTimeInMiliseconds) - (TimeUnit.SECONDS.toHours((long) totalTimeInMiliseconds)* 60);
-        double second = TimeUnit.SECONDS.toSeconds((long) totalTimeInMiliseconds) - (TimeUnit.SECONDS.toMinutes((long) totalTimeInMiliseconds) *60);
+        long timeInLong = new Double(totalTimeInMiliseconds).longValue();
+        
+        int day = (int)TimeUnit.SECONDS.toDays(timeInLong);        
+        long hours = TimeUnit.SECONDS.toHours(timeInLong) - (day *24);
+        long minute = TimeUnit.SECONDS.toMinutes(timeInLong) - (TimeUnit.SECONDS.toHours(timeInLong)* 60);
+        long second = TimeUnit.SECONDS.toSeconds(timeInLong) - (TimeUnit.SECONDS.toMinutes(timeInLong) *60);
 
         timeFormattedAsString.setValue(String.format("%02d:%02d:%02d", hours, minute, second));
     }
