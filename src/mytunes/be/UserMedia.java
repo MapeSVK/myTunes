@@ -140,11 +140,13 @@ public class UserMedia {
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
 
-    public void setMedia(Media media) {
+    public void setMedia(Media media) 
+    {
         this.media = media;
     }
 
