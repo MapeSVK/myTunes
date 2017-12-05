@@ -46,7 +46,7 @@ public class MetaReader {
                 tempmedia.setTitle(tag.getFirst(FieldKey.TITLE));
                 tempmedia.setArtist(tag.getFirst(FieldKey.ARTIST));
                 tempmedia.setCategory(tag.getFirst(FieldKey.GENRE));
-                tempmedia.setTime(header.getTrackLength());
+                tempmedia.setTime(header.getPreciseTrackLength());
             }
             if (path.toString().endsWith(".flac")) {
                 FlacTag tag = (FlacTag) audiofile.getTag();
@@ -54,14 +54,14 @@ public class MetaReader {
                 tempmedia.setTitle(tag.getFirst(FieldKey.TITLE));
                 tempmedia.setArtist(tag.getFirst(FieldKey.ARTIST));
                 tempmedia.setCategory(tag.getFirst(FieldKey.GENRE));
-                tempmedia.setTime(header.getTrackLength());
+                tempmedia.setTime(header.getPreciseTrackLength());
             } else {
                 Tag tag = audiofile.getTag();
                 
                 tempmedia.setTitle(tag.getFirst(FieldKey.TITLE));
                 tempmedia.setArtist(tag.getFirst(FieldKey.ARTIST));
                 tempmedia.setCategory(tag.getFirst(FieldKey.GENRE));
-                tempmedia.setTime(header.getTrackLength());
+                tempmedia.setTime(header.getPreciseTrackLength());
             }
         }
 
