@@ -22,45 +22,55 @@ public class PlayList {
     private ObservableList<UserMedia> mediaList = FXCollections.observableArrayList();
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
-    private int count; //The number of songs in the play list
-    private int totalTime;
-    private final IntegerProperty timeInMS = new SimpleIntegerProperty();
-    private int currentlyPlayingIndex;
-
-
-    public void setCurrentlyPlayingIndex(int currentlyPlayingIndex) 
+    private final IntegerProperty count = new SimpleIntegerProperty();
+    private int totalTimeInMiliseconds;
+    private final StringProperty timeFormattedAsString = new SimpleStringProperty();
+    
+    public PlayList()
     {
-        this.currentlyPlayingIndex = currentlyPlayingIndex;
-    }
-
-    public int getTimeInMS() {
-        return timeInMS.get();
+        setCount(0);
+        totalTimeInMiliseconds = 0;
     }
     
-    public int getTotalTime()
+    public String getTimeFormattedAsString()
     {
-        totalTime = 0;
-        for (UserMedia song : mediaList)
-        {
-            
-            totalTime =+ song.getTime();
-            
-        }
-        
-        return totalTime;
+        return timeFormattedAsString.get();
+    }
+
+    public void setTimeFormattedAsString(String value)
+    {
+        timeFormattedAsString.set(value);
+    }
+
+    public StringProperty timeFormattedAsStringProperty()
+    {
+        return timeFormattedAsString;
     }
     
+    //Update the StringProperty to reflect the latest changes (addition or deletion)
+    private void updateStringTime()
+    {
+        int day = (int)TimeUnit.SECONDS.toDays(totalTimeInMiliseconds);        
+        long hours = TimeUnit.SECONDS.toHours(totalTimeInMiliseconds) - (day *24);
+        long minute = TimeUnit.SECONDS.toMinutes(totalTimeInMiliseconds) - (TimeUnit.SECONDS.toHours(totalTimeInMiliseconds)* 60);
+        long second = TimeUnit.SECONDS.toSeconds(totalTimeInMiliseconds) - (TimeUnit.SECONDS.toMinutes(totalTimeInMiliseconds) *60);
+
+        timeFormattedAsString.setValue(String.format("%02d:%02d:%02d", hours, minute, second));
+    }
     
-
-    public void setTimeInMS(int value) {
-        timeInMS.set(value);
+    public int getCount()
+    {
+        return count.get();
     }
 
-    public IntegerProperty timeInMSProperty() {
-        return timeInMS;
+    public void setCount(int value)
+    {
+        count.set(value);
     }
 
-    public PlayList() {
+    public IntegerProperty countProperty()
+    {
+        return count;
     }
 
     public PlayList(int id, String title) {
@@ -100,35 +110,26 @@ public class PlayList {
         this.mediaList = mediaList;
     }
 
-    public int getCount() {
-        this.count = mediaList.size();
-        return count;
-    }
-
     //Add a song to the playlist
-    public void addMedia(UserMedia selectedMedia) {
+    public void addMedia(UserMedia selectedMedia) 
+    {
         mediaList.add(selectedMedia);
+        totalTimeInMiliseconds += selectedMedia.getTime();
+        updateStringTime();
+        setCount(getCount()+1);
     }
 
     //Remove the selected song from this playlist
     public void removeMedia(UserMedia mediaToDelete) {
         mediaList.remove(mediaToDelete);
-        for (int i = 0; i < mediaList.size(); i++) {
-            if (mediaList.get(i).getId() == mediaToDelete.getId()) {
-                mediaList.remove(mediaList.get(i));
-            }
-        }
+        totalTimeInMiliseconds -= mediaToDelete.getTime();
+        updateStringTime();
+        setCount(getCount()-1);
     }
 
     //Check if a song is already in the playlist
     public boolean containsMedia(UserMedia media) {
-        //return mediaList.contains(media);
-        for (UserMedia userMedia : mediaList) {
-            if (userMedia.getId() == media.getId()) {
-                return true;
-            }
-        }
-        return false;
+        return mediaList.contains(media);
     }
 
     //Checks if the list of song is empty
@@ -173,10 +174,5 @@ public class PlayList {
     public String toString() 
     {
         return "PlayList{ id=" + id + ", title=" + title + '}';
-    }
-
-    public UserMedia getCurrentlyPlaying() 
-    {
-        return mediaList.get(currentlyPlayingIndex);
     }
 }
