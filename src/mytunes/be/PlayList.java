@@ -23,7 +23,7 @@ public class PlayList {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final IntegerProperty count = new SimpleIntegerProperty();
-    private int totalTimeInMiliseconds;
+    private double totalTimeInMiliseconds;
     private final StringProperty timeFormattedAsString = new SimpleStringProperty();
     
     public PlayList()
@@ -50,10 +50,10 @@ public class PlayList {
     //Update the StringProperty to reflect the latest changes (addition or deletion)
     private void updateStringTime()
     {
-        int day = (int)TimeUnit.SECONDS.toDays(totalTimeInMiliseconds);        
-        long hours = TimeUnit.SECONDS.toHours(totalTimeInMiliseconds) - (day *24);
-        long minute = TimeUnit.SECONDS.toMinutes(totalTimeInMiliseconds) - (TimeUnit.SECONDS.toHours(totalTimeInMiliseconds)* 60);
-        long second = TimeUnit.SECONDS.toSeconds(totalTimeInMiliseconds) - (TimeUnit.SECONDS.toMinutes(totalTimeInMiliseconds) *60);
+        int day = (int)TimeUnit.SECONDS.toDays((long) totalTimeInMiliseconds);        
+        double hours = TimeUnit.SECONDS.toHours((long) totalTimeInMiliseconds) - (day *24);
+        double minute = TimeUnit.SECONDS.toMinutes((long) totalTimeInMiliseconds) - (TimeUnit.SECONDS.toHours((long) totalTimeInMiliseconds)* 60);
+        double second = TimeUnit.SECONDS.toSeconds((long) totalTimeInMiliseconds) - (TimeUnit.SECONDS.toMinutes((long) totalTimeInMiliseconds) *60);
 
         timeFormattedAsString.setValue(String.format("%02d:%02d:%02d", hours, minute, second));
     }
