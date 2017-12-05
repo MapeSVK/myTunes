@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.Media;
+import javafx.util.Duration;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 import mytunes.dal.DAException;
@@ -101,7 +102,6 @@ public class BLLManager {
         {
             throw new BLLException("No media selected!");
         }
-
         mediaObjectManager.updateMedia(selectedMedia);
     }
 
@@ -240,11 +240,18 @@ public class BLLManager {
     public void playMedia(Media media) 
     {
         player.setMedia(media);
-        player.play();
+    }
+    
+    public void setMedia(Media media) {
+        player = new Player(media);
     }
 
     public void setVolume(double vol) 
     {
         player.setVolume(vol);
+    }
+    
+    public Duration getCurrentTime() {
+        return player.getCurrentTime();
     }
 }

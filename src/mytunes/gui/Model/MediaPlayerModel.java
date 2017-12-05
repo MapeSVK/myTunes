@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
+import javafx.util.Duration;
 import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
@@ -456,12 +457,22 @@ public class MediaPlayerModel
     }
     
     
-    public void playMedia(Media media) {
+    public void playMedia(Media media) 
+    {
        bllManager.playMedia(media);
+    }
+    
+    public void setMedia(Media media)
+    {
+        bllManager.setMedia(media);
     }
     
     public void setVolume(double vol) {
         bllManager.setVolume(vol);
     }
-
+    
+    public Duration getCurrentTime() 
+    {
+        return bllManager.getCurrentTime();
+    }
 }
