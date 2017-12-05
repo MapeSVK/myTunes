@@ -17,7 +17,7 @@ class Player
 {
     private Media media;
     private double volume;
-    private MediaPlayer player = new MediaPlayer(media);    
+    private MediaPlayer player;    
 
     public Player(Media media) {
        this.media = media;
@@ -36,7 +36,7 @@ class Player
     
     public void setVolume(double volume) {
         this.volume = volume;
-        player.volumeProperty().setValue(this.volume);
+        //player.volumeProperty().setValue(this.volume);
     }
 
     public Duration getCurrentTime() {
@@ -45,6 +45,7 @@ class Player
 
     public void setMedia(Media media) {
        this.media = media;
+       player = new MediaPlayer(this.media);
     }
     
 }
