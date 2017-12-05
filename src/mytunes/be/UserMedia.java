@@ -6,10 +6,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
-<<<<<<< HEAD
-
-=======
->>>>>>> b365324f0be59c81698fe5939907a868b62f5871
 
 public class UserMedia {
 
