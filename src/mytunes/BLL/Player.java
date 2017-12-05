@@ -5,9 +5,15 @@
  */
 package mytunes.BLL;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import mytunes.be.UserMedia;
 
 /**
  *
@@ -16,12 +22,8 @@ import javafx.util.Duration;
 class Player
 {
     private Media media;
-    private double volume;
-<<<<<<< HEAD
-    private MediaPlayer mediaPlayer;  
-=======
+    private final DoubleProperty volume = new SimpleDoubleProperty();
     private MediaPlayer player;    
->>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
 
     public Player(Media media) 
     {
@@ -29,6 +31,21 @@ class Player
     }
 
     public Player() {
+
+    }
+    
+    public double getVolume() {
+        return volume.get();
+    }
+
+    public void setVolume(double value) {
+        if (player != null) {
+            player.setVolume(value);
+        }
+    }
+
+    public DoubleProperty volumeProperty() {
+        return volume;
     }
     
     public void play() {
@@ -38,11 +55,6 @@ class Player
     public void pause() {
         player.pause();
     }
-    
-    public void setVolume(double volume) {
-        this.volume = volume;
-        //player.volumeProperty().setValue(this.volume);
-    }
 
     public Duration getCurrentTime() {
         return player.currentTimeProperty().getValue();
@@ -51,11 +63,7 @@ class Player
     public void setMedia(Media media) 
     {
        this.media = media;
-<<<<<<< HEAD
-       player = new MediaPlayer(media);
-=======
        player = new MediaPlayer(this.media);
->>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
     }
     
 }
