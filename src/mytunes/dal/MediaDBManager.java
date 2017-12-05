@@ -61,7 +61,7 @@ public class MediaDBManager {
             pstatement.setString(1, media.getTitle());
             pstatement.setString(2, media.getArtist());
             pstatement.setString(3, media.getCategory());
-            pstatement.setInt(4, media.getTime());
+            pstatement.setDouble(4, media.getTime());
             pstatement.setString(5, media.getPath());
             int affected = pstatement.executeUpdate();
             if (affected < 1) {
@@ -88,7 +88,7 @@ public class MediaDBManager {
             pstatement.setString(1, media.getTitle());
             pstatement.setString(2, media.getArtist());
             pstatement.setString(3, media.getCategory());
-            pstatement.setInt(4, media.getTime());
+            pstatement.setDouble(4, media.getTime());
             pstatement.setString(5, media.getPath());
             pstatement.setInt(6, media.getId());
             int affected = pstatement.executeUpdate();
