@@ -40,6 +40,7 @@ public class MediaDBManager {
                 tempMedia.setCategory(result.getString("category"));
                 tempMedia.setTime(result.getInt("time"));
                 tempMedia.setPath(result.getString("path"));
+                tempMedia.createMediaFromPath();
                 mediaList.add(tempMedia);
             }
         } catch (Exception e) {

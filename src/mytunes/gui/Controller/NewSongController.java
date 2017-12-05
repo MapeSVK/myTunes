@@ -52,7 +52,7 @@ public class NewSongController implements Initializable {
     private Button cancelNewSongButton;
     
     private MediaPlayerModel model;
-    private UserMedia media;
+    private UserMedia workingUserMedia;
     
     private enum Mode {NEW, EDIT}   
     private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
@@ -67,13 +67,13 @@ public class NewSongController implements Initializable {
             if (model.getMediaMode() == mytunes.be.Mode.EDIT)
             {
                 mode = Mode.EDIT;
-                media = model.getSelectedMedia();
+                workingUserMedia = model.getSelectedMedia();
                 fillData();
             }
             else
             {
                 mode = Mode.NEW;
-                media = new UserMedia();
+                workingUserMedia = new UserMedia();
             }
         } catch (ModelException ex)
         {
@@ -89,7 +89,9 @@ public class NewSongController implements Initializable {
         FileChooser fc = new FileChooser();
         URI uri = fc.showOpenDialog(new ContextMenu()).toURI();
         
-        media = getMetaData(uri);
+        workingUserMedia = getMetaData(uri);
+        Media media = new Media(uri.toString());
+        workingUserMedia.setMedia(media);
         fillData();
     }
 
@@ -177,12 +179,12 @@ public class NewSongController implements Initializable {
     //Fill the textfields with the data of the media instance
     private void fillData()
     {
-        songArtistField.setText(media.getArtist());
-        titleOfSongField.setText(media.getTitle());
-        songTimeField.setText(media.getTimeString());
-        songPathField.setText(media.getPath());
+        songArtistField.setText(workingUserMedia.getArtist());
+        titleOfSongField.setText(workingUserMedia.getTitle());
+        songTimeField.setText(workingUserMedia.getTimeString());
+        songPathField.setText(workingUserMedia.getPath());
         
-        chooseCategoryComboBox.setValue(media.getCategory());
+        chooseCategoryComboBox.setValue(workingUserMedia.getCategory());
     }
     
     //Read the data from the text fields, and save it to the UserMedia instance
@@ -195,12 +197,12 @@ public class NewSongController implements Initializable {
             String path = songPathField.getText();
             String category = chooseCategoryComboBox.getValue();
             
-            media.setArtist(artist);
-            media.setTitle(title);
-            media.setCategory(category);
-            media.setPath(path);
+            workingUserMedia.setArtist(artist);
+            workingUserMedia.setTitle(title);
+            workingUserMedia.setCategory(category);
+            workingUserMedia.setPath(path);
             
-            model.addNewMedia(media);
+            model.addNewMedia(workingUserMedia);
         } 
         catch (ModelException ex)
         {

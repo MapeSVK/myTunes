@@ -1,5 +1,6 @@
 package mytunes.be;
 
+import java.net.URI;
 import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,11 +14,11 @@ public class UserMedia {
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty artist = new SimpleStringProperty();
     private final StringProperty category = new SimpleStringProperty();
-    private final StringProperty path = new SimpleStringProperty();
+    private final StringProperty path = new SimpleStringProperty(); //The user-readable path of the media file
     private Media media;
     private double time;
     private String timeString;
-
+    
     public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) {
         this.id.set(id);
         this.title.set(title);
@@ -28,11 +29,20 @@ public class UserMedia {
         this.time = time;
     }
 
-    public UserMedia() {
+    public UserMedia() 
+    {
 
     }
-
-    public String getTitle() {
+    
+    //Creates a media from the path (for examle, when loading a UserMedia object from hte DB)
+    public void createMediaFromPath()
+    {
+        this.media = new Media(URI.create(path.get()).toString());
+        //return;
+    }
+    
+    public String getTitle() 
+    {
         return title.get();
     }
 
