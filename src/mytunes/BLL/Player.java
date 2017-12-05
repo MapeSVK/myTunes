@@ -19,9 +19,10 @@ class Player
     private MediaPlayer player;
     
     private double volume;
-    private MediaPlayer mediaPlayer = new MediaPlayer(media);    
+    private MediaPlayer mediaPlayer;  
 
-    public Player(Media media) {
+    public Player(Media media) 
+    {
        this.media = media;
     }
 
@@ -45,8 +46,10 @@ class Player
         return player.currentTimeProperty().getValue();
     }
 
-    public void setMedia(Media media) {
+    public void setMedia(Media media) 
+    {
        this.media = media;
+       player = new MediaPlayer(media);
     }
     
 }

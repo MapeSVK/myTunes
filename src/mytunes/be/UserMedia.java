@@ -19,7 +19,8 @@ public class UserMedia {
     private double time;
     private String timeString;
     
-    public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) {
+    public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) 
+    {
         this.id.set(id);
         this.title.set(title);
         this.artist.set(artist);
@@ -39,6 +40,7 @@ public class UserMedia {
     {
         try
         {
+            System.out.println(URI.create(path.get()).toString());
             this.media = new Media(URI.create(path.get()).toString());
         }
         catch (Exception ex)

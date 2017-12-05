@@ -92,6 +92,7 @@ public class NewSongController implements Initializable {
         
         workingUserMedia = getMetaData(uri);
         Media media = new Media(uri.toString());
+        System.out.println(uri.toString());
         workingUserMedia.setMedia(media);
         fillData();
     }

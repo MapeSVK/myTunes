@@ -240,6 +240,7 @@ public class BLLManager {
     public void playMedia(Media media) 
     {
         player.setMedia(media);
+        player.play();
     }
     
     public void setMedia(Media media) {
