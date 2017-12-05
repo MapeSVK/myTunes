@@ -456,19 +456,23 @@ public class MediaPlayerModel
     
     }
     
-    public void setMedia(Media media) {
-        bllManager.setMedia(media);
+    
+    public void playMedia(Media media) 
+    {
+       bllManager.playMedia(media);
     }
     
-    public void playMedia() {
-        bllManager.playMedia();
+    public void setMedia(Media media)
+    {
+        bllManager.setMedia(media);
     }
     
     public void setVolume(double vol) {
         bllManager.setVolume(vol);
     }
     
-    public Duration getCurrentTime() {
+    public Duration getCurrentTime() 
+    {
         return bllManager.getCurrentTime();
     }
 }

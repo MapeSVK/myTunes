@@ -232,13 +232,14 @@ public class MainController implements Initializable {
     private void playArrowClicked(MouseEvent event) {
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
         model.setMedia(selectedMedia.getMedia());
-        model.playMedia();
+        model.playMedia(selectedMedia.getMedia());
     }
 
     @FXML
     private void volumeClicked(MouseEvent event) {
         model.setVolume(volumeController.getValue());
     }
+    
 
     //Search for the string
     @FXML

@@ -28,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mytunes.be.Mode;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
@@ -55,7 +56,6 @@ public class NewSongController implements Initializable {
     private MediaPlayerModel model;
     private UserMedia workingUserMedia;
     
-    private enum Mode {NEW, EDIT}   
     private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
     
     @Override

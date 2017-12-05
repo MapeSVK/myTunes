@@ -237,9 +237,10 @@ public class BLLManager {
             throw new BLLException(ex);
         }
     }
-    
-    public void playMedia() {
-        player.play();
+   
+    public void playMedia(Media media) 
+    {
+        player.setMedia(media);
     }
     
     public void setMedia(Media media) {
