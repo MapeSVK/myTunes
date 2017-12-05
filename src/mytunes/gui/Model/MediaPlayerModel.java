@@ -11,6 +11,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
 import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
@@ -418,5 +419,13 @@ public class MediaPlayerModel
         
         list.moveSongDown(index);
     
+    }
+    
+    public void playMedia(Media media) {
+        bllManager.playMedia(media);
+    }
+    
+    public void setVolume(double vol) {
+        bllManager.setVolume(vol);
     }
 }
