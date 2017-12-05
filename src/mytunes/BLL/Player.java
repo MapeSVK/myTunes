@@ -16,10 +16,12 @@ import javafx.util.Duration;
 class Player
 {
     private Media media;
-    private MediaPlayer player;
-    
     private double volume;
+<<<<<<< HEAD
     private MediaPlayer mediaPlayer;  
+=======
+    private MediaPlayer player;    
+>>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
 
     public Player(Media media) 
     {
@@ -39,7 +41,7 @@ class Player
     
     public void setVolume(double volume) {
         this.volume = volume;
-        player.volumeProperty().setValue(this.volume);
+        //player.volumeProperty().setValue(this.volume);
     }
 
     public Duration getCurrentTime() {
@@ -49,7 +51,11 @@ class Player
     public void setMedia(Media media) 
     {
        this.media = media;
+<<<<<<< HEAD
        player = new MediaPlayer(media);
+=======
+       player = new MediaPlayer(this.media);
+>>>>>>> e88965e5d77fb00ba0dc286aed469d3c509e10af
     }
     
 }
