@@ -242,11 +242,7 @@ public class BLLManager {
         player.setMedia(media);
         player.play();
     }
-    
-    public void setMedia(Media media) {
-        player = new Player(media);
-    }
-
+   
     public void setVolume(double vol) 
     {
         player.setVolume(vol);

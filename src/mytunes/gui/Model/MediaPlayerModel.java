@@ -127,6 +127,14 @@ public class MediaPlayerModel
      //Attempt saving the media into the DB and the memory
     public void addNewMedia(UserMedia selectedSong) throws ModelException
     {
+        for (UserMedia userMedia : allMedia)
+        {
+            if (userMedia.getArtist().equalsIgnoreCase(selectedSong.getArtist()) && userMedia.getTitle().equalsIgnoreCase(selectedSong.getTitle()))
+            {
+                throw new ModelException("Media is already in the list!");
+            }
+        }
+        
         try 
         {
             bllManager.addNewMedia(selectedSong);
@@ -453,18 +461,11 @@ public class MediaPlayerModel
         }
         
         list.moveSongDown(index);
-    
     }
-    
     
     public void playMedia(Media media) 
     {
        bllManager.playMedia(media);
-    }
-    
-    public void setMedia(Media media)
-    {
-        bllManager.setMedia(media);
     }
     
     public void setVolume(double vol) {

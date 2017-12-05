@@ -100,3 +100,4 @@ $RECYCLE.BIN/
 *.lnk
 nbproject/project.properties
 nbproject/project.properties
+*.properties

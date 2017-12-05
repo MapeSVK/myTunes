@@ -225,11 +225,13 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void previousArrowClicked(MouseEvent event) {
+    private void previousArrowClicked(MouseEvent event) 
+    {
     }
 
     @FXML
-    private void playArrowClicked(MouseEvent event) {
+    private void playArrowClicked(MouseEvent event) 
+    {
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
         model.playMedia(selectedMedia.getMedia());
     }
