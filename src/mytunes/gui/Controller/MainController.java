@@ -259,6 +259,7 @@ public class MainController implements Initializable {
     {
         model.setVolume(volumeController.getValue());
     }
+    
 
     //Search for the string
     @FXML

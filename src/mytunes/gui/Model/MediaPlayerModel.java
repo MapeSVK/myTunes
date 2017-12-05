@@ -455,11 +455,13 @@ public class MediaPlayerModel
     
     }
     
+    
     public void playMedia(Media media) {
-        bllManager.playMedia(media);
+       bllManager.playMedia(media);
     }
     
     public void setVolume(double vol) {
         bllManager.setVolume(vol);
     }
+
 }
