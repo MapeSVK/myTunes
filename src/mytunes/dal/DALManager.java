@@ -7,6 +7,7 @@ package mytunes.dal;
 
 import java.net.URI;
 import java.util.List;
+import javafx.scene.media.Media;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 
