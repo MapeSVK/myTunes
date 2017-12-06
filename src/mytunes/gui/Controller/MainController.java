@@ -249,13 +249,11 @@ public class MainController implements Initializable {
             model.playMedia(selectedMedia.getMedia());
             play.setImage(img_pause);
             isPlaying = true;
-        }
-        else {
+        } else {
             model.pauseMedia();
             play.setImage(img_play);
             isPlaying = false;
         }
-
     }
 
     @FXML
