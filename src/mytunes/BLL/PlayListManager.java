@@ -16,68 +16,86 @@ import mytunes.dal.DALManager;
  *
  * @author sebok
  */
-public class PlayListManager {
+public class PlayListManager
+{
 
     private DALManager dalManager;
 
-    public PlayListManager(DALManager dm) {
+    public PlayListManager(DALManager dm)
+    {
         this.dalManager = dm;
     }
 
     //Attempt to load the play list from the DB
-    List<PlayList> loadPlayLists() throws BLLException {
-        try {
+    List<PlayList> loadPlayLists() throws BLLException
+    {
+        try
+        {
             return dalManager.getAllPlayList();
         }
-        catch (DAException ex) {
+        catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }
 
-    void saveNewPlayList(PlayList newPlayList) throws BLLException {
-        try {
+    void saveNewPlayList(PlayList newPlayList) throws BLLException
+    {
+        try
+        {
             dalManager.savePlayList(newPlayList);
         }
-        catch (DAException ex) {
+        catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }
 
-    void updatePlayList(PlayList selectedPlayList) throws BLLException {
-        try {
+    void updatePlayList(PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
             dalManager.editList(selectedPlayList);
         }
-        catch (DAException ex) {
+        catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }
 
     //Remove the selected play list from the DB
-    void removePlayList(PlayList selected) throws BLLException {
-        try {
+    void removePlayList(PlayList selected) throws BLLException
+    {
+        try
+        {
             dalManager.deletePlayList(selected);
         }
-        catch (DAException ex) {
+        catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }
 
     //Update the selected play list in the DB
-    void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
-        try {
+    void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
             dalManager.addMediaToList(selectedPlayList, selectedMedia);
-        }
-        catch (DAException ex) {
+        } catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }
 
     //Update the selected play list in the DB
-    void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
-        try {
+    void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
+    {
+        try
+        {
             dalManager.deleteMediaFromList(selectedPlayList, selectedMedia);
-        }
-        catch (DAException ex) {
+        } catch (DAException ex)
+        {
             throw new BLLException(ex);
         }
     }

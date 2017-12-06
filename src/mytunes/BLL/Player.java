@@ -6,9 +6,12 @@
 package mytunes.BLL;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import mytunes.be.PlayList;
 
 /**
  *
@@ -45,10 +48,10 @@ class Player
         }
         catch (Exception ex)
         {
-            throw new BLLException("You are trying to play a not existing media! Maybe the path of this song is not located on this computer?");
+            new BLLException(ex);
         }
     }
-
+   
     public void pause()
     {
         player.pause();
@@ -59,6 +62,30 @@ class Player
         return player.currentTimeProperty().getValue();
     }
 
+    public void play(PlayList list) throws BLLException
+    {
+        player = new MediaPlayer(list.getCurrentlyPlaying().getMedia());
+        player.play();
+        player.setOnEndOfMedia(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    player.stop();
+                    list.setNextIndex();
+                    setMedia(list.getCurrentlyPlaying().getMedia());
+                    Player.this.play();
+                } 
+                catch (BLLException ex)
+                {
+                    Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
     public void setMedia(Media media) throws BLLException
     {
         try
