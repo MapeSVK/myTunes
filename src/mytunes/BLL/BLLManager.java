@@ -294,4 +294,26 @@ public class BLLManager {
             throw new BLLException(ex);
         }
     }
+    
+    
+    public void nextMedia(PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        selectedPlayList.setNextIndex();
+        
+    }
+
+    public void previousMedia(PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        selectedPlayList.setPreviousIndex();
+    }
 }

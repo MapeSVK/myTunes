@@ -25,11 +25,13 @@ public class PlayList {
     private final IntegerProperty count = new SimpleIntegerProperty();
     private double totalTimeInSeconds;
     private final StringProperty timeFormattedAsString = new SimpleStringProperty();
+    private int currentlyPlayingIndex;
     
     public PlayList()
     {
         setCount(0);
         totalTimeInSeconds = 0;
+        currentlyPlayingIndex = 0;
     }
     
     public String getTimeFormattedAsString()
@@ -180,6 +182,40 @@ public class PlayList {
         mediaList.set(index, switchSong);
     }
 
+    //Return the media that is currently being played
+    public UserMedia getCurrentlyPlaying()
+    {
+        return mediaList.get(currentlyPlayingIndex);
+    }
+    
+    //Set the index to the next UserMedia object. 
+    //If the end of the list is reached, loop around to the first one
+    public void setNextIndex()
+    {
+        if (currentlyPlayingIndex < mediaList.size() - 1)
+        {
+            this.currentlyPlayingIndex++;
+        }
+        else
+        {
+            currentlyPlayingIndex = 0;
+        }
+    }
+    
+    //Set the index to the privious UserMedia object. 
+    //If the beginnig of the list is reached, loop around to the last one
+    public void setPreviousIndex()
+    {
+        if (currentlyPlayingIndex > 0)
+        {
+            this.currentlyPlayingIndex--;
+        }
+        else
+        {
+            currentlyPlayingIndex = mediaList.size() - 1;
+        }
+    }
+    
     @Override
     public String toString() 
     {

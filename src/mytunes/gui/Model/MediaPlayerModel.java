@@ -498,4 +498,24 @@ public class MediaPlayerModel {
     public Duration getCurrentTime() {
         return bllManager.getCurrentTime();
     }
+    
+        //Set the currently playing media to the next one in the list
+    public void setNextMedia(PlayList selectedPlayList) throws ModelException {
+        try {
+            bllManager.nextMedia(selectedPlayList);
+        }
+        catch (BLLException ex) {
+            throw new ModelException(ex);
+        }
+    }
+
+    //Set the currently playing media to the previous one in the list
+    public void setPreviousMedia(PlayList selectedPlayList) throws ModelException {
+        try {
+            bllManager.previousMedia(selectedPlayList);
+        }
+        catch (BLLException ex) {
+            throw new ModelException(ex);
+        }
+    }
 }
