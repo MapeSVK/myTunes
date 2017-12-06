@@ -16,17 +16,14 @@ import mytunes.dal.DALManager;
  *
  * @author sebok
  */
-public class PlayListManager
-{
+public class PlayListManager {
 
     private DALManager dalManager;
 
-    public PlayListManager(DALManager dm)
-    {
+    public PlayListManager(DALManager dm) {
         this.dalManager = dm;
     }
 
-<<<<<<< HEAD
     /**
      * Attempt to load the play list from the DB
      * 
@@ -35,22 +32,13 @@ public class PlayListManager
      */
     List<PlayList> loadPlayLists() throws BLLException {
         try {
-=======
-    //Attempt to load the play list from the DB
-    List<PlayList> loadPlayLists() throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             return dalManager.getAllPlayList();
         }
-        catch (DAException ex)
-        {
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
-<<<<<<< HEAD
     /**
      * Attempt to save a new playlist into the DB 
      * 
@@ -59,20 +47,12 @@ public class PlayListManager
      */
     void saveNewPlayList(PlayList newPlayList) throws BLLException {
         try {
-=======
-    void saveNewPlayList(PlayList newPlayList) throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             dalManager.savePlayList(newPlayList);
         }
-        catch (DAException ex)
-        {
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
-<<<<<<< HEAD
     
     /**
      * Attempt to update existng playlist in the DB
@@ -82,22 +62,13 @@ public class PlayListManager
      */
     void updatePlayList(PlayList selectedPlayList) throws BLLException {
         try {
-=======
-
-    void updatePlayList(PlayList selectedPlayList) throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             dalManager.editList(selectedPlayList);
         }
-        catch (DAException ex)
-        {
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
-<<<<<<< HEAD
     /**
      * Remove the selected play list from the DB
      * 
@@ -106,22 +77,13 @@ public class PlayListManager
      */
     void removePlayList(PlayList selected) throws BLLException {
         try {
-=======
-    //Remove the selected play list from the DB
-    void removePlayList(PlayList selected) throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             dalManager.deletePlayList(selected);
         }
-        catch (DAException ex)
-        {
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
-<<<<<<< HEAD
     /**
      * Update the selected play list in the DB
      * @param selectedMedia
@@ -130,21 +92,13 @@ public class PlayListManager
      */
     void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {
-=======
-    //Update the selected play list in the DB
-    void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             dalManager.addMediaToList(selectedPlayList, selectedMedia);
-        } catch (DAException ex)
-        {
+        }
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
-<<<<<<< HEAD
     /**
      * Update the selected play list in the DB
      * 
@@ -154,16 +108,9 @@ public class PlayListManager
      */
     void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {
-=======
-    //Update the selected play list in the DB
-    void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException
-    {
-        try
-        {
->>>>>>> e46496733085b22fdae456867cfadc6cbf190867
             dalManager.deleteMediaFromList(selectedPlayList, selectedMedia);
-        } catch (DAException ex)
-        {
+        }
+        catch (DAException ex) {
             throw new BLLException(ex);
         }
     }

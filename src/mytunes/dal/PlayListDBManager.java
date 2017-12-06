@@ -56,7 +56,6 @@ public class PlayListDBManager {
                         tempMedia.setCategory(result2.getString("category"));
                         tempMedia.setTime(result2.getInt("time"));
                         tempMedia.setPath(result2.getString("path"));
-                        tempMedia.createMediaFromPath();
                         playList.addMedia(tempMedia);
                     }
                 }
