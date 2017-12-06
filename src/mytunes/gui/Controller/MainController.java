@@ -127,13 +127,18 @@ public class MainController implements Initializable
         upArrow.setImage(img_up);
         downArrow.setImage(img_down);
         addArrow.setImage(img_addArrow);
+        
         model = MediaPlayerModel.getInstance();
+        
         setUpPlayListCellFactories();
         setUpSongsCellFactories();
+        
         loadMedia();
+        
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getMedia());
         model.setVolume(volumeController.getValue());
+        
         setListenersAndEventHandlers();
     }
 
@@ -333,9 +338,9 @@ public class MainController implements Initializable
             {
                 if (!isPlaying)
                 {
+                    setSongLabel(selectedPlayList.getCurrentlyPlaying());
                     model.playMedia();
                     play.setImage(img_pause);
-                    setSongLabel(selectedPlayList.getCurrentlyPlaying());
                     isPlaying = true;
                 } 
                 else

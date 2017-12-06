@@ -32,6 +32,7 @@ public class BLLManager
 
 //******************************************************************************************************************************************************************//
 //Load data
+    
     //Load the information of the stored media from the DB
     public List<UserMedia> loadMedia() throws BLLException
     {
@@ -64,7 +65,7 @@ public class BLLManager
         }
     }
 
-    //Attempt to save a playlist to the DN
+    //Attempt to save a playlist to the DB
     public void saveNewPlayList(PlayList newPlayList) throws BLLException
     {
         if (newPlayList == null)
@@ -195,14 +196,26 @@ public class BLLManager
 
 //******************************************************************************************************************************************************************//
 //MediaPlayer control methods
+    
     public void playMedia(Media media) throws BLLException
     {
+        if (media == null)
+        {
+           throw new BLLException("No media selected!");
+        }
+        
         player.setMedia(media);
         player.play();
     }
 
     public void playMedia() throws BLLException
     {
+        player.play();
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
         player.play();
     }
     
@@ -249,16 +262,6 @@ public class BLLManager
 //******************************************************************************************************************************************************************//
 //Other methods
     
-    public boolean hasMedia()
-    {
-        return selectedMedia != null;
-    }
-
-    public boolean hasPlayList()
-    {
-        return selectedPlayList != null;
-    }
-
     //Attempts to retrieve the metadata of the file associated with the URI
     public UserMedia getMetaData(URI path) throws BLLException
     {
