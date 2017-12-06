@@ -19,9 +19,8 @@ public class UserMedia {
     private Media media;
     private double time;
     private String timeString;
-    
-    public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) 
-    {
+
+    public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) {
         this.id.set(id);
         this.title.set(title);
         this.artist.set(artist);
@@ -31,30 +30,25 @@ public class UserMedia {
         this.time = time;
     }
 
-    public UserMedia() 
-    {
+    public UserMedia() {
 
     }
-    
+
     //Creates a media from the path (for examle, when loading a UserMedia object from hte DB)
-    public void createMediaFromPath() throws Exception
-    {
+    public void createMediaFromPath() throws Exception {
         System.out.println("");
-        try
-        {
+        try {
             File f = new File(path.get());
             this.media = new Media(f.toURI().toString());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             //If the save did not occure on the current machine, an error will occur, and the Media object will no be created
             //The data, hovewer, will not be displayed (but it will appear on the tableView)
             System.out.println(ex.getMessage());
         }
     }
-    
-    public String getTitle() 
-    {
+
+    public String getTitle() {
         return title.get();
     }
 
@@ -128,25 +122,21 @@ public class UserMedia {
 
     public String getTimeString() {
         long timeInLong = new Double(time).longValue();
-        
         int day = (int) TimeUnit.SECONDS.toDays(timeInLong);
         long hours = TimeUnit.SECONDS.toHours(timeInLong) - (day * 24);
         long minute = TimeUnit.SECONDS.toMinutes(timeInLong) - (TimeUnit.SECONDS.toHours(timeInLong) * 60);
         long second = TimeUnit.SECONDS.toSeconds(timeInLong) - (TimeUnit.SECONDS.toMinutes(timeInLong) * 60);
-
         timeString = String.format("%02d:%02d:%02d", hours, minute, second);
 
         return timeString;
     }
 
     @Override
-    public String toString() 
-    {
+    public String toString() {
         return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
 
-    public void setMedia(Media media) 
-    {
+    public void setMedia(Media media) {
         this.media = media;
     }
 

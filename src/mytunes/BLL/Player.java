@@ -15,11 +15,10 @@ import javafx.util.Duration;
  */
 class Player {
 
-    private Media media;
     private MediaPlayer player;
 
     public Player(Media media) {
-        this.media = media;
+        player = new MediaPlayer(media);
     }
 
     public Player() {
@@ -45,8 +44,6 @@ class Player {
     }
 
     public void setMedia(Media media) {
-        this.media = media;
-        player = new MediaPlayer(this.media);
-    }
-
+        player = new MediaPlayer(media);
+    }  
 }

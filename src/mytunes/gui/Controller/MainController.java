@@ -54,8 +54,6 @@ public class MainController implements Initializable {
     @FXML
     private ImageView play;
     @FXML
-    private ImageView pause;
-    @FXML
     private ImageView search;
     @FXML
     private ImageView addArrow;
@@ -71,7 +69,7 @@ public class MainController implements Initializable {
     private TextField searchField;
     @FXML
     private TableView<PlayList> playlistTableView;
-    @FXML 
+    @FXML
     private ListView<UserMedia> playlistSongsListView;
     @FXML
     private TableView<UserMedia> songsTableView;
@@ -89,17 +87,6 @@ public class MainController implements Initializable {
     private TableColumn<UserMedia, String> songsColumnTime;
     @FXML
     private TableColumn<UserMedia, String> songsColumnCategory;
-
-    private final Image img_next = new Image("file:images/next.png");
-    private final Image img_previous = new Image("file:images/previous.png");
-    private final Image img_play = new Image("file:images/play.png");
-    private final Image img_pause = new Image("file:images/pause.png");
-    private final Image img_search = new Image("file:images/search.png");
-    private final Image img_down = new Image("file:images/down.png");
-    private final Image img_up = new Image("file:images/up.png");
-    private final Image img_addArrow = new Image("file:images/previous.png");
-   
-    private MediaPlayerModel model;
     @FXML
     private Button newPlaylistButton;
     @FXML
@@ -117,26 +104,32 @@ public class MainController implements Initializable {
     @FXML
     private Button deleteSongButton;
 
+    private final Image img_next = new Image("file:images/next.png");
+    private final Image img_previous = new Image("file:images/previous.png");
+    private final Image img_play = new Image("file:images/play.png");
+    private final Image img_pause = new Image("file:images/pause.png");
+    private final Image img_search = new Image("file:images/search.png");
+    private final Image img_down = new Image("file:images/down.png");
+    private final Image img_up = new Image("file:images/up.png");
+    private final Image img_addArrow = new Image("file:images/previous.png");
+    private MediaPlayerModel model;
+    private boolean isPlaying = false;
+
     public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
         previous.setImage(img_previous);
         play.setImage(img_play);
-        pause.setImage(img_pause);
         search.setImage(img_search);
         upArrow.setImage(img_up);
         downArrow.setImage(img_down);
         addArrow.setImage(img_addArrow);
-
         model = MediaPlayerModel.getInstance();
-
         setUpPlayListCellFactories();
         setUpSongsCellFactories();
-
         loadMedia();
-
         playlistTableView.setItems(model.getPlayLists());
         songsTableView.setItems(model.getMedia());
-
+        model.setVolume(volumeController.getValue());
         setListenersAndEventHandlers();
     }
 
@@ -246,35 +239,30 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void previousArrowClicked(MouseEvent event) 
-    {
+    private void previousArrowClicked(MouseEvent event) {
     }
 
     @FXML
-    private void playArrowClicked(MouseEvent event) 
-    {
-        UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
-        model.playMedia(selectedMedia.getMedia());
-        play.setVisible(false);
-        play.setDisable(true);
-        pause.setDisable(false);
-        pause.setVisible(true);
-    }
-    
-    @FXML
-    private void pauseBtnClicked(MouseEvent event) {
-        model.pauseMedia();
-        play.setVisible(true);
-        play.setDisable(false);
-        pause.setDisable(true);
-        pause.setVisible(false);
+    private void playArrowClicked(MouseEvent event) {
+        if (!isPlaying) {
+            UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
+            model.playMedia(selectedMedia.getMedia());
+            play.setImage(img_pause);
+            isPlaying = true;
+        }
+        else {
+            model.pauseMedia();
+            play.setImage(img_play);
+            isPlaying = false;
+        }
+
     }
 
     @FXML
     private void volumeClicked(MouseEvent event) {
         model.setVolume(volumeController.getValue());
     }
-    
+
     //Search for the string
     @FXML
     private void searchClicked(MouseEvent event) {
@@ -301,13 +289,11 @@ public class MainController implements Initializable {
     @FXML
     private void deletePlaylistClicked(ActionEvent event) {
         PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
-
         if (selected != null) {
             if (showConfirmationDialog("Are you sure you want to delete this play list?")) {
                 return;
             }
         }
-
         try {
             model.removePlayList(selected);
         }
