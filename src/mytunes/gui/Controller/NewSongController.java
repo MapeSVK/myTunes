@@ -83,7 +83,11 @@ public class NewSongController implements Initializable {
         }
     }
     
-    //Open a file chooser dialog and read in the meta data of the selected file
+    /**
+     * Open a file chooser dialog and read in the meta data of the selected file
+     * 
+     * @param event 
+     */
     @FXML
     private void chooseFileClicked(ActionEvent event)
     {
@@ -96,7 +100,11 @@ public class NewSongController implements Initializable {
         fillData();
     }
 
-    //Open a new window, that lets us add a new category tot he list
+    /**
+     * Open a new window, that lets us add a new category tot he list
+     * 
+     * @param event 
+     */
     @FXML
     private void addNewCategoryClicked(ActionEvent event)
     {
@@ -117,7 +125,11 @@ public class NewSongController implements Initializable {
         }
     }
     
-    //Save the song when the button is cliked, and close the window
+    /**
+     * Save the song when the button is cliked, and close the window
+     * @param event 
+     */
+    
     @FXML
     private void saveSongClicked(ActionEvent event)
     {
@@ -125,7 +137,10 @@ public class NewSongController implements Initializable {
         closeWindow();
     }
     
-    //Save the song when the "Enter" key is pressed, and close the window
+    /**
+     * Save the song when the "Enter" key is pressed, and close the window
+     * @param event 
+     */
     @FXML
     private void onKeyPressed(KeyEvent event)
     {
@@ -140,7 +155,11 @@ public class NewSongController implements Initializable {
 //*********************************************************************************************************************************************************** 
 //Helper methods
     
-    //Retrieve the metadata of the file represented by the uri
+    /**
+     * Retrieve the metadata of the file represented by the uri
+     * @param uri
+     * @return 
+     */
     private UserMedia getMetaData(URI uri)
     {
         UserMedia m = new UserMedia();
@@ -156,28 +175,38 @@ public class NewSongController implements Initializable {
         return m;
     }
     
-    //Close the window
+    /**
+     * Close the window
+     * @param event 
+     */
     @FXML
     private void cancelNewSongClicked(ActionEvent event) 
     {
         closeWindow();
     }
     
-    //Show an alert window
+    /**
+     * Show an alert window
+     * @param ex 
+     */
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
     }
     
-    //Close this window
+    /**
+     * Close this window
+     */
     private void closeWindow()
     {
         Stage stage = (Stage) cancelNewSongButton.getScene().getWindow();
         stage.close();
     }
     
-    //Fill the textfields with the data of the media instance
+    /**
+     * Fill the textfields with the data of the media instance
+     */
     private void fillData()
     {
         songArtistField.setText(workingUserMedia.getArtist());
@@ -188,7 +217,9 @@ public class NewSongController implements Initializable {
         chooseCategoryComboBox.setValue(workingUserMedia.getCategory());
     }
     
-    //Read the data from the text fields, and save it to the UserMedia instance
+    /**
+     * Read the data from the text fields, and save it to the UserMedia instance
+     */
     private void saveDataFromTextFields()
     {
         try

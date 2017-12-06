@@ -71,7 +71,7 @@ public class PlayListDBManager {
      * Saves the data of a given UserMedia to the database.
      * 
      * @param playlist
-     * @throws DAException 
+     * @throws DAException Asd
      */
     public void save(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {

@@ -24,7 +24,12 @@ public class PlayListManager {
         this.dalManager = dm;
     }
 
-    //Attempt to load the play list from the DB
+    /**
+     * Attempt to load the play list from the DB
+     * 
+     * @return List
+     * @throws BLLException 
+     */
     List<PlayList> loadPlayLists() throws BLLException {
         try {
             return dalManager.getAllPlayList();
@@ -34,6 +39,12 @@ public class PlayListManager {
         }
     }
 
+    /**
+     * Attempt to save a new playlist into the DB 
+     * 
+     * @param newPlayList
+     * @throws BLLException 
+     */
     void saveNewPlayList(PlayList newPlayList) throws BLLException {
         try {
             dalManager.savePlayList(newPlayList);
@@ -42,7 +53,13 @@ public class PlayListManager {
             throw new BLLException(ex);
         }
     }
-
+    
+    /**
+     * Attempt to update existng playlist in the DB
+     * 
+     * @param selectedPlayList
+     * @throws BLLException 
+     */
     void updatePlayList(PlayList selectedPlayList) throws BLLException {
         try {
             dalManager.editList(selectedPlayList);
@@ -52,7 +69,12 @@ public class PlayListManager {
         }
     }
 
-    //Remove the selected play list from the DB
+    /**
+     * Remove the selected play list from the DB
+     * 
+     * @param selected
+     * @throws BLLException 
+     */
     void removePlayList(PlayList selected) throws BLLException {
         try {
             dalManager.deletePlayList(selected);
@@ -62,7 +84,12 @@ public class PlayListManager {
         }
     }
 
-    //Update the selected play list in the DB
+    /**
+     * Update the selected play list in the DB
+     * @param selectedMedia
+     * @param selectedPlayList
+     * @throws BLLException 
+     */
     void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {
             dalManager.addMediaToList(selectedPlayList, selectedMedia);
@@ -72,7 +99,13 @@ public class PlayListManager {
         }
     }
 
-    //Update the selected play list in the DB
+    /**
+     * Update the selected play list in the DB
+     * 
+     * @param selectedMedia
+     * @param selectedPlayList
+     * @throws BLLException 
+     */
     void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {
             dalManager.deleteMediaFromList(selectedPlayList, selectedMedia);

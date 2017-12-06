@@ -48,8 +48,13 @@ public class MediaPlayerModel {
         });
     }
 
-    //If the model already have an instance return it.
-    //Otherwise create a new instance, and return that.
+    /**
+     * If the model already have an instance return it.
+     * 
+     * Otherwise create a new instance, and return that
+     * 
+     * @return 
+     */
     public static MediaPlayerModel getInstance() {
         if (instance == null) {
             instance = new MediaPlayerModel();
@@ -60,7 +65,13 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Load data
-    //Attempt to load the information from the DB
+    
+
+    /**
+     * Attempt to load the information from the DB
+     * 
+     * @throws ModelException 
+     */
     public void loadDataFromDB() throws ModelException {
         try {
             allMedia.addAll(bllManager.loadMedia());
@@ -74,7 +85,14 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Save data
-    //Add a new category to the list
+    
+    
+    /**
+     * Add a new category to the list
+     * 
+     * @param category
+     * @throws ModelException 
+     */
     public void addNewCategory(String category) throws ModelException {
         category = category.trim(); //Remove tailing and leading whitespaces
 
@@ -91,7 +109,12 @@ public class MediaPlayerModel {
         categories.add(category);
     }
 
-    //Create a new playlist with the supplied title, and save it to the list and the DB
+    /**
+     * Create a new playlist with the supplied title, and save it to the list and the DB
+     * 
+     * @param title
+     * @throws ModelException 
+     */
     public void createNewPlayList(String title) throws ModelException {
         if (title.isEmpty()) //Do not create a playlist with an empty titly
         {
@@ -111,7 +134,12 @@ public class MediaPlayerModel {
         playlists.add(newPlayList);
     }
 
-    //Attempt saving the media into the DB and the memory
+    /**
+     * Attempt saving the media into the DB and the memory
+     * 
+     * @param selectedSong
+     * @throws ModelException 
+     */
     public void addNewMedia(UserMedia selectedSong) throws ModelException {
         try {
             bllManager.addNewMedia(selectedSong);
@@ -122,7 +150,13 @@ public class MediaPlayerModel {
         }
     }
 
-    //Attempt to add the selected media to the selected play list
+    /**
+     * Attempt to add the selected media to the selected play list
+     * 
+     * @param selectedMedia
+     * @param selectedPlayList
+     * @throws ModelException 
+     */
     public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException {
         for (UserMedia userMedia : selectedPlayList.getMediaList()) {
             if (userMedia.getArtist().equalsIgnoreCase(selectedMedia.getArtist()) && userMedia.getTitle().equalsIgnoreCase(selectedMedia.getTitle())) {
@@ -142,7 +176,12 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Edit data
-    //Try to update an already existing play list
+    /**
+     * Try to update an already existing play list
+     * 
+     * @param selectedPlayList
+     * @throws ModelException 
+     */
     public void updatePlayList(PlayList selectedPlayList) throws ModelException {
         try {
             bllManager.updatePlayList(selectedPlayList); //Attempt to update the title of the selected play list in the DB
@@ -160,7 +199,12 @@ public class MediaPlayerModel {
         }
     }
 
-    //Edit an already existing media object
+    /**
+     * Edit an already existing media object
+     * 
+     * @param workingUserMedia
+     * @throws ModelException 
+     */
     public void editMedia(UserMedia workingUserMedia) throws ModelException {
         try {
             bllManager.updateMedia(workingUserMedia);
@@ -183,7 +227,12 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Delete data
-    //Attempt to remove the media instance from the list and the DB
+    /**
+     * Attempt to remove the media instance from the list and the DB
+     * 
+     * @param selected
+     * @throws ModelException 
+     */
     public void removeMedia(UserMedia selected) throws ModelException {
         for (PlayList list : playlists) {
             if (list.containsMedia(selected)) {
@@ -201,7 +250,13 @@ public class MediaPlayerModel {
         allMedia.remove(selected);
     }
 
-    //Attempt to delete the song from the playlist
+    /**
+     * Attempt to delete the song from the playlist
+     * 
+     * @param selectedMedia
+     * @param selectedPlayList
+     * @throws ModelException 
+     */
     public void removeMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException {
         if (!selectedPlayList.containsMedia(selectedMedia)) //This should never occur
         {
@@ -218,7 +273,12 @@ public class MediaPlayerModel {
         selectedPlayList.removeMedia(selectedMedia);
     }
 
-    //Attempt to remove the play list
+    /**
+     * Attempt to remove the play list
+     * 
+     * @param selected
+     * @throws ModelException 
+     */
     public void removePlayList(PlayList selected) throws ModelException {
         if (selected != null) {
             List<UserMedia> inList = new ArrayList<>();
@@ -243,17 +303,29 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Getters and setters
-    //Returns the ObservableList containing the filtered songs
+    /**
+     * Returns the ObservableList containing the filtered songs
+     * 
+     * @return 
+     */
     public ObservableList<UserMedia> getMedia() {
         return this.filteredList;
     }
 
-    //Returns the ObservableList containing the play lists
+    /**
+     * Returns the ObservableList containing the play lists
+     * 
+     * @return 
+     */
     public ObservableList<PlayList> getPlayLists() {
         return this.playlists;
     }
 
-    //Returns all of the possible categories
+    /**
+     * Returns all of the possible categories
+     * 
+     * @return 
+     */
     public ObservableList<String> getCategories() {
         return this.categories;
     }
@@ -274,7 +346,12 @@ public class MediaPlayerModel {
         this.playListMode = playListMode;
     }
 
-    //Update the information inside the BLL to contain the latest selection
+    /**
+     * Update the information inside the BLL to contain the latest selection
+     * 
+     * @param selected
+     * @throws ModelException 
+     */
     public void setSelectedPlayList(PlayList selected) throws ModelException {
         try {
             bllManager.setSelectedPLayList(selected);
@@ -284,7 +361,12 @@ public class MediaPlayerModel {
         }
     }
 
-    //Update the information inside the BLL to contain the latest selection
+    /**
+     * Update the information inside the BLL to contain the latest selection
+     * 
+     * @param selected
+     * @throws ModelException 
+     */
     public void setSelectedMedia(UserMedia selected) throws ModelException {
         try {
             bllManager.setSelectedPMedia(selected);
@@ -294,7 +376,12 @@ public class MediaPlayerModel {
         }
     }
 
-    //Returns the currently selected playlist, which is stored in the BLL
+    /**
+     * Returns the currently selected playlist, which is stored in the BLL
+     * 
+     * @return
+     * @throws ModelException 
+     */
     public PlayList getSelectedPlayList() throws ModelException {
         try {
             return bllManager.getSelectedPlayList();
@@ -304,7 +391,12 @@ public class MediaPlayerModel {
         }
     }
 
-    //Return the currently selected media
+    /**
+     * Return the currently selected media
+     * 
+     * @return
+     * @throws ModelException 
+     */
     public UserMedia getSelectedMedia() throws ModelException {
         try {
             return bllManager.getSelectedMedia();
@@ -316,7 +408,11 @@ public class MediaPlayerModel {
 
 //******************************************************************************************************************************************************************//
 //Other methods
-    //Filter the songs based on the supplied string
+    /**
+     * Filter the songs based on the supplied string
+     * 
+     * @param search 
+     */
     public void searchString(String search) {
         filteredList.clear();
 
@@ -335,7 +431,13 @@ public class MediaPlayerModel {
         }
     }
 
-    //Attempts to retrieve the metadata of the file associated with the URI
+    /**
+     * Attempts to retrieve the metadata of the file associated with the URI
+     * 
+     * @param path
+     * @return
+     * @throws ModelException 
+     */
     public UserMedia getMetaData(URI path) throws ModelException {
         try {
             return bllManager.getMetaData(path);

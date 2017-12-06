@@ -25,7 +25,12 @@ public class MediaObjectManager {
         this.dalManager = dm;
     }
 
-    //Load the data found in the DB
+    /**
+     * Load the data found in the DB
+     * 
+     * @return List
+     * @throws mytunes.BLL.BLLException 
+     */
     List<UserMedia> getMedia() throws BLLException {
         try {
             List<UserMedia> uMediaList = dalManager.getAllMedia();
@@ -43,7 +48,13 @@ public class MediaObjectManager {
         }
     }
 
-    //Get the categories
+    /**
+     * Get the categories
+     * 
+     * @return List
+     * @throws mytunes.BLL.BLLException
+     * 
+     */
     public List<String> getCategories() throws BLLException {
         if (categories == null) {
             throw new BLLException("No data has been red in!");
@@ -51,7 +62,12 @@ public class MediaObjectManager {
         return this.categories;
     }
 
-    //Save the data of the selected media to the DB
+    /**
+     * Save the data of the selected media to the DB
+     * 
+     * @param selectedSong
+     * @throws mytunes.BLL.BLLException 
+     */
     void addNew(UserMedia selectedSong) throws BLLException {
         try {
             dalManager.saveMedia(selectedSong);
@@ -61,7 +77,12 @@ public class MediaObjectManager {
         }
     }
 
-    //Attempt to remove the selected object from the DB
+    /**
+     * Attempt to remove the selected object from the DB
+     * 
+     * @param selected
+     * @throws mytunes.BLL.BLLException 
+     */
     void remove(UserMedia selected) throws BLLException {
         try {
             dalManager.deleteMedia(selected);
@@ -71,7 +92,12 @@ public class MediaObjectManager {
         }
     }
 
-    //Update an existing media object
+   /**
+    * Update an existing media object
+    * 
+    * @param selectedMedia
+    * @throws mytunes.BLL.BLLException 
+    */
     void updateMedia(UserMedia selectedMedia) throws BLLException {
         try {
             dalManager.editMedia(selectedMedia);
