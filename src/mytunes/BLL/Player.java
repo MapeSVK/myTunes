@@ -39,14 +39,7 @@ class Player
 
     public void play() throws BLLException
     {
-        try
-        {
-            player.play();    
-        }
-        catch (Exception ex)
-        {
-            throw new BLLException("You are trying to play a not existing media! Maybe the path of this song is not located on this computer?");
-        }
+        player.play();
     }
 
     public void pause()

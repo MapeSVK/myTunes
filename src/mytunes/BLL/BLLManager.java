@@ -201,9 +201,8 @@ public class BLLManager
         player.play();
     }
 
-    public void playMedia(PlayList selectedPlayList) throws BLLException
+    public void playMedia() throws BLLException
     {
-        player.setMedia(selectedPlayList.getCurrentlyPlaying().getMedia());
         player.play();
     }
     
@@ -220,6 +219,31 @@ public class BLLManager
     public void pauseMedia()
     {
         player.pause();
+    }
+    
+    public void nextMedia(PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        selectedPlayList.setNextIndex();
+        
+    }
+
+    public void previousMedia(PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        selectedPlayList.setPreviousIndex();
+    }
+
+    public void setMedia(Media media) throws BLLException {
+        player.setMedia(media);
     }
 
 //******************************************************************************************************************************************************************//
@@ -245,26 +269,5 @@ public class BLLManager
         {
             throw new BLLException(ex);
         }
-    }
-
-    public void nextMedia(PlayList selectedPlayList) throws BLLException
-    {
-        if (selectedPlayList == null)
-        {
-            throw new BLLException("No playlist selected!");
-        }
-        
-        selectedPlayList.setNextIndex();
-        
-    }
-
-    public void previousMedia(PlayList selectedPlayList) throws BLLException
-    {
-        if (selectedPlayList == null)
-        {
-            throw new BLLException("No playlist selected!");
-        }
-        
-        selectedPlayList.setPreviousIndex();
     }
 }

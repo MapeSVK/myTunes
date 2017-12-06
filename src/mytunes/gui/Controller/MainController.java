@@ -116,6 +116,7 @@ public class MainController implements Initializable
     private final Image img_addArrow = new Image("file:images/previous.png");
     private MediaPlayerModel model;
     private boolean isPlaying = false;
+    private UserMedia currentMedia;
 
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -299,7 +300,6 @@ public class MainController implements Initializable
     {
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        
         try
         {
             if (selectedPlayList == null) //No play list selected, play the selected song
@@ -307,9 +307,20 @@ public class MainController implements Initializable
                 if (!isPlaying)
                 {
                     setSongLabel(selectedMedia);
-                    model.playMedia(selectedMedia.getMedia());
-                    play.setImage(img_pause);
-                    isPlaying = true;
+                    if (selectedMedia != currentMedia)
+                    {
+                        model.setMedia(selectedMedia.getMedia());
+                        model.playMedia();
+                        play.setImage(img_pause);
+                        isPlaying = true;
+                        currentMedia = selectedMedia;
+                    }
+                    else
+                    {
+                        model.playMedia();
+                        play.setImage(img_pause);
+                        isPlaying = true;
+                    }
                 } 
                 else
                 {
@@ -318,11 +329,11 @@ public class MainController implements Initializable
                     isPlaying = false;
                 }
             }
-            else //We hace a selected play list, play all the songs
+            else //We have a selected play list, play all the songs
             {
                 if (!isPlaying)
                 {
-                    model.playMedia(selectedPlayList);
+                    model.playMedia();
                     play.setImage(img_pause);
                     setSongLabel(selectedPlayList.getCurrentlyPlaying());
                     isPlaying = true;
@@ -333,15 +344,12 @@ public class MainController implements Initializable
                     play.setImage(img_play);
                     isPlaying = false;
                 }
-            }
-            
-           
+            }    
         }
         catch (ModelException ex)
         {
             showAlert(ex);
         }
-
     }
 
     @FXML
