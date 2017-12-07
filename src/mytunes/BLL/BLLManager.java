@@ -33,9 +33,9 @@ public class BLLManager {
 //Load data
     /**
      * Load the information of the stored media from the DB
-     * 
+     *
      * @return
-     * @throws BLLException 
+     * @throws BLLException
      */
     public List<UserMedia> loadMedia() throws BLLException {
         return mediaObjectManager.getMedia();
@@ -43,17 +43,19 @@ public class BLLManager {
 
     /**
      * Attempt to retrieve the play list stores in the DB
+     *
      * @return List
-     * @throws BLLException 
+     * @throws BLLException
      */
     public List<PlayList> loadPlayLists() throws BLLException {
         return playListManager.loadPlayLists();
     }
+
     /**
      * Attempt to get the categories from the DB
-     * 
+     *
      * @return
-     * @throws BLLException 
+     * @throws BLLException
      */
     public List<String> getCategories() throws BLLException {
         return mediaObjectManager.getCategories();
@@ -61,12 +63,11 @@ public class BLLManager {
 
 //******************************************************************************************************************************************************************//
 //Save data
-    
     /**
      * Save a new song to the DB
-     * 
+     *
      * @param newMedia
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void addNewMedia(UserMedia newMedia) throws BLLException {
         try {
@@ -80,8 +81,9 @@ public class BLLManager {
 
     /**
      * Attempt to save a playlist to the DB
+     *
      * @param newPlayList
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void saveNewPlayList(PlayList newPlayList) throws BLLException {
         if (newPlayList == null) {
@@ -92,10 +94,10 @@ public class BLLManager {
 
     /**
      * Save the selected media to the selected play list
-     * 
+     *
      * @param selectedMedia
      * @param selectedPlayList
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         if (selectedMedia == null) {
@@ -111,9 +113,9 @@ public class BLLManager {
 
     /**
      * Attempt to update a UserMedia object in the DB
-     * 
+     *
      * @param selectedMedia
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void updateMedia(UserMedia selectedMedia) throws BLLException {
         if (selectedMedia == null) {
@@ -124,9 +126,9 @@ public class BLLManager {
 
     /**
      * Attempt to update a play list in the DB
-     * 
+     *
      * @param selectedPlayList
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void updatePlayList(PlayList selectedPlayList) throws BLLException {
         if (selectedPlayList == null) {
@@ -137,12 +139,11 @@ public class BLLManager {
 
 //******************************************************************************************************************************************************************//
 //Delete data
-    
     /**
      * Attempt to delete a UserMedia object
-     * 
+     *
      * @param selectedMedia
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void deleteMedia(UserMedia selectedMedia) throws BLLException {
         if (selectedMedia == null) {
@@ -153,10 +154,10 @@ public class BLLManager {
 
     /**
      * Remove the selected media from the selected play list
-     * 
+     *
      * @param selectedMedia
      * @param selectedPlayList
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void removeMediaFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         if (selectedPlayList == null) {
@@ -166,11 +167,11 @@ public class BLLManager {
     }
 
     /**
-     * Attempt to remove a playlist
-     * If the play list contains media objects, it removes the first
-     * 
+     * Attempt to remove a playlist If the play list contains media objects, it
+     * removes the first
+     *
      * @param selected
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void deletePlayList(PlayList selected) throws BLLException {
         if (selected == null) {
@@ -188,10 +189,11 @@ public class BLLManager {
 //******************************************************************************************************************************************************************//
 //Getters and setters
     /**
-     * Set the selected playlist to the new selection (for example, when the selection inside the plasListTableView changes)
-     * 
+     * Set the selected playlist to the new selection (for example, when the
+     * selection inside the plasListTableView changes)
+     *
      * @param selected
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void setSelectedPLayList(PlayList selected) throws BLLException {
         if (selected == null) {
@@ -201,10 +203,11 @@ public class BLLManager {
     }
 
     /**
-     * Set the selected media to the new selection (for example, when the selection inside the songsTableView changes)
-     * 
+     * Set the selected media to the new selection (for example, when the
+     * selection inside the songsTableView changes)
+     *
      * @param selected
-     * @throws BLLException 
+     * @throws BLLException
      */
     public void setSelectedPMedia(UserMedia selected) throws BLLException {
         if (selected == null) {
@@ -215,9 +218,9 @@ public class BLLManager {
 
     /**
      * Return the selected play list
-     * 
+     *
      * @return
-     * @throws BLLException 
+     * @throws BLLException
      */
     public PlayList getSelectedPlayList() throws BLLException {
         if (selectedPlayList == null) {
@@ -228,9 +231,9 @@ public class BLLManager {
 
     /**
      * Return the selected media
-     * 
+     *
      * @return
-     * @throws BLLException 
+     * @throws BLLException
      */
     public UserMedia getSelectedMedia() throws BLLException {
         if (selectedMedia == null) {
@@ -241,50 +244,57 @@ public class BLLManager {
 
 //******************************************************************************************************************************************************************//
 //MediaPlayer control methods
-    
     /**
-     * Start playing the media 
-     * 
-     * @param media 
+     * Start playing the media
+     *
+     * @param media
      */
-    public void playMedia(Media media) {
-        player.setMedia(media);
+    public void playMedia() throws BLLException {
         player.play();
+        if (selectedPlayList == null) {
+            throw new BLLException("No playlist selected!");
+        }
+        player.play();
+    }
+
+    public void setMedia(Media media) throws BLLException {
+        player.setMedia(media);
     }
 
     /**
      * set the volume
-     * 
-     * @param vol 
+     *
+     * @param vol
      */
     public void setVolume(double vol) {
         player.setVolume(vol);
     }
+
     /**
-     * Get the current position in the media 
-     * 
+     * Get the current position in the media
+     *
      * @return Duration
      */
     public Duration getCurrentTime() {
         return player.getCurrentTime();
     }
-    
+
     /**
      * Stop the current media
-     * 
+     *
      */
     public void pauseMedia() {
         player.pause();
     }
-    
+
 //******************************************************************************************************************************************************************//
 //Other methods
-
     /**
      * Attempts to retrieve the metadata of the file associated with the URI
+     *
      * @param path
      * @return UserMedia
-     * @throws BLLException 
+     * @throws BLLException
      */
     public UserMedia getMetaData(URI path) throws BLLException {
         try {
@@ -294,26 +304,21 @@ public class BLLManager {
             throw new BLLException(ex);
         }
     }
-    
-    
-    public void nextMedia(PlayList selectedPlayList) throws BLLException
-    {
-        if (selectedPlayList == null)
-        {
+
+    public void nextMedia(PlayList selectedPlayList) throws BLLException {
+        if (selectedPlayList == null) {
             throw new BLLException("No playlist selected!");
         }
-        
+
         selectedPlayList.setNextIndex();
-        
+
     }
 
-    public void previousMedia(PlayList selectedPlayList) throws BLLException
-    {
-        if (selectedPlayList == null)
-        {
+    public void previousMedia(PlayList selectedPlayList) throws BLLException {
+        if (selectedPlayList == null) {
             throw new BLLException("No playlist selected!");
         }
-        
+
         selectedPlayList.setPreviousIndex();
     }
 }

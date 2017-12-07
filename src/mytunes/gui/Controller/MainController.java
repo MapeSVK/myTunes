@@ -114,6 +114,7 @@ public class MainController implements Initializable {
     private final Image img_addArrow = new Image("file:images/previous.png");
     private MediaPlayerModel model;
     private boolean isPlaying = false;
+    private UserMedia currentMedia;
 
     public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
@@ -220,39 +221,89 @@ public class MainController implements Initializable {
         if (showConfirmationDialog("Are you sure you want to delete this song?")) {
             return;
         }
-
         UserMedia selected = songsTableView.getSelectionModel().getSelectedItem();
-
         try {
             model.removeMedia(selected);
         }
         catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
-
         }
     }
 
     @FXML
     private void nextArrowClicked() {
-
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+        try {
+            model.setNextMedia(selectedPlayList);
+            setSongLabel(selectedPlayList.getCurrentlyPlaying());
+            if (isPlaying) {
+                model.pauseMedia();
+                //model.playMedia(selectedPlayList.getCurrentlyPlaying().getMedia());
+            }
+        }
+        catch (ModelException ex) {
+            showAlert(ex);
+        }
     }
 
     @FXML
     private void previousArrowClicked(MouseEvent event) {
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+        try {
+            model.setPreviousMedia(selectedPlayList);
+            setSongLabel(selectedPlayList.getCurrentlyPlaying());
+            if (isPlaying) {
+                model.pauseMedia();
+                //model.playMedia(selectedPlayList.getCurrentlyPlaying().getMedia());
+            }
+        }
+        catch (ModelException ex) {
+            showAlert(ex);
+        }
     }
 
     @FXML
     private void playArrowClicked(MouseEvent event) {
-        if (!isPlaying) {
-            UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
-            model.playMedia(selectedMedia.getMedia());
-            play.setImage(img_pause);
-            isPlaying = true;
-        } else {
-            model.pauseMedia();
-            play.setImage(img_play);
-            isPlaying = false;
+        UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
+        PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
+        try {
+            if (selectedPlayList == null) //No play list selected, play the selected song
+            {
+                if (!isPlaying) {
+                    setSongLabel(selectedMedia);
+                    if (selectedMedia != currentMedia) {
+                        model.setMedia(selectedMedia.getMedia());
+                        model.playMedia();
+                        play.setImage(img_pause);
+                        isPlaying = true;
+                        currentMedia = selectedMedia;
+                    } else {
+                        model.playMedia();
+                        play.setImage(img_pause);
+                        isPlaying = true;
+                    }
+                } else {
+                    model.pauseMedia();
+                    play.setImage(img_play);
+                    isPlaying = false;
+                }
+            } else //We have a selected play list, play all the songs
+            {
+                if (!isPlaying) {
+                    setSongLabel(selectedPlayList.getCurrentlyPlaying());
+                    model.playMedia();
+                    play.setImage(img_pause);
+                    isPlaying = true;
+                } else {
+                    model.pauseMedia();
+                    play.setImage(img_play);
+                    isPlaying = false;
+                }
+            }
+        }
+        catch (ModelException ex) {
+            showAlert(ex);
         }
     }
 
@@ -462,6 +513,11 @@ public class MainController implements Initializable {
     private void closeAppClicked(ActionEvent event) {
         Stage stage = (Stage) play.getScene().getWindow();
         stage.close();
+    }
+
+    //Set the label, to display the artist and the title of the currently playing media
+    private void setSongLabel(UserMedia media) {
+        songName.setText("Currently playing: " + media.getArtist() + ": " + media.getTitle());
     }
 
     //Show a window with the specified prompt text
