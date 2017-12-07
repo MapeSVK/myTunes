@@ -34,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import mytunes.be.Mode;
 import mytunes.be.PlayList;
@@ -103,6 +104,8 @@ public class MainController implements Initializable {
     private Button closeApp;
     @FXML
     private Button deleteSongButton;
+    @FXML
+    private Button btnPlayURL;
 
     private final Image img_next = new Image("file:images/next.png");
     private final Image img_previous = new Image("file:images/previous.png");
@@ -312,6 +315,22 @@ public class MainController implements Initializable {
         model.setVolume(volumeController.getValue());
     }
 
+    @FXML
+    private void clickPlayURL(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/WebPlayer.fxml"));
+            Parent root = (Parent) loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("WebPlayer");
+            stage.show();
+        }
+        catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
+
     //Search for the string
     @FXML
     private void searchClicked(MouseEvent event) {
@@ -416,6 +435,7 @@ public class MainController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
+            stage.setTitle("Add/Edit media");
             stage.show();
         }
         catch (IOException ex) {
@@ -439,15 +459,10 @@ public class MainController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         }
-        catch (IOException ex) {
+        catch (IOException | ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
-        catch (ModelException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-
     }
 
     //Open a new window where we can add a new play list
@@ -462,6 +477,7 @@ public class MainController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
+            stage.setTitle("Add/Edit playlist");
             stage.show();
         }
         catch (IOException ex) {
@@ -485,11 +501,7 @@ public class MainController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         }
-        catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-        catch (ModelException ex) {
+        catch (IOException | ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -531,4 +543,5 @@ public class MainController implements Initializable {
         }
         return false;
     }
+
 }
