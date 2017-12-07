@@ -12,16 +12,28 @@ package mytunes.BLL;
 public class BLLException extends Exception
 {
     
+    /**
+     *
+     * @param message
+     */
     public BLLException(String message)
     {
         super(message);
     }
     
+    /**
+     *
+     * @param ex
+     */
     public  BLLException(Exception ex)
     {
         super(ex.getMessage());
     }
     
+    /**
+     *
+     * @return String
+     */
     @Override
     public String getMessage()
     {

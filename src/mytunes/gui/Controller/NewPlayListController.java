@@ -41,6 +41,8 @@ public class NewPlayListController implements Initializable
     private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -128,6 +130,11 @@ public class NewPlayListController implements Initializable
         stage.close();
     }
 
+    /**
+     *
+     * @param list
+     * @throws Exception
+     */
     public void setText(PlayList list) throws Exception
     {
         try 

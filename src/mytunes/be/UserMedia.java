@@ -9,6 +9,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
 
+/**
+ *
+ * @author Bence
+ */
 public class UserMedia {
 
     private final IntegerProperty id = new SimpleIntegerProperty();
@@ -20,6 +24,16 @@ public class UserMedia {
     private double time;
     private String timeString;
 
+    /**
+     *
+     * @param id
+     * @param title
+     * @param artist
+     * @param category
+     * @param path
+     * @param media
+     * @param time
+     */
     public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) {
         this.id.set(id);
         this.title.set(title);
@@ -30,11 +44,19 @@ public class UserMedia {
         this.time = time;
     }
 
+    /**
+     *
+     */
     public UserMedia() {
 
     }
 
     //Creates a media from the path (for examle, when loading a UserMedia object from hte DB)
+
+    /**
+     *
+     * @throws Exception
+     */
     public void createMediaFromPath() throws Exception {
         System.out.println("");
         try {
@@ -48,78 +70,154 @@ public class UserMedia {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTitle() {
         return title.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setTitle(String value) {
         title.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty titleProperty() {
         return title;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPath() {
         return path.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setPath(String value) {
         path.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty pathProperty() {
         return path;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCategory() {
         return category.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setCategory(String value) {
         category.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty categoryProperty() {
         return category;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getArtist() {
         return artist.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setArtist(String value) {
         artist.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty artistProperty() {
         return artist;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setId(int value) {
         id.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty idProperty() {
         return id;
     }
 
+    /**
+     *
+     * @param time
+     */
     public void setTime(double time) {
         this.time = time;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getTime() {
         return time;
     }
 
+    /**
+     *
+     * @return
+     */
     public Media getMedia() {
         return this.media;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTimeString() {
         long timeInLong = new Double(time).longValue();
         int day = (int) TimeUnit.SECONDS.toDays(timeInLong);
@@ -131,11 +229,19 @@ public class UserMedia {
         return timeString;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
 
+    /**
+     *
+     * @param media
+     */
     public void setMedia(Media media) {
         this.media = media;
     }

@@ -247,7 +247,7 @@ public class BLLManager {
     /**
      * Start playing the media
      *
-     * @param media
+     * @throws mytunes.BLL.BLLException
      */
     public void playMedia() throws BLLException {
         player.play();
@@ -257,6 +257,11 @@ public class BLLManager {
         player.play();
     }
 
+    /**
+     *
+     * @param media
+     * @throws BLLException
+     */
     public void setMedia(Media media) throws BLLException {
         player.setMedia(media);
     }
@@ -305,6 +310,11 @@ public class BLLManager {
         }
     }
 
+    /**
+     *
+     * @param selectedPlayList
+     * @throws BLLException
+     */
     public void nextMedia(PlayList selectedPlayList) throws BLLException {
         if (selectedPlayList == null) {
             throw new BLLException("No playlist selected!");
@@ -314,6 +324,11 @@ public class BLLManager {
 
     }
 
+    /**
+     *
+     * @param selectedPlayList
+     * @throws BLLException
+     */
     public void previousMedia(PlayList selectedPlayList) throws BLLException {
         if (selectedPlayList == null) {
             throw new BLLException("No playlist selected!");

@@ -12,16 +12,28 @@ package mytunes.gui.Model;
 public class ModelException extends Exception
 {
 
+    /**
+     *
+     * @param message
+     */
     public ModelException(String message)
     {
         super(message);
     }
 
+    /**
+     *
+     * @param ex
+     */
     public ModelException(Exception ex)
     {
         super(ex.getMessage());
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String getMessage()
     {
