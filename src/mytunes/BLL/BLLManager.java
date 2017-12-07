@@ -9,6 +9,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
 import javafx.util.Duration;
 import mytunes.be.PlayList;
@@ -242,6 +244,32 @@ public class BLLManager {
         return this.selectedMedia;
     }
 
+    /**
+     * Indicates whether or not the player is currently playing a song
+     * @return 
+     */
+    public BooleanProperty isPlaying()
+    {
+        return player.isPlayingProperty();
+    }
+    
+    /**
+     * Set the isPlaying property of the Player class
+     * @param b 
+     */
+    public void setPlaying(boolean b)
+    {
+        player.setIsPlaying(b);
+    }
+    
+    /**
+     * Get the currentlyPlaying string property
+     * @return 
+     */
+    public StringProperty getPlayingString()
+    {
+        return player.currentlyPlayingStringProperty();
+    }
 //******************************************************************************************************************************************************************//
 //MediaPlayer control methods
     /**
@@ -250,17 +278,27 @@ public class BLLManager {
      * @param media
      */
     public void playMedia() throws BLLException {
-        player.play();
-        if (selectedPlayList == null) {
-            throw new BLLException("No playlist selected!");
-        }
-        player.play();
+         player.play();
     }
 
-    public void setMedia(Media media) throws BLLException {
+    public void setMedia(UserMedia media) throws BLLException {
+        if (media == null)
+        {
+            throw new BLLException("No media selected");
+        }
         player.setMedia(media);
     }
 
+    public void setMedia(PlayList selectedPlayList) throws BLLException
+    {
+        if (selectedPlayList == null)
+        {
+            throw new BLLException("No playlist selected!");
+        }
+        
+        player.setMedia(selectedPlayList);
+    }
+    
     /**
      * set the volume
      *
@@ -305,20 +343,11 @@ public class BLLManager {
         }
     }
 
-    public void nextMedia(PlayList selectedPlayList) throws BLLException {
-        if (selectedPlayList == null) {
-            throw new BLLException("No playlist selected!");
-        }
-
-        selectedPlayList.setNextIndex();
-
+    public void nextMedia() throws BLLException {
+        player.playNextSong();
     }
 
-    public void previousMedia(PlayList selectedPlayList) throws BLLException {
-        if (selectedPlayList == null) {
-            throw new BLLException("No playlist selected!");
-        }
-
-        selectedPlayList.setPreviousIndex();
+    public void previousMedia() throws BLLException {
+        player.playPreviousSong();
     }
 }

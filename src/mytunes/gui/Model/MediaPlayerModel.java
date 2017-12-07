@@ -8,6 +8,9 @@ package mytunes.gui.Model;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import static javafx.beans.property.BooleanProperty.booleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -402,7 +405,33 @@ public class MediaPlayerModel {
             throw new ModelException(ex);
         }
     }
-
+    
+     /**
+     * Indicates whether or not the player is currently playing a song
+     * @return 
+     */
+    public BooleanProperty isPlaying()
+    {
+        return bllManager.isPlaying();
+    }
+    
+    /**
+     * Set the isPlaying property of the Player class
+     * @param b 
+     */
+    public void setPlaying(boolean b)
+    {
+        bllManager.setPlaying(b);
+    }
+    
+     /**
+     * Get the currentlyPlaying string property
+     * @return 
+     */
+    public StringProperty getCurrentlyPlayingString()
+    {
+        return bllManager.getPlayingString();
+    }
 //******************************************************************************************************************************************************************//
 //Other methods
     /**
@@ -483,14 +512,14 @@ public class MediaPlayerModel {
     //Play everything in a play list
     public void playMedia() throws ModelException {
         try {
-            bllManager.playMedia();
+             bllManager.playMedia();
         }
         catch (BLLException ex) {
             throw new ModelException(ex);
         }
     }
 
-    public void setMedia(Media media) throws ModelException {
+    public void setMedia(UserMedia media) throws ModelException {
         try {
             bllManager.setMedia(media);
         }
@@ -512,9 +541,9 @@ public class MediaPlayerModel {
     }
 
     //Set the currently playing media to the next one in the list
-    public void setNextMedia(PlayList selectedPlayList) throws ModelException {
+    public void setNextMedia() throws ModelException {
         try {
-            bllManager.nextMedia(selectedPlayList);
+            bllManager.nextMedia();
         }
         catch (BLLException ex) {
             throw new ModelException(ex);
@@ -522,12 +551,25 @@ public class MediaPlayerModel {
     }
 
     //Set the currently playing media to the previous one in the list
-    public void setPreviousMedia(PlayList selectedPlayList) throws ModelException {
+    public void setPreviousMedia() throws ModelException {
         try {
-            bllManager.previousMedia(selectedPlayList);
+            bllManager.previousMedia();
         }
         catch (BLLException ex) {
             throw new ModelException(ex);
         }
     }
+
+    public void setMedia(PlayList selectedPlayList) throws ModelException
+    {
+        try 
+        {
+            bllManager.setMedia(selectedPlayList);
+        }
+        catch (BLLException ex)
+        {
+            throw new ModelException(ex);
+        }
+    }
+
 }
