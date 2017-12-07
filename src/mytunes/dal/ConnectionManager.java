@@ -16,6 +16,9 @@ import java.sql.Connection;
 public class ConnectionManager {
     private SQLServerDataSource source = new SQLServerDataSource();
 
+    /**
+     *
+     */
     public ConnectionManager() {
         source.setDatabaseName("CS2017B_7_myTunes");
         source.setUser("CS2017B_7_java");
@@ -24,6 +27,11 @@ public class ConnectionManager {
         source.setServerName("10.176.111.31");
     }
     
+    /**
+     *
+     * @return Connection
+     * @throws SQLServerException
+     */
     public Connection getConnection() throws SQLServerException{
         return source.getConnection();
     }

@@ -11,5 +11,14 @@ package mytunes.be;
  */
 public enum Mode
 {
-    EDIT, NEW
+
+    /**
+     *
+     */
+    EDIT,
+
+    /**
+     *
+     */
+    NEW
 }

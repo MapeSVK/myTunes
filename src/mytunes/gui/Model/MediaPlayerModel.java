@@ -40,6 +40,9 @@ public class MediaPlayerModel {
     private Mode mediaMode;
     private Mode playListMode;
 
+    /**
+     *
+     */
     public MediaPlayerModel() {
         allMedia.addListener(new ListChangeListener<UserMedia>() //Set up a change listener, so we can update the filtered list, when the main list changes
         {
@@ -330,18 +333,34 @@ public class MediaPlayerModel {
         return this.categories;
     }
 
+    /**
+     *
+     * @return
+     */
     public Mode getMediaMode() {
         return mediaMode;
     }
 
+    /**
+     *
+     * @return
+     */
     public Mode getPlayListMode() {
         return playListMode;
     }
 
+    /**
+     *
+     * @param mediaMode
+     */
     public void setMediaMode(Mode mediaMode) {
         this.mediaMode = mediaMode;
     }
 
+    /**
+     *
+     * @param playListMode
+     */
     public void setPlayListMode(Mode playListMode) {
         this.playListMode = playListMode;
     }
@@ -473,6 +492,12 @@ public class MediaPlayerModel {
         }
     }
 
+    /**
+     *
+     * @param selected
+     * @param list
+     * @throws ModelException
+     */
     public void moveSongUp(UserMedia selected, PlayList list) throws ModelException {
         if (selected == null) {
             throw new ModelException("No song selected!");
@@ -491,6 +516,12 @@ public class MediaPlayerModel {
         list.moveSongUp(index);
     }
 
+    /**
+     *
+     * @param selected
+     * @param list
+     * @throws ModelException
+     */
     public void moveSongDown(UserMedia selected, PlayList list) throws ModelException {
         if (selected == null) {
             throw new ModelException("No song selected!");
@@ -510,6 +541,11 @@ public class MediaPlayerModel {
     }
 
     //Play everything in a play list
+
+    /**
+     *
+     * @throws ModelException
+     */
     public void playMedia() throws ModelException {
         try {
              bllManager.playMedia();
@@ -519,6 +555,11 @@ public class MediaPlayerModel {
         }
     }
 
+    /**
+     *
+     * @param media
+     * @throws ModelException
+     */
     public void setMedia(UserMedia media) throws ModelException {
         try {
             bllManager.setMedia(media);
@@ -528,19 +569,34 @@ public class MediaPlayerModel {
         }
     }
 
+    /**
+     *
+     */
     public void pauseMedia() {
         bllManager.pauseMedia();
     }
 
+    /**
+     *
+     * @param vol
+     */
     public void setVolume(double vol) {
         bllManager.setVolume(vol);
     }
 
+    /**
+     *
+     * @return
+     */
     public Duration getCurrentTime() {
         return bllManager.getCurrentTime();
     }
 
-    //Set the currently playing media to the next one in the list
+    /**
+     * Set the currently playing media to the next one in the list
+     * @param selectedPlayList
+     * @throws ModelException
+     */
     public void setNextMedia() throws ModelException {
         try {
             bllManager.nextMedia();
@@ -550,7 +606,11 @@ public class MediaPlayerModel {
         }
     }
 
-    //Set the currently playing media to the previous one in the list
+    /**
+     * Set the currently playing media to the previous one in the list
+     * @param selectedPlayList
+     * @throws ModelException
+     */
     public void setPreviousMedia() throws ModelException {
         try {
             bllManager.previousMedia();

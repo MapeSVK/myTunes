@@ -275,7 +275,7 @@ public class BLLManager {
     /**
      * Start playing the media
      *
-     * @param media
+     * @throws mytunes.BLL.BLLException
      */
     public void playMedia() throws BLLException {
          player.play();
@@ -286,8 +286,8 @@ public class BLLManager {
         {
             throw new BLLException("No media selected");
         }
-        player.setMedia(media);
     }
+
 
     public void setMedia(PlayList selectedPlayList) throws BLLException
     {

@@ -21,15 +21,19 @@ public class MediaObjectManager {
     private List<String> categories;
     private DALManager dalManager;
 
+    /**
+     *
+     * @param dm
+     */
     public MediaObjectManager(DALManager dm) {
         this.dalManager = dm;
     }
 
     /**
      * Load the data found in the DB
-     * 
+     *
      * @return List
-     * @throws mytunes.BLL.BLLException 
+     * @throws mytunes.BLL.BLLException
      */
     List<UserMedia> getMedia() throws BLLException {
         try {
@@ -42,18 +46,17 @@ public class MediaObjectManager {
                 }
             }
             return uMediaList;
-        }
-        catch (DAException ex) {
+        } catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
     /**
      * Get the categories
-     * 
+     *
      * @return List
      * @throws mytunes.BLL.BLLException
-     * 
+     *
      */
     public List<String> getCategories() throws BLLException {
         if (categories == null) {
@@ -64,45 +67,42 @@ public class MediaObjectManager {
 
     /**
      * Save the data of the selected media to the DB
-     * 
+     *
      * @param selectedSong
-     * @throws mytunes.BLL.BLLException 
+     * @throws mytunes.BLL.BLLException
      */
     void addNew(UserMedia selectedSong) throws BLLException {
         try {
             dalManager.saveMedia(selectedSong);
-        }
-        catch (DAException ex) {
+        } catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
     /**
      * Attempt to remove the selected object from the DB
-     * 
+     *
      * @param selected
-     * @throws mytunes.BLL.BLLException 
+     * @throws mytunes.BLL.BLLException
      */
     void remove(UserMedia selected) throws BLLException {
         try {
             dalManager.deleteMedia(selected);
-        }
-        catch (DAException ex) {
+        } catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
 
-   /**
-    * Update an existing media object
-    * 
-    * @param selectedMedia
-    * @throws mytunes.BLL.BLLException 
-    */
+    /**
+     * Update an existing media object
+     *
+     * @param selectedMedia
+     * @throws mytunes.BLL.BLLException
+     */
     void updateMedia(UserMedia selectedMedia) throws BLLException {
         try {
             dalManager.editMedia(selectedMedia);
-        }
-        catch (DAException ex) {
+        } catch (DAException ex) {
             throw new BLLException(ex);
         }
     }
