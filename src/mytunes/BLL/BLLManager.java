@@ -243,7 +243,7 @@ public class BLLManager {
 //MediaPlayer control methods
     
     /**
-     * Strart playing the media 
+     * Start playing the media 
      * 
      * @param media 
      */
