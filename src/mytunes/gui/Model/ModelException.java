@@ -39,6 +39,5 @@ public class ModelException extends Exception
     {
         return super.getMessage(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+       
 }
