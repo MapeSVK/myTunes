@@ -20,6 +20,10 @@ public class PlayListManager {
 
     private DALManager dalManager;
 
+    /**
+     *
+     * @param dm
+     */
     public PlayListManager(DALManager dm) {
         this.dalManager = dm;
     }

@@ -11,10 +11,18 @@ package mytunes.dal;
  */
 public class DAException extends Exception {
 
+    /**
+     *
+     * @param message
+     */
     public DAException(String message) {
         super(message);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getMessage() {
         return super.getMessage(); //To change body of generated methods, choose Tools | Templates.

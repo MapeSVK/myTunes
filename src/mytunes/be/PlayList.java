@@ -27,6 +27,9 @@ public class PlayList {
     private final StringProperty timeFormattedAsString = new SimpleStringProperty();
     private int currentlyPlayingIndex;
     
+    /**
+     *
+     */
     public PlayList()
     {
         setCount(0);
@@ -34,16 +37,28 @@ public class PlayList {
         currentlyPlayingIndex = 0;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getTimeFormattedAsString()
     {
         return timeFormattedAsString.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setTimeFormattedAsString(String value)
     {
         timeFormattedAsString.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty timeFormattedAsStringProperty()
     {
         return timeFormattedAsString;
@@ -62,59 +77,113 @@ public class PlayList {
         timeFormattedAsString.setValue(String.format("%02d:%02d:%02d", hours, minute, second));
     }
     
+    /**
+     *
+     * @return
+     */
     public int getCount()
     {
         return count.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setCount(int value)
     {
         count.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty countProperty()
     {
         return count;
     }
 
+    /**
+     *
+     * @param id
+     * @param title
+     */
     public PlayList(int id, String title) {
         this.id.set(id);
         this.title.set(title);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTitle() {
         return title.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setTitle(String value) {
         title.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty titleProperty() {
         return title;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setId(int value) {
         id.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty idProperty() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<UserMedia> getMediaList() {
         return mediaList;
     }
 
+    /**
+     *
+     * @param mediaList
+     */
     public void setMediaList(ObservableList<UserMedia> mediaList) {
         this.mediaList = mediaList;
     }
 
     //Add a song to the playlist
+
+    /**
+     *
+     * @param selectedMedia
+     */
     public void addMedia(UserMedia selectedMedia) 
     {
         mediaList.add(selectedMedia);
@@ -124,6 +193,11 @@ public class PlayList {
     }
 
     //Remove the selected song from this playlist
+
+    /**
+     *
+     * @param mediaToDelete
+     */
     public void removeMedia(UserMedia mediaToDelete) {
         mediaList.remove(mediaToDelete);
         totalTimeInSeconds -= mediaToDelete.getTime();
@@ -132,6 +206,12 @@ public class PlayList {
     }
 
     //Check if a song is already in the playlist
+
+    /**
+     *
+     * @param media
+     * @return
+     */
     public boolean containsMedia(UserMedia media) {
         //return mediaList.contains(media);
         for (UserMedia userMedia : mediaList)
@@ -145,16 +225,31 @@ public class PlayList {
     }
 
     //Checks if the list of song is empty
+
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return mediaList.isEmpty();
     }
 
     //Clears all the song from the play list
+
+    /**
+     *
+     */
     public void clearMediaList() {
         mediaList.clear();
     }
 
     //Gets the index of a song in the playlist
+
+    /**
+     *
+     * @param selected
+     * @return
+     */
     public int getIndexOfMedia(UserMedia selected) {
         int i = -1;
         for (UserMedia media : mediaList) {
@@ -167,6 +262,11 @@ public class PlayList {
     }
 
     //Move the song with the specified index up
+
+    /**
+     *
+     * @param index
+     */
     public void moveSongUp(int index) 
     {
         UserMedia switchSong = mediaList.get(index - 1);
@@ -175,6 +275,11 @@ public class PlayList {
     }
 
     //Move the song with the specified index up
+
+    /**
+     *
+     * @param index
+     */
     public void moveSongDown(int index) 
     {
         UserMedia switchSong = mediaList.get(index + 1);
@@ -183,6 +288,11 @@ public class PlayList {
     }
 
     //Return the media that is currently being played
+
+    /**
+     *
+     * @return
+     */
     public UserMedia getCurrentlyPlaying()
     {
         return mediaList.get(currentlyPlayingIndex);
@@ -190,6 +300,10 @@ public class PlayList {
     
     //Set the index to the next UserMedia object. 
     //If the end of the list is reached, loop around to the first one
+
+    /**
+     *
+     */
     public void setNextIndex()
     {
         if (currentlyPlayingIndex < mediaList.size() - 1)
@@ -204,6 +318,10 @@ public class PlayList {
     
     //Set the index to the privious UserMedia object. 
     //If the beginnig of the list is reached, loop around to the last one
+
+    /**
+     *
+     */
     public void setPreviousIndex()
     {
         if (currentlyPlayingIndex > 0)
@@ -216,6 +334,10 @@ public class PlayList {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() 
     {
