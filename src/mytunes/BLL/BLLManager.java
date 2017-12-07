@@ -359,6 +359,13 @@ public class BLLManager {
     }
 
     public void previousMedia() throws BLLException {
-        player.playPreviousSong();
+        if (player.isPlayingProperty().get())
+        {
+             player.playPreviousSong();
+        }
+        else
+        {
+            player.setPreviousSong();
+        }
     }
 }
