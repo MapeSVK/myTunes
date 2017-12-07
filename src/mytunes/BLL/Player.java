@@ -113,7 +113,7 @@ class Player {
 
     //Set the media using a play list
     //In this case, all the song on the play list will be played after eachother
-    void setMedia(PlayList selectedPlayList) throws BLLException
+    public void setMedia(PlayList selectedPlayList) throws BLLException
     {
         list = selectedPlayList;
         player = new MediaPlayer(list.getCurrentlyPlaying().getMedia());
@@ -132,7 +132,7 @@ class Player {
     }
 
     //Play the next song on the list
-    void playNextSong() throws BLLException
+    public void playNextSong() throws BLLException
     {
         if (list == null)
         {
@@ -148,7 +148,7 @@ class Player {
     }
 
     //Play the previous song on the list
-    void playPreviousSong() throws BLLException
+    public void playPreviousSong() throws BLLException
     {
         if (list == null)
         {
@@ -166,4 +166,26 @@ class Player {
     {
         currentlyPlayingString.setValue("Currently playing: " +  media.getArtist() + ": " + media.getTitle() );
     } 
+
+    public void setNextSong() throws BLLException
+    {
+        if (list == null)
+        {
+            throw new BLLException("No play list");
+        }
+        
+        list.setNextIndex();;
+        setMedia(list.getCurrentlyPlaying());
+    }
+    
+    public void setPreviousSong() throws BLLException
+    {
+        if (list == null)
+        {
+            throw new BLLException("No play list");
+        }
+        
+        list.setPreviousIndex();
+        setMedia(list.getCurrentlyPlaying());
+    }
 }

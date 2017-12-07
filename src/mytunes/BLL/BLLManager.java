@@ -272,9 +272,9 @@ public class BLLManager {
     }
 //******************************************************************************************************************************************************************//
 //MediaPlayer control methods
+    
     /**
      * Start playing the media
-     *
      * @throws mytunes.BLL.BLLException
      */
     public void playMedia() throws BLLException {
@@ -286,6 +286,8 @@ public class BLLManager {
         {
             throw new BLLException("No media selected");
         }
+        
+        player.setMedia(media);
     }
 
 
@@ -327,6 +329,7 @@ public class BLLManager {
 
 //******************************************************************************************************************************************************************//
 //Other methods
+    
     /**
      * Attempts to retrieve the metadata of the file associated with the URI
      *
@@ -343,8 +346,16 @@ public class BLLManager {
         }
     }
 
-    public void nextMedia() throws BLLException {
-        player.playNextSong();
+    public void nextMedia() throws BLLException 
+    {
+        if (player.isPlayingProperty().get())
+        {
+             player.playNextSong(); //Play the next song in the list
+        }
+        else
+        {
+            player.setNextSong(); //Switch to the next song, but don't play it
+        }
     }
 
     public void previousMedia() throws BLLException {

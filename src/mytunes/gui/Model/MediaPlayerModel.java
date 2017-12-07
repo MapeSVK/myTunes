@@ -598,7 +598,8 @@ public class MediaPlayerModel {
      * @throws ModelException
      */
     public void setNextMedia() throws ModelException {
-        try {
+        try 
+        {
             bllManager.nextMedia();
         }
         catch (BLLException ex) {
