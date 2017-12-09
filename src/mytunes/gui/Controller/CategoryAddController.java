@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Controller;
 
 import java.net.URL;
@@ -20,7 +15,7 @@ import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
 
 /**
- * FXML Controller class
+ * A controller that controls a CategoryAdd window.
  *
  * @author sebok
  */
@@ -32,15 +27,16 @@ public class CategoryAddController implements Initializable
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         model = MediaPlayerModel.getInstance();
     }    
-
+    
+    /**
+     * Save the entered string as a new category. 
+     */
     @FXML
     private void btnSaveClick(ActionEvent event)
     {
@@ -56,19 +52,29 @@ public class CategoryAddController implements Initializable
         }
         closeWindow();
     }
-
+    
+    /**
+     * Close the window
+     */
     @FXML
     private void btnCancelClick(ActionEvent event)
     {
         closeWindow();
     }
     
+    /**
+     * Close the window
+     */
     private void closeWindow()
     {
         Stage stage = (Stage) txtFieldName.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Show a new alert window, with the text of the error
+     * @param ex The exception which will be used to display the message
+     */
     private void showAlert(ModelException ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);

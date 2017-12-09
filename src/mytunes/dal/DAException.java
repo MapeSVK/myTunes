@@ -1,27 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.dal;
 
 /**
- *
+ * Represents an exception thrown in the DAL. Most often thrown when a database operation fails
  * @author Dominik
  */
 public class DAException extends Exception {
 
     /**
-     *
-     * @param message
+     * Construct a new exception using the parameter as the message
+     * @param message The message of the exception
      */
     public DAException(String message) {
         super(message);
     }
 
     /**
-     *
-     * @return
+     * Get the message of the exception
+     * @return The message of the exception
      */
     @Override
     public String getMessage() {

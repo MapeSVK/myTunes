@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.dal;
 
 import java.sql.Connection;
@@ -14,7 +9,7 @@ import java.util.List;
 import mytunes.be.UserMedia;
 
 /**
- *
+ * Handles operations such as saving, updating and deleting UserMedia objects from the database
  * @author Bence
  */
 public class MediaDBManager {
@@ -24,8 +19,8 @@ public class MediaDBManager {
     /**
      * Returns a list of UserMedia from the database.
      * 
-     * @return List
-     * @throws DAException 
+     * @return A list of UserMedia objects saved in the database.
+     * @throws DAException If an error occurs during database access
      */
     public List<UserMedia> getAll() throws DAException {
         List<UserMedia> mediaList = new ArrayList();
@@ -52,8 +47,8 @@ public class MediaDBManager {
     /**
      * Saves the data of a given UserMedia to the database.
      * 
-     * @param media
-     * @throws DAException 
+     * @param media The UserMEdia object that will be saved
+     * @throws DAException If an error occurs during database access
      */
     public void save(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -80,8 +75,8 @@ public class MediaDBManager {
     /**
      * Updates and already existing database entry with the data from a given UserMedia.
      * 
-     * @param media
-     * @throws DAException 
+     * @param media The UserMedia object that will be updated in the database
+     * @throws DAException If an error occurs during database access
      */
     public void edit(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -104,8 +99,8 @@ public class MediaDBManager {
     /**
      * Removes the database entry of the given UserMedia from the database.
      * 
-     * @param media
-     * @throws DAException 
+     * @param media The UserMedia object that will be removed from the database
+     * @throws DAException If an error occurs during database access
      */
     public void delete(UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {

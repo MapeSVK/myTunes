@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.BLL;
 
 import java.util.ArrayList;
@@ -12,8 +7,7 @@ import mytunes.dal.DAException;
 import mytunes.dal.DALManager;
 
 /**
- * Handles operations such as saving and retrieving UserMedia objects
- *
+ * Handles operations such as saving and retrieving UserMedia objects from the database
  * @author sebok
  */
 public class MediaObjectManager {
@@ -22,18 +16,18 @@ public class MediaObjectManager {
     private DALManager dalManager;
 
     /**
-     *
-     * @param dm
+     * Creates a new MediaObjectManager instance and sets the internal DALManager object using the parameter
+     * @param dm The DALManagar that will be used to access the database
      */
     public MediaObjectManager(DALManager dm) {
         this.dalManager = dm;
     }
 
     /**
-     * Load the data found in the DB
+     * Load the data found in the database
      *
-     * @return List
-     * @throws mytunes.BLL.BLLException
+     * @return List The list of songs saved in the database
+     * @throws mytunes.BLL.BLLException If an error occurs during loading
      */
     List<UserMedia> getMedia() throws BLLException {
         try {
@@ -54,8 +48,8 @@ public class MediaObjectManager {
     /**
      * Get the categories
      *
-     * @return List
-     * @throws mytunes.BLL.BLLException
+     * @return List A list of categories, collected during the retrieval of songs
+     * @throws mytunes.BLL.BLLException If the categories list has not been filled yet
      *
      */
     public List<String> getCategories() throws BLLException {
@@ -68,8 +62,8 @@ public class MediaObjectManager {
     /**
      * Save the data of the selected media to the DB
      *
-     * @param selectedSong
-     * @throws mytunes.BLL.BLLException
+     * @param selectedSong The song which will be saved to the database
+     * @throws mytunes.BLL.BLLException If an error occurs during saving
      */
     void addNew(UserMedia selectedSong) throws BLLException {
         try {
@@ -82,8 +76,8 @@ public class MediaObjectManager {
     /**
      * Attempt to remove the selected object from the DB
      *
-     * @param selected
-     * @throws mytunes.BLL.BLLException
+     * @param selected The song that will be deleted from the database
+     * @throws mytunes.BLL.BLLException If an error occurs during deletion
      */
     void remove(UserMedia selected) throws BLLException {
         try {
@@ -96,8 +90,8 @@ public class MediaObjectManager {
     /**
      * Update an existing media object
      *
-     * @param selectedMedia
-     * @throws mytunes.BLL.BLLException
+     * @param selectedMedia The song which will be updated in the database
+     * @throws mytunes.BLL.BLLException If an error occurs during update
      */
     void updateMedia(UserMedia selectedMedia) throws BLLException {
         try {

@@ -1,7 +1,6 @@
 package mytunes.be;
 
 import java.io.File;
-import java.net.URI;
 import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,7 +9,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.media.Media;
 
 /**
- *
+ * Represents a media object, with its associated properties, such as its title, the artist, its length etc.
  * @author Bence
  */
 public class UserMedia {
@@ -25,14 +24,14 @@ public class UserMedia {
     private String timeString;
 
     /**
-     *
-     * @param id
-     * @param title
-     * @param artist
-     * @param category
-     * @param path
-     * @param media
-     * @param time
+     * Creates a new UserMedia object 
+     * @param id The ID of this object
+     * @param title The title of the media
+     * @param artist The artist of the media
+     * @param category The category of the media
+     * @param path The path of the media on the computer on which it was selected
+     * @param media The media object (such as an .mp3 file)
+     * @param time The length of the media
      */
     public UserMedia(int id, String title, String artist, String category, String path, Media media, double time) {
         this.id.set(id);
@@ -45,17 +44,14 @@ public class UserMedia {
     }
 
     /**
-     *
+     * Create an empty UserMedia object
      */
     public UserMedia() {
-
     }
 
-    //Creates a media from the path (for examle, when loading a UserMedia object from hte DB)
-
     /**
-     *
-     * @throws Exception
+     * Creates a media from the path (for example, when loading a UserMedia object from the database)
+     * @throws Exception If the path cannot be found. This probably means that the media was selected on another computer, or the file was moved
      */
     public void createMediaFromPath() throws Exception {
         System.out.println("");
@@ -71,152 +67,120 @@ public class UserMedia {
     }
 
     /**
-     *
-     * @return
+     * Return the title of the media
+     * @return The title of the media
      */
     public String getTitle() {
         return title.get();
     }
 
     /**
-     *
-     * @param value
+     * Set the title of the media
+     * @param value The title which will be set
      */
     public void setTitle(String value) {
         title.set(value);
     }
 
     /**
-     *
-     * @return
-     */
-    public StringProperty titleProperty() {
-        return title;
-    }
-
-    /**
-     *
-     * @return
+     * Get the path of the underlying file
+     * @return The file path of the Media object
      */
     public String getPath() {
         return path.get();
     }
 
     /**
-     *
-     * @param value
+     * Set the path of the underlying file
+     * @param value The path that will be set
      */
     public void setPath(String value) {
         path.set(value);
     }
 
     /**
-     *
-     * @return
-     */
-    public StringProperty pathProperty() {
-        return path;
-    }
-
-    /**
-     *
-     * @return
+     * Return the category of the media
+     * @return The category of the media
      */
     public String getCategory() {
         return category.get();
     }
 
     /**
-     *
-     * @param value
+     * Set the category of the media
+     * @param value The category that will be set.
      */
     public void setCategory(String value) {
         category.set(value);
     }
 
     /**
-     *
-     * @return
-     */
-    public StringProperty categoryProperty() {
-        return category;
-    }
-
-    /**
-     *
-     * @return
+     * Get the artist of the media
+     * @return The artist of the media
      */
     public String getArtist() {
         return artist.get();
     }
 
     /**
-     *
-     * @param value
+     * Set the artist of the media
+     * @param value The value that will be set
      */
     public void setArtist(String value) {
         artist.set(value);
     }
 
     /**
-     *
-     * @return
-     */
-    public StringProperty artistProperty() {
-        return artist;
-    }
-
-    /**
-     *
-     * @return
+     * Get the ID of this object
+     * @return The ID of this object
      */
     public int getId() {
         return id.get();
     }
 
     /**
-     *
-     * @param value
+     * Set the ID of this object
+     * @param value The value (ID) that will be set
      */
     public void setId(int value) {
         id.set(value);
     }
 
     /**
-     *
-     * @return
-     */
-    public IntegerProperty idProperty() {
-        return id;
-    }
-
-    /**
-     *
-     * @param time
+     * Set the time of the media
+     * @param time The time that will be set (in seconds)
      */
     public void setTime(double time) {
         this.time = time;
     }
 
     /**
-     *
-     * @return
+     * Get the time (length) of the media
+     * @return The time (length) of the media in seconds
      */
     public double getTime() {
         return time;
     }
 
     /**
-     *
-     * @return
+     * Return the Media object stored in this instance
+     * @return The Media object stored in this instance
      */
     public Media getMedia() {
         return this.media;
     }
 
+     /**
+     * Set the media object of this instance
+     * @param media The Media object that will be stored in this instance
+     */
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+    
     /**
-     *
-     * @return
+     * Return the time (length) of the media formatted as string
+     * @return The time (length) of the media formatted as string
      */
     public String getTimeString() {
         long timeInLong = new Double(time).longValue();
@@ -230,20 +194,11 @@ public class UserMedia {
     }
 
     /**
-     *
-     * @return
+     * The string representation of this object
+     * @return The string representation of this object
      */
     @Override
     public String toString() {
         return "Title: " + getTitle() + " Artist: " + getArtist() + " Category: " + getCategory() + " Time: " + getTime();
     }
-
-    /**
-     *
-     * @param media
-     */
-    public void setMedia(Media media) {
-        this.media = media;
-    }
-
 }

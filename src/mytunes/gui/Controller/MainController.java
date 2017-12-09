@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Controller;
 
 import java.io.IOException;
@@ -20,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -34,9 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import mytunes.BLL.BLLException;
 import mytunes.be.Mode;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
@@ -44,12 +36,11 @@ import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
 
 /**
- *
+ * The controller that controls the MainWindow, and handles the events
  * @author Mape
  */
 public class MainController implements Initializable
 {
-
     @FXML
     private ImageView next;
     @FXML
@@ -90,24 +81,6 @@ public class MainController implements Initializable
     private TableColumn<UserMedia, String> songsColumnTime;
     @FXML
     private TableColumn<UserMedia, String> songsColumnCategory;
-    @FXML
-    private Button newPlaylistButton;
-    @FXML
-    private Button editPlaylistButton;
-    @FXML
-    private Button deletePlaylistButton;
-    @FXML
-    private Button deleteSongFromPlaylistButton;
-    @FXML
-    private Button newSongButton;
-    @FXML
-    private Button editSongButton;
-    @FXML
-    private Button closeApp;
-    @FXML
-    private Button deleteSongButton;
-    @FXML
-    private Button btnPlayURL;
 
     private final Image img_next = new Image("file:images/next.png");
     private final Image img_previous = new Image("file:images/previous.png");
@@ -118,7 +91,6 @@ public class MainController implements Initializable
     private final Image img_up = new Image("file:images/up.png");
     private final Image img_addArrow = new Image("file:images/previous.png");
     private MediaPlayerModel model;
-    private boolean isPlaying = false;
     private UserMedia currentMedia;
 
     public void initialize(URL url, ResourceBundle rb)
@@ -139,7 +111,10 @@ public class MainController implements Initializable
         model.setVolume(volumeController.getValue());
         setListenersAndEventHandlers();
     }
-
+    
+    /**
+     * Sets up the list cell factories to correctly display the data of a play list
+     */
     private void setUpPlayListCellFactories()
     {
         //Set up cell factories
@@ -153,7 +128,10 @@ public class MainController implements Initializable
         playListColumnSongsCount.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
         playListColumnTotalTime.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
     }
-
+    
+    /**
+     * Sets up the list cell factories to correctly display the data of a UserMedia object
+     */
     private void setUpSongsCellFactories()
     {
         //Set up cell factories
@@ -170,7 +148,9 @@ public class MainController implements Initializable
         songsColumnTime.prefWidthProperty().bind(songsTableView.widthProperty().divide(4));
     }
 
-    //Update the listView to show the songs found in the selected play list, and update the BLLManager to contain the latest selection
+    /**
+     * Updates the list view that contains the songs found in play list whenever a new play list is selected
+     */
     private void updateListView()
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
@@ -189,7 +169,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Call a method to load data from the DB
+    /**
+     * Load data from the database
+     */
     private void loadMedia()
     {
         try
@@ -202,19 +184,21 @@ public class MainController implements Initializable
         }
     }
 
-    //Set up listeners
+    /**
+     * Set up listeners and event handles for different events
+     */
     private void setListenersAndEventHandlers()
     {
         //Update the list view containing the songs in the selected play list, whenever a new play list is selected
         playlistTableView.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener()
-        {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue)
+            new ChangeListener()
             {
-                updateListView();
+                @Override
+                public void changed(ObservableValue observable, Object oldValue, Object newValue)
+                {
+                    updateListView();
+                }
             }
-        }
         );
 
         //Add a new event handler, so that search can be performed by pressing enter
@@ -260,7 +244,10 @@ public class MainController implements Initializable
 
 //******************************************************************************************************************************************************************//
 //GUI controls events
-    //Remove a media from the table view and the DB
+    
+    /**
+     * Delete the selected song
+     */
     @FXML
     private void deleteSongClicked(ActionEvent event)
     {
@@ -278,9 +265,12 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-
+    
+    /**
+     * Jump to the next song in the play list
+     */
     @FXML
-    private void nextArrowClicked()
+    private void nextArrowClicked(MouseEvent event)
     {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
         try
@@ -293,7 +283,10 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-
+    
+    /**
+     * Jump to the previous song in the play list
+     */
     @FXML
     private void previousArrowClicked(MouseEvent event)
     {
@@ -308,7 +301,10 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-
+    
+    /**
+     * Attempt to play either a single song or a play list, or if the playback was paused continue playing.
+     */
     @FXML
     private void playArrowClicked(MouseEvent event)
     {
@@ -321,22 +317,19 @@ public class MainController implements Initializable
             {
                 if (!model.isPlaying().get())
                 {
-                    if (selectedMedia != currentMedia)
-                    {    //If we did not select a new media, continue playing the old one
+                    if (selectedMedia != currentMedia)  //If we did not select a new media, continue playing the old one
+                    {   
                         model.setMedia(selectedMedia);
                         model.playMedia();
-                        model.setPlaying(true);
                         currentMedia = selectedMedia;
                     } else
                     {
                         model.playMedia();
-                        model.setPlaying(true);
                     }
                 } else
                 {
                     model.pauseMedia();
                     play.setImage(img_play);
-                    model.setPlaying(false);
                 }
             }
             else //We have a selected play list, play all the songs
@@ -346,15 +339,12 @@ public class MainController implements Initializable
                     {   
                         model.setMedia(selectedPlayList);
                         model.playMedia();
-                        model.setPlaying(true);
                         currentMedia = selectedPlayList.getCurrentlyPlaying();
                     } else {
                         model.playMedia();
-                        model.setPlaying(true);
                     }
                 } else {
                     model.pauseMedia();
-                    model.setPlaying(false);
                 }
             }
         }
@@ -366,29 +356,18 @@ public class MainController implements Initializable
 
     }
 
+    /**
+     * Set a new volume
+     */
     @FXML
     private void volumeClicked(MouseEvent event)
     {
         model.setVolume(volumeController.getValue());
     }
 
-    @FXML
-    private void clickPlayURL(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/WebPlayer.fxml"));
-            Parent root = (Parent) loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("WebPlayer");
-            stage.show();
-        }
-        catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);
-        }
-    }
-
-    //Search for the string
+    /**
+     * Filter the list of songs using the string entered into the searchField
+     */
     @FXML
     private void searchClicked(MouseEvent event)
     {
@@ -396,7 +375,9 @@ public class MainController implements Initializable
         searchForString(searchString);
     }
 
-    //Add the selected song to the selected playlist
+    /**
+     * Add the selected song to the selected play list
+     */
     @FXML
     private void addArrowClicked(MouseEvent event)
     {
@@ -413,7 +394,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Delete the selected play list
+    /**
+     * Delete the selected play list
+     */
     @FXML
     private void deletePlaylistClicked(ActionEvent event)
     {
@@ -435,7 +418,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Delete the selected song from the selected play list
+    /**
+     * Delete the selected song from the selected play list
+     */
     @FXML
     private void deleteSongFromPlaylistClicked(ActionEvent event)
     {
@@ -457,7 +442,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Move the selected media up in the selected list (UI only)
+    /**
+     * Move the selected media up in the selected list (UI only)
+     */
     @FXML
     private void upArrowClicked(MouseEvent event)
     {
@@ -475,7 +462,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Move the selected media down in the selected list (UI only)
+    /**
+     * Move the selected media down in the selected list (UI only)
+     */
     @FXML
     private void downArrowClicked(MouseEvent event)
     {
@@ -494,8 +483,10 @@ public class MainController implements Initializable
     }
 
 //******************************************************************************************************************************************************************//
-//Editor windows
-    //Open a new window where we can add a new song
+//New windows
+    /**
+     * Open a new window where we can add a new song
+     */
     @FXML
     private void addNewSongClicked(ActionEvent event)
     {
@@ -508,7 +499,7 @@ public class MainController implements Initializable
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
-            stage.setTitle("Add/Edit media");
+            stage.setTitle("Add/Edit song");
             stage.show();
         } catch (IOException ex)
         {
@@ -517,7 +508,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Open an new window where we can edit an existing song
+    /**
+     * Open an new window where we can edit an existing song
+    */
     @FXML
     private void editSongClicked(ActionEvent event)
     {
@@ -531,6 +524,7 @@ public class MainController implements Initializable
             Parent root1 = (Parent) fxmlLoader.load();
 
             Stage stage = new Stage();
+            stage.setTitle("Add/Edit media");
             stage.setScene(new Scene(root1));
             stage.show();
         }
@@ -540,7 +534,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Open a new window where we can add a new play list
+    /**
+     * Open a new window where we can add a new play list
+     */
     @FXML
     private void addNewPlaylistClicked(ActionEvent event)
     {
@@ -563,7 +559,9 @@ public class MainController implements Initializable
         }
     }
 
-    //Open a new window where we can edit an existing play list
+    /**
+     * Open a new window where we can edit an existing play list
+     */
     @FXML
     private void editPlaylistClicked(ActionEvent event)
     {
@@ -585,23 +583,51 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
+    
+    /**
+     * Open a new window where we can play a vide from an URL
+     */
+    @FXML
+    private void clickPlayURL(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/WebPlayer.fxml"));
+            Parent root = (Parent) loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("WebPlayer");
+            stage.show();
+        }
+        catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(ex);
+        }
+    }
 
 //******************************************************************************************************************************************************************//
 //Helper methods
-    //Search the kist in the model for the give string
+    
+    /**
+     * /Search the list in the model for the give string
+     * @param search The string which will be used as a filter
+     */
     private void searchForString(String search)
     {
         model.searchString(search);
     }
 
-    //Show a new alert window, with the text of the error
+    /**
+     * Show a new alert window, with the text of the error
+     * @param ex The exception which will be used to display the message
+     */
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
     }
 
-    //Close the application
+    /**
+     * Close the window
+     */
     @FXML
     private void closeAppClicked(ActionEvent event)
     {
@@ -609,8 +635,12 @@ public class MainController implements Initializable
         stage.close();
     }
 
-    //Show a window with the specified prompt text
-    //Returns with the value the user selected (continue or not)
+    /**
+     * Show a window with the specified prompt text
+     * Returns with the value the user selected (continue or not)
+     * @param prompt The text that will be showed on the window
+     * @return The values selected by the user
+     */
     private boolean showConfirmationDialog(String prompt)
     {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, prompt, ButtonType.YES, ButtonType.NO);
@@ -620,6 +650,7 @@ public class MainController implements Initializable
         {
             return true;
         }
+        
         return false;
     }
 

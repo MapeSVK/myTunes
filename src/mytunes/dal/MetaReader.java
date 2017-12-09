@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.dal;
 
 import java.io.File;
@@ -21,18 +16,18 @@ import org.jaudiotagger.tag.flac.FlacTag;
 import org.jaudiotagger.tag.vorbiscomment.VorbisCommentTag;
 
 /**
- *
+ * A class that reads the meta data of a specified file
  * @author Dominik
  */
 public class MetaReader {
 
     /**
-     * Reads the metadata from the media file at the given location and puts
+     * Reads the meta data from the media file at the given location and puts
      * the appropriate data to a UserMedia and returns it.
      * 
-     * @param path
-     * @return UserMedia
-     * @throws DAException 
+     * @param path The path of the file
+     * @return An UserMedia object containing the data of retrieved from the file
+     * @throws DAException If an error occurs during file access
      */
     public UserMedia getMetaData(URI path) throws DAException {
         UserMedia tempmedia = new UserMedia();

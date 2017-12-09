@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.BLL;
 
 import java.util.List;
@@ -12,7 +7,7 @@ import mytunes.dal.DAException;
 import mytunes.dal.DALManager;
 
 /**
- * Handles operations such as saving and retrieving PlayList objects
+ * Handles operations such as saving and retrieving PlayList objects from the database
  *
  * @author sebok
  */
@@ -21,8 +16,8 @@ public class PlayListManager {
     private DALManager dalManager;
 
     /**
-     *
-     * @param dm
+     * Creates a new PlayListManagee instance and sets the internal DALManager object using the parameter
+     * @param dm The DALManagar that will be used to access the database
      */
     public PlayListManager(DALManager dm) {
         this.dalManager = dm;
@@ -31,8 +26,8 @@ public class PlayListManager {
     /**
      * Attempt to load the play list from the DB
      * 
-     * @return List
-     * @throws BLLException 
+     * @return List The list of the play list stored in the database
+     * @throws BLLException If an error occurs during loading
      */
     List<PlayList> loadPlayLists() throws BLLException {
         try {
@@ -44,10 +39,10 @@ public class PlayListManager {
     }
 
     /**
-     * Attempt to save a new playlist into the DB 
+     * Attempt to save a new play list into the DB 
      * 
-     * @param newPlayList
-     * @throws BLLException 
+     * @param newPlayList The play list that will be saved to the database 
+     * @throws BLLException If an error occurs during edit
      */
     void saveNewPlayList(PlayList newPlayList) throws BLLException {
         try {
@@ -59,10 +54,10 @@ public class PlayListManager {
     }
     
     /**
-     * Attempt to update existng playlist in the DB
+     * Attempt to update existing play list in the database
      * 
-     * @param selectedPlayList
-     * @throws BLLException 
+     * @param selectedPlayList The play list that will be updated in the database
+     * @throws BLLException If an error occurs during update
      */
     void updatePlayList(PlayList selectedPlayList) throws BLLException {
         try {
@@ -76,8 +71,8 @@ public class PlayListManager {
     /**
      * Remove the selected play list from the DB
      * 
-     * @param selected
-     * @throws BLLException 
+     * @param selected The play list that will be deleted from the database
+     * @throws BLLException If an error occurs during deletion
      */
     void removePlayList(PlayList selected) throws BLLException {
         try {
@@ -89,10 +84,11 @@ public class PlayListManager {
     }
 
     /**
-     * Update the selected play list in the DB
-     * @param selectedMedia
-     * @param selectedPlayList
-     * @throws BLLException 
+     * Add the selected song to the selected play list
+     * 
+     * @param selectedMedia The song that will be added from the selected play list
+     * @param selectedPlayList The play list to which the selected song will be added
+     * @throws BLLException If an error occurs during addition
      */
     void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {
@@ -104,11 +100,11 @@ public class PlayListManager {
     }
 
     /**
-     * Update the selected play list in the DB
+     * Remove the selected song from the selected play list
      * 
-     * @param selectedMedia
-     * @param selectedPlayList
-     * @throws BLLException 
+     * @param selectedMedia The song that will be removed from the selected play list
+     * @param selectedPlayList The play list from which the selected song will be removed
+     * @throws BLLException If an error occurs during deletion
      */
     void removeSongFromPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws BLLException {
         try {

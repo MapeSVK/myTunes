@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Controller;
 
 import java.net.URL;
@@ -19,8 +14,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
+ * A controller that controls a WebPlayer window
+ * !!!WIP!!!
  * @author Dominik
  */
 public class WebPlayerController implements Initializable {
@@ -41,7 +36,10 @@ public class WebPlayerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setListener();
     }
-
+    
+    /**
+     * Load a video using the entered URL
+     */
     private void urlLoad() {
         String url = fieldURL.getText();
         String[] spliturl = url.split(" ");
@@ -67,7 +65,7 @@ public class WebPlayerController implements Initializable {
     }
 
     /**
-     * press enter to load the content
+     * Press enter to load the content
      */
     private void setListener() {
         fieldURL.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -79,12 +77,18 @@ public class WebPlayerController implements Initializable {
             }
         });
     }
-
+    
+    /**
+     *  Load a video on press
+     */
     @FXML
     private void clickLoadURL(KeyEvent event) {
         urlLoad();
     }
 
+    /**
+     * Close the window
+     */
     @FXML
     private void clickClose(ActionEvent event) {
         webView.getEngine().load(null);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.dal;
 
 import java.sql.Connection;
@@ -15,7 +10,7 @@ import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 
 /**
- *
+ * Handles operations such as saving, updating and deleting PlayList objects from the database
  * @author Dominik
  */
 public class PlayListDBManager {
@@ -26,8 +21,8 @@ public class PlayListDBManager {
      * Returns a list of PlayList from the database and fills the list in each PlayList
      * with the connected media.
      * 
-     * @return List
-     * @throws DAException 
+     * @return A list of PlayList stored in the database
+     * @throws DAException If an error occurs during database access
      */
     public List<PlayList> getAll() throws DAException {
         List<PlayList> playListList = new ArrayList();
@@ -69,10 +64,10 @@ public class PlayListDBManager {
     }
 
     /**
-     * Saves the data of a given UserMedia to the database.
+     * Saves the data of a given PlayList to the database.
      * 
-     * @param playlist
-     * @throws DAException Asd
+     * @param playlist The PlayList object that will be saved to the database
+     * @throws DAException If an error occurs during database access
      */
     public void save(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -97,8 +92,8 @@ public class PlayListDBManager {
     /**
      * Updates and already existing database entry with the data from a given PlayList.
      * 
-     * @param playlist
-     * @throws DAException 
+     * @param playlist The PlayList object with the updated data, that will be saved to the database
+     * @throws DAException If an error occurs during database access
      */
     public void edit(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -116,10 +111,10 @@ public class PlayListDBManager {
     }
 
     /**
-     * Removes the database entry of the given UserMedia from the database.
+     * Removes the database entry of the given PlayList from the database.
      * 
-     * @param playlist
-     * @throws DAException 
+     * @param playlist The PlayList that will be removed from the database
+     * @throws DAException If an error occurs during database access
      */
     public void delete(PlayList playlist) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -136,12 +131,12 @@ public class PlayListDBManager {
     }
 
     /**
-     * Adds a database entry that creates a connection between the given playlist
-     * and the given media.
+     * Adds a database entry that creates a connection between the given PlayList 
+     * and the given UserMedia objects.
      * 
-     * @param playlist
-     * @param media
-     * @throws DAException 
+     * @param playlist The selected play list
+     * @param media The selected song
+     * @throws DAException If an error occurs during database access
      */
     public void addMediaToList(PlayList playlist, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {
@@ -161,12 +156,12 @@ public class PlayListDBManager {
     }
 
     /**
-     * Deletes the database entry that creates a connection between the given playlist
-     * and the given media.
+     * Deletes the database entry that creates a connection between the given PlayList
+     * and the given UserMedia objects.
      * 
-     * @param playlist
-     * @param media
-     * @throws DAException 
+     * @param playlist The selected play list
+     * @param media The selected song
+     * @throws DAException If an error occurs during database access
      */
     public void deleteMediaFromList(PlayList playlist, UserMedia media) throws DAException {
         try (Connection con = cm.getConnection()) {

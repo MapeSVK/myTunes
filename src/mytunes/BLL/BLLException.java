@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.BLL;
 
 /**
- * An exception thrown in the BLL. 
+ * Represents an exception thrown in the BLL. 
  * @author sebok
  */
 public class BLLException extends Exception
 {
     
     /**
-     *
-     * @param message
+     * Create a new exception using the parameter as the message
+     * @param message The message of the exception
      */
     public BLLException(String message)
     {
@@ -22,8 +17,8 @@ public class BLLException extends Exception
     }
     
     /**
-     *
-     * @param ex
+     * Create a new exception using the message from another exception
+     * @param ex The message from this exception will be used to create a new exception
      */
     public  BLLException(Exception ex)
     {
@@ -31,8 +26,8 @@ public class BLLException extends Exception
     }
     
     /**
-     *
-     * @return String
+     * Return the message of the exception
+     * @return String The message of the exception
      */
     @Override
     public String getMessage()

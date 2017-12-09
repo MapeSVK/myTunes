@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Model;
 
 /**
- *
+ * Represents an error thrown in during operations in the MediaPlayerModel class
  * @author sebok
  */
 public class ModelException extends Exception
 {
 
     /**
-     *
-     * @param message
+     * Constructs a new exception using the parameter string as the message
+     * @param message The string that will be used as the message
      */
     public ModelException(String message)
     {
@@ -22,8 +17,8 @@ public class ModelException extends Exception
     }
 
     /**
-     *
-     * @param ex
+     * Constructs a new exception using the message from another exception
+     * @param ex The exception from which the message will be used
      */
     public ModelException(Exception ex)
     {
@@ -31,13 +26,13 @@ public class ModelException extends Exception
     }
     
     /**
-     *
-     * @return
+     * Returns the message stored in this exception
+     * @return The message stored in this exception
      */
     @Override
     public String getMessage()
     {
-        return super.getMessage(); //To change body of generated methods, choose Tools | Templates.
+        return super.getMessage(); 
     }
        
 }

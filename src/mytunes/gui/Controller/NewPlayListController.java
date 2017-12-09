@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Controller;
 
 import java.net.URL;
@@ -25,7 +20,7 @@ import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
 
 /**
- * FXML Controller class
+ * A controller that controls a NewPlayList window
  *
  * @author sebok
  */
@@ -39,10 +34,9 @@ public class NewPlayListController implements Initializable
     private MediaPlayerModel model;
     
     private Mode mode; //Depends on whether the "New" or the "Edit" button was clicked
+   
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -60,7 +54,7 @@ public class NewPlayListController implements Initializable
             }
         });
         
-        model = MediaPlayerModel.getInstance();
+        model = MediaPlayerModel.getInstance();     //Get the mode in which the window was opened
         try
         {
             if (model.getPlayListMode() == Mode.EDIT)
@@ -87,19 +81,30 @@ public class NewPlayListController implements Initializable
         }
     }    
 
+    /**
+     * Attempt to save the data
+     * @param event 
+     */
     @FXML
     private void btnSaveClick(ActionEvent event)
     {
         saveData();
     }
 
+    /**
+     * Close the window
+     * @param event 
+     */
     @FXML
     private void btnCancelClick(ActionEvent event)
     {
         closeWindow();
     }
     
-    //Name can be saved by either clicking the "Save" buttom, or pressong Enter
+    /**
+     * Read the string from the txtFieldName text box, and depending on the mode either create a new play list, or alter an existing one
+     * Name can be saved by either clicking the "Save" button, or pressing Enter
+     */
     private void saveData()
     {
         try
@@ -124,6 +129,9 @@ public class NewPlayListController implements Initializable
         closeWindow();
     }
     
+    /**
+     * Close the window
+     */
     private void closeWindow()
     {
         Stage stage = (Stage) txtFieldName.getScene().getWindow();
@@ -131,9 +139,9 @@ public class NewPlayListController implements Initializable
     }
 
     /**
-     *
-     * @param list
-     * @throws Exception
+     * If the "EDIT" mode is selected, set the text field to the title of the edited play list
+     * @param list The play list currently being edited
+     * @throws Exception If the parameter is null
      */
     public void setText(PlayList list) throws Exception
     {
@@ -147,6 +155,10 @@ public class NewPlayListController implements Initializable
         }
     }
     
+     /**
+     * Show a new alert window, with the text of the error
+     * @param ex The exception which will be used to display the message
+     */
     private void showAlert(Exception ex)
     {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);

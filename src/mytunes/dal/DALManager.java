@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.dal;
 
 import java.net.URI;
@@ -11,7 +6,7 @@ import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
 
 /**
- *
+ * This class provides an interface to the database operations
  * @author Dominik
  */
 public class DALManager {
@@ -21,9 +16,9 @@ public class DALManager {
     private PlayListDBManager listM = new PlayListDBManager();
 
     /**
-     *
-     * @return list 
-     * @throws DAException
+     * Get the songs from the database
+     * @return A list of song stored in the database 
+     * @throws DAException If an error occurs during database access
      */
     public List<UserMedia> getAllMedia() throws DAException {
         List<UserMedia> mediaList = mediaM.getAll();       
@@ -31,9 +26,9 @@ public class DALManager {
     }
     
     /**
-     *
-     * @return List 
-     * @throws DAException
+     * Get all the play list stored in the database
+     * @return A list of play list stored in the database 
+     * @throws DAException If an error occurs during database access
      */
     public List<PlayList> getAllPlayList() throws DAException {
         List<PlayList> playlistList = listM.getAll();
@@ -41,84 +36,84 @@ public class DALManager {
     }
 
     /**
-     *
-     * @param media
-     * @throws DAException
+     * Save a the data of a media object to the database
+     * @param media The object that will be saved to the database
+     * @throws DAException If an error occurs during database access
      */
     public void saveMedia(UserMedia media) throws DAException {
         mediaM.save(media);
     }
 
     /**
-     *
-     * @param playlist
-     * @throws DAException
+     * Save the data of a play list to the database
+     * @param playlist The object that will be saved to the database
+     * @throws DAException If an error occurs during database access
      */
     public void savePlayList(PlayList playlist) throws DAException {
         listM.save(playlist);
     }
 
     /**
-     *
-     * @param media
-     * @throws DAException
+     * Update an already existing UserMedia object in the database
+     * @param media The updated object
+     * @throws DAException If an error occurs during database access
      */
     public void editMedia(UserMedia media) throws DAException {
         mediaM.edit(media);
     }
 
     /**
-     *
-     * @param playlist
-     * @throws DAException
+     * Update an already existing PlayList object in the database
+     * @param playlist The updated object
+     * @throws DAException If an error occurs during database access
      */
     public void editList(PlayList playlist) throws DAException {
         listM.edit(playlist);
     }
 
     /**
-     *
-     * @param media
-     * @throws DAException
+     * Delete a UserMedia object from the database
+     * @param media The object that will be deleted
+     * @throws DAException If an error occurs during database access
      */
     public void deleteMedia(UserMedia media) throws DAException {
         mediaM.delete(media);
     }
 
     /**
-     *
-     * @param playlist
-     * @throws DAException
+     * Delete a PlayList object from the database
+     * @param playlist The object that will be deleted
+     * @throws DAException If an error occurs during database access
      */
     public void deletePlayList(PlayList playlist) throws DAException {
         listM.delete(playlist);
     }
 
     /**
-     *
-     * @param playlist
-     * @param media
-     * @throws DAException
+     * Add a song to a play list
+     * @param playlist The play list that will be updated
+     * @param media The song that will be added to the play list
+     * @throws DAException If an error occurs during database access
      */
     public void addMediaToList(PlayList playlist, UserMedia media) throws DAException {
         listM.addMediaToList(playlist, media);
     }
     
     /**
-     *
-     * @param playlist
-     * @param media
-     * @throws DAException
+     * Delete a song from a play list
+     * @param playlist The play list that will be updated
+     * @param media The song that will be deleted from the play list
+     * @throws DAException If an error occurs during database access
      */
     public void deleteMediaFromList(PlayList playlist, UserMedia media) throws DAException {
         listM.deleteMediaFromList(playlist, media);
     }
     
     /**
-     *
-     * @param path
-     * @return UserMedia
-     * @throws DAException
+     * Get the meta data of the file represented by the URI
+     * @param path The path of the file
+     * @return An UserMedia object containing meta data from the file
+     * @throws DAException If an error occurs during file access
      */
     public UserMedia getMetaData(URI path) throws DAException {
         return metaR.getMetaData(path);

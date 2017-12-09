@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mytunes.gui.Controller;
 
 import java.io.IOException;
@@ -34,7 +29,7 @@ import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
 
 /**
- * FXML Controller class
+ *  A controller that controls a NewSong window
  *
  * @author Mape
  */
@@ -85,8 +80,6 @@ public class NewSongController implements Initializable {
     
     /**
      * Open a file chooser dialog and read in the meta data of the selected file
-     * 
-     * @param event 
      */
     @FXML
     private void chooseFileClicked(ActionEvent event)
@@ -94,16 +87,14 @@ public class NewSongController implements Initializable {
         FileChooser fc = new FileChooser();
         URI uri = fc.showOpenDialog(new ContextMenu()).toURI();
         
-        workingUserMedia = getMetaData(uri);
-        Media media = new Media(uri.toString());
-        workingUserMedia.setMedia(media);
-        fillData();
+        workingUserMedia = getMetaData(uri);    //Get the meta data of the selected file
+        Media media = new Media(uri.toString()); //Create a Media object from the selected file
+        workingUserMedia.setMedia(media);   
+        fillData(); //Fill out the text fields using the data previously retrieved
     }
 
     /**
-     * Open a new window, that lets us add a new category tot he list
-     * 
-     * @param event 
+     * Open a new window, that lets us add a new category to he list
      */
     @FXML
     private void addNewCategoryClicked(ActionEvent event)
@@ -126,8 +117,7 @@ public class NewSongController implements Initializable {
     }
     
     /**
-     * Save the song when the button is cliked, and close the window
-     * @param event 
+     * Save the song when the button is clicked, and close the window
      */
     
     @FXML
@@ -139,7 +129,6 @@ public class NewSongController implements Initializable {
     
     /**
      * Save the song when the "Enter" key is pressed, and close the window
-     * @param event 
      */
     @FXML
     private void onKeyPressed(KeyEvent event)
@@ -156,9 +145,9 @@ public class NewSongController implements Initializable {
 //Helper methods
     
     /**
-     * Retrieve the metadata of the file represented by the uri
-     * @param uri
-     * @return 
+     * Retrieve the meta data of the file represented by the URI
+     * @param uri The path of the selected file
+     * @return An UserMedia object containing the data of the selected file
      */
     private UserMedia getMetaData(URI uri)
     {
@@ -177,7 +166,6 @@ public class NewSongController implements Initializable {
     
     /**
      * Close the window
-     * @param event 
      */
     @FXML
     private void cancelNewSongClicked(ActionEvent event) 
@@ -185,9 +173,9 @@ public class NewSongController implements Initializable {
         closeWindow();
     }
     
-    /**
-     * Show an alert window
-     * @param ex 
+     /**
+     * Show a new alert window, with the text of the error
+     * @param ex The exception which will be used to display the message
      */
     private void showAlert(Exception ex)
     {
@@ -205,7 +193,7 @@ public class NewSongController implements Initializable {
     }
     
     /**
-     * Fill the textfields with the data of the media instance
+     * Fill the text fields with the data of the media instance
      */
     private void fillData()
     {
