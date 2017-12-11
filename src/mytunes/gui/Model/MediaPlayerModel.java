@@ -150,8 +150,8 @@ public class MediaPlayerModel {
      * @throws ModelException If the play list already contains the song, or if an error occurs during saving
      */
     public void addMediaToPlayList(UserMedia selectedMedia, PlayList selectedPlayList) throws ModelException {
-        if (selectedMedia == null || selectedMedia == null) {
-            throw new ModelException("ASD");
+        if (selectedMedia == null || selectedPlayList == null) {
+            throw new ModelException("Please select a song or a play list!");
         }
         for (UserMedia userMedia : selectedPlayList.getMediaList()) {
             if (userMedia.getArtist().equalsIgnoreCase(selectedMedia.getArtist()) && userMedia.getTitle().equalsIgnoreCase(selectedMedia.getTitle())) {
