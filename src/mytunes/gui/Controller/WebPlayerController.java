@@ -56,7 +56,6 @@ public class WebPlayerController implements Initializable {
             for (String string : spliturl) {
                 correctedURL += (string + " ");
             }
-            webView.getEngine().getTitle();
             webView.getEngine().loadContent(correctedURL);
         }
     }
@@ -90,10 +89,5 @@ public class WebPlayerController implements Initializable {
         webView.getEngine().load(null);
         Stage stage = (Stage) webView.getScene().getWindow();
         stage.close();
-    }
-
-    public void stop() {
-        System.out.println("Stage is closing");
-        // Save file
     }
 }

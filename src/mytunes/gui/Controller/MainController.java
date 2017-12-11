@@ -36,10 +36,11 @@ import mytunes.gui.Model.ModelException;
 
 /**
  * The controller that controls the MainWindow, and handles the events
+ *
  * @author Mape
  */
-public class MainController implements Initializable
-{
+public class MainController implements Initializable {
+
     @FXML
     private ImageView next;
     @FXML
@@ -92,8 +93,7 @@ public class MainController implements Initializable
     private MediaPlayerModel model;
     private UserMedia currentMedia;
 
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         next.setImage(img_next);
         previous.setImage(img_previous);
         play.setImage(img_play);
@@ -110,12 +110,12 @@ public class MainController implements Initializable
         model.setVolume(volumeController.getValue());
         setListenersAndEventHandlers();
     }
-    
+
     /**
-     * Sets up the list cell factories to correctly display the data of a play list
+     * Sets up the list cell factories to correctly display the data of a play
+     * list
      */
-    private void setUpPlayListCellFactories()
-    {
+    private void setUpPlayListCellFactories() {
         //Set up cell factories
         playListColumnName.setCellValueFactory(new PropertyValueFactory("title"));
         playListColumnSongsCount.setCellValueFactory(new PropertyValueFactory("count"));
@@ -127,12 +127,12 @@ public class MainController implements Initializable
         playListColumnSongsCount.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
         playListColumnTotalTime.prefWidthProperty().bind(playlistTableView.widthProperty().divide(4));
     }
-    
+
     /**
-     * Sets up the list cell factories to correctly display the data of a UserMedia object
+     * Sets up the list cell factories to correctly display the data of a
+     * UserMedia object
      */
-    private void setUpSongsCellFactories()
-    {
+    private void setUpSongsCellFactories() {
         //Set up cell factories
         songsColumnTitle.setCellValueFactory(new PropertyValueFactory("title"));
         songsColumArtist.setCellValueFactory(new PropertyValueFactory("artist"));
@@ -148,21 +148,19 @@ public class MainController implements Initializable
     }
 
     /**
-     * Updates the list view that contains the songs found in play list whenever a new play list is selected
+     * Updates the list view that contains the songs found in play list whenever
+     * a new play list is selected
      */
-    private void updateListView()
-    {
+    private void updateListView() {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        if (selectedPlayList == null)
-        {
+        if (selectedPlayList == null) {
             return;
         }
         playlistSongsListView.setItems(selectedPlayList.getMediaList());
-        try
-        {
+        try {
             model.setSelectedPlayList(selectedPlayList);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -171,13 +169,11 @@ public class MainController implements Initializable
     /**
      * Load data from the database
      */
-    private void loadMedia()
-    {
-        try
-        {
+    private void loadMedia() {
+        try {
             model.loadDataFromDB();
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -186,28 +182,22 @@ public class MainController implements Initializable
     /**
      * Set up listeners and event handles for different events
      */
-    private void setListenersAndEventHandlers()
-    {
+    private void setListenersAndEventHandlers() {
         //Update the list view containing the songs in the selected play list, whenever a new play list is selected
         playlistTableView.getSelectionModel().selectedItemProperty().addListener(
-            new ChangeListener()
-            {
-                @Override
-                public void changed(ObservableValue observable, Object oldValue, Object newValue)
-                {
-                    updateListView();
-                }
+                new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                updateListView();
             }
+        }
         );
 
         //Add a new event handler, so that search can be performed by pressing enter
-        searchField.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
+        searchField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(KeyEvent event)
-            {
-                if (event.getCode() == KeyCode.ENTER)
-                {
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
                     String searchString = searchField.getText();
                     searchForString(searchString);
                 }
@@ -215,27 +205,21 @@ public class MainController implements Initializable
         });
 
         //Change the image of the play button based on wheter or not a media is playing
-        model.isPlaying().addListener(new ChangeListener<Boolean>()
-        {
+        model.isPlaying().addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-            {
-                if (!model.isPlaying().get())
-                {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!model.isPlaying().get()) {
                     play.setImage(img_play);
-                } else
-                {
+                } else {
                     play.setImage(img_pause);
                 }
             }
         });
-        
+
         //Bind the currentlyPlayingStringProperty to the songName label, to alwys display the currently playing media
-        model.getCurrentlyPlayingString().addListener(new ChangeListener<String>()
-        {
+        model.getCurrentlyPlayingString().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-            {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 songName.setText(model.getCurrentlyPlayingString().get());
             }
         });
@@ -243,99 +227,83 @@ public class MainController implements Initializable
 
 //******************************************************************************************************************************************************************//
 //GUI controls events
-    
     /**
      * Delete the selected song
      */
     @FXML
-    private void deleteSongClicked(ActionEvent event)
-    {
-        if (showConfirmationDialog("Are you sure you want to delete this song?"))
-        {
+    private void deleteSongClicked(ActionEvent event) {
+        if (showConfirmationDialog("Are you sure you want to delete this song?")) {
             return;
         }
         UserMedia selected = songsTableView.getSelectionModel().getSelectedItem();
-        try
-        {
+        try {
             model.removeMedia(selected);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
     }
-    
+
     /**
      * Jump to the next song in the play list
      */
     @FXML
-    private void nextArrowClicked(MouseEvent event)
-    {
+    private void nextArrowClicked(MouseEvent event) {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        try
-        {
+        try {
             model.setNextMedia();
             currentMedia = selectedPlayList.getCurrentlyPlaying();
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
     }
-    
+
     /**
      * Jump to the previous song in the play list
      */
     @FXML
-    private void previousArrowClicked(MouseEvent event)
-    {
+    private void previousArrowClicked(MouseEvent event) {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-        try
-        {
+        try {
             model.setPreviousMedia();
             currentMedia = selectedPlayList.getCurrentlyPlaying();
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
     }
-    
+
     /**
-     * Attempt to play either a single song or a play list, or if the playback was paused continue playing.
+     * Attempt to play either a single song or a play list, or if the playback
+     * was paused continue playing.
      */
     @FXML
-    private void playArrowClicked(MouseEvent event)
-    {
+    private void playArrowClicked(MouseEvent event) {
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
-
-        try
-        {
-            if (selectedPlayList == null)
-            {
-                if (!model.isPlaying().get())
-                {
-                    if (selectedMedia != currentMedia)  //If we did not select a new media, continue playing the old one
-                    {   
+        try {
+            if (selectedPlayList == null) {
+                if (!model.isPlaying().get()) {
+                    if (selectedMedia != currentMedia) //If we did not select a new media, continue playing the old one
+                    {
                         model.setMedia(selectedMedia);
                         model.playMedia();
                         currentMedia = selectedMedia;
-                    } else
-                    {
+                    } else {
                         model.playMedia();
                     }
-                } else
-                {
+                } else {
                     model.pauseMedia();
                     play.setImage(img_play);
                 }
-            }
-            else //We have a selected play list, play all the songs
+            } else //We have a selected play list, play all the songs
             {
                 if (!model.isPlaying().get()) {
-                    if (selectedPlayList.getCurrentlyPlaying() != currentMedia)
-                    {   
+                    if (selectedPlayList.getCurrentlyPlaying() != currentMedia) {
                         model.setMedia(selectedPlayList);
                         model.playMedia();
                         currentMedia = selectedPlayList.getCurrentlyPlaying();
@@ -347,10 +315,9 @@ public class MainController implements Initializable
                 }
             }
         }
-        catch (ModelException ex)
-        {
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(ex);    
+            showAlert(ex);
         }
 
     }
@@ -359,8 +326,7 @@ public class MainController implements Initializable
      * Set a new volume
      */
     @FXML
-    private void volumeClicked(MouseEvent event)
-    {
+    private void volumeClicked(MouseEvent event) {
         model.setVolume(volumeController.getValue());
     }
 
@@ -368,8 +334,7 @@ public class MainController implements Initializable
      * Filter the list of songs using the string entered into the searchField
      */
     @FXML
-    private void searchClicked(MouseEvent event)
-    {
+    private void searchClicked(MouseEvent event) {
         String searchString = searchField.getText();
         searchForString(searchString);
     }
@@ -378,16 +343,13 @@ public class MainController implements Initializable
      * Add the selected song to the selected play list
      */
     @FXML
-    private void addArrowClicked(MouseEvent event)
-    {
+    private void addArrowClicked(MouseEvent event) {
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
         UserMedia selectedMedia = songsTableView.getSelectionModel().getSelectedItem();
-
-        try
-        {
+        try {
             model.addMediaToPlayList(selectedMedia, selectedPlayList);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -397,21 +359,17 @@ public class MainController implements Initializable
      * Delete the selected play list
      */
     @FXML
-    private void deletePlaylistClicked(ActionEvent event)
-    {
+    private void deletePlaylistClicked(ActionEvent event) {
         PlayList selected = playlistTableView.getSelectionModel().getSelectedItem();
-        if (selected != null)
-        {
-            if (showConfirmationDialog("Are you sure you want to delete this play list?"))
-            {
+        if (selected != null) {
+            if (showConfirmationDialog("Are you sure you want to delete this play list?")) {
                 return;
             }
         }
-        try
-        {
+        try {
             model.removePlayList(selected);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -421,21 +379,16 @@ public class MainController implements Initializable
      * Delete the selected song from the selected play list
      */
     @FXML
-    private void deleteSongFromPlaylistClicked(ActionEvent event)
-    {
-        if (showConfirmationDialog("Are you sure you want to delete this song from the play list?"))
-        {
+    private void deleteSongFromPlaylistClicked(ActionEvent event) {
+        if (showConfirmationDialog("Are you sure you want to delete this song from the play list?")) {
             return;
         }
-
         PlayList selectedPlayList = playlistTableView.getSelectionModel().getSelectedItem();
         UserMedia selectedMedia = playlistSongsListView.getSelectionModel().getSelectedItem();
-
-        try
-        {
+        try {
             model.removeMediaFromPlayList(selectedMedia, selectedPlayList);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -445,17 +398,14 @@ public class MainController implements Initializable
      * Move the selected media up in the selected list (UI only)
      */
     @FXML
-    private void upArrowClicked(MouseEvent event)
-    {
+    private void upArrowClicked(MouseEvent event) {
         UserMedia selected = playlistSongsListView.getSelectionModel().getSelectedItem();
         PlayList list = playlistTableView.getSelectionModel().getSelectedItem();
-
-        try
-        {
+        try {
             model.moveSongUp(selected, list);
             playlistSongsListView.getSelectionModel().select(selected);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -465,17 +415,15 @@ public class MainController implements Initializable
      * Move the selected media down in the selected list (UI only)
      */
     @FXML
-    private void downArrowClicked(MouseEvent event)
-    {
+    private void downArrowClicked(MouseEvent event) {
         UserMedia selected = playlistSongsListView.getSelectionModel().getSelectedItem();
         PlayList list = playlistTableView.getSelectionModel().getSelectedItem();
 
-        try
-        {
+        try {
             model.moveSongDown(selected, list);
             playlistSongsListView.getSelectionModel().select(selected);
-        } catch (ModelException ex)
-        {
+        }
+        catch (ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -487,10 +435,8 @@ public class MainController implements Initializable
      * Open a new window where we can add a new song
      */
     @FXML
-    private void addNewSongClicked(ActionEvent event)
-    {
-        try
-        {
+    private void addNewSongClicked(ActionEvent event) {
+        try {
             model.setMediaMode(Mode.NEW);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
 
@@ -500,8 +446,8 @@ public class MainController implements Initializable
             stage.setScene(new Scene(root1));
             stage.setTitle("Add/Edit song");
             stage.show();
-        } catch (IOException ex)
-        {
+        }
+        catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -509,12 +455,10 @@ public class MainController implements Initializable
 
     /**
      * Open an new window where we can edit an existing song
-    */
+     */
     @FXML
-    private void editSongClicked(ActionEvent event)
-    {
-        try
-        {
+    private void editSongClicked(ActionEvent event) {
+        try {
             model.setMediaMode(Mode.EDIT);
             model.setSelectedMedia(songsTableView.getSelectionModel().getSelectedItem());
 
@@ -537,10 +481,8 @@ public class MainController implements Initializable
      * Open a new window where we can add a new play list
      */
     @FXML
-    private void addNewPlaylistClicked(ActionEvent event)
-    {
-        try
-        {
+    private void addNewPlaylistClicked(ActionEvent event) {
+        try {
             model.setPlayListMode(Mode.NEW);
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewPlayList.fxml"));
@@ -551,8 +493,8 @@ public class MainController implements Initializable
             stage.setScene(new Scene(root1));
             stage.setTitle("Add/Edit playlist");
             stage.show();
-        } catch (IOException ex)
-        {
+        }
+        catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             showAlert(ex);
         }
@@ -562,10 +504,8 @@ public class MainController implements Initializable
      * Open a new window where we can edit an existing play list
      */
     @FXML
-    private void editPlaylistClicked(ActionEvent event)
-    {
-        try
-        {
+    private void editPlaylistClicked(ActionEvent event) {
+        try {
             model.setPlayListMode(Mode.EDIT);
             model.setSelectedPlayList(playlistTableView.getSelectionModel().getSelectedItem());
 
@@ -582,7 +522,7 @@ public class MainController implements Initializable
             showAlert(ex);
         }
     }
-    
+
     /**
      * Open a new window where we can play a vide from an URL
      */
@@ -604,22 +544,21 @@ public class MainController implements Initializable
 
 //******************************************************************************************************************************************************************//
 //Helper methods
-    
     /**
      * /Search the list in the model for the give string
+     *
      * @param search The string which will be used as a filter
      */
-    private void searchForString(String search)
-    {
+    private void searchForString(String search) {
         model.searchString(search);
     }
 
     /**
      * Show a new alert window, with the text of the error
+     *
      * @param ex The exception which will be used to display the message
      */
-    private void showAlert(Exception ex)
-    {
+    private void showAlert(Exception ex) {
         Alert a = new Alert(Alert.AlertType.ERROR, "An error occured: " + ex.getMessage(), ButtonType.OK);
         a.show();
     }
@@ -628,29 +567,24 @@ public class MainController implements Initializable
      * Close the window
      */
     @FXML
-    private void closeAppClicked(ActionEvent event)
-    {
+    private void closeAppClicked(ActionEvent event) {
         Stage stage = (Stage) play.getScene().getWindow();
         stage.close();
     }
 
     /**
-     * Show a window with the specified prompt text
-     * Returns with the value the user selected (continue or not)
+     * Show a window with the specified prompt text Returns with the value the
+     * user selected (continue or not)
+     *
      * @param prompt The text that will be showed on the window
      * @return The values selected by the user
      */
-    private boolean showConfirmationDialog(String prompt)
-    {
+    private boolean showConfirmationDialog(String prompt) {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, prompt, ButtonType.YES, ButtonType.NO);
         confirmation.showAndWait();
-
-        if (confirmation.getResult() == ButtonType.NO)
-        {
+        if (confirmation.getResult() == ButtonType.NO) {
             return true;
         }
-        
         return false;
     }
-
 }
