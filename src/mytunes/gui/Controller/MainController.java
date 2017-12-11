@@ -90,10 +90,15 @@ public class MainController implements Initializable {
     private final Image img_down = new Image("file:images/down.png");
     private final Image img_up = new Image("file:images/up.png");
     private final Image img_addArrow = new Image("file:images/previous.png");
+    private final Image img_clearSeach = new Image("file:images/clear_search.png");
+    
     private MediaPlayerModel model;
     private UserMedia currentMedia;
 
-    public void initialize(URL url, ResourceBundle rb) {
+    private boolean isFilterActive;
+    
+    public void initialize(URL url, ResourceBundle rb)
+    {
         next.setImage(img_next);
         previous.setImage(img_previous);
         play.setImage(img_play);
@@ -109,6 +114,8 @@ public class MainController implements Initializable {
         songsTableView.setItems(model.getMedia());
         model.setVolume(volumeController.getValue());
         setListenersAndEventHandlers();
+        isFilterActive = false;
+
     }
 
     /**
@@ -545,12 +552,29 @@ public class MainController implements Initializable {
 //******************************************************************************************************************************************************************//
 //Helper methods
     /**
-     * /Search the list in the model for the give string
-     *
+     * Set the image on the search button, and search the list in the model for the give string
      * @param search The string which will be used as a filter
      */
-    private void searchForString(String search) {
-        model.searchString(search);
+    private void searchForString(String searchString)
+    {
+        if (isFilterActive)
+        {
+            search.setImage(img_search);
+            searchField.clear();
+            searchString = "";
+            isFilterActive = false;
+            model.searchString(searchString);
+        }
+        else
+        {
+            if (searchString.isEmpty())
+            {
+                return;
+            }
+            search.setImage(img_clearSeach);
+            isFilterActive = true;
+            model.searchString(searchString);
+        }
     }
 
     /**
