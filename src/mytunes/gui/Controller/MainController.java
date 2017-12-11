@@ -468,7 +468,7 @@ public class MainController implements Initializable {
         try {
             model.setMediaMode(Mode.EDIT);
             model.setSelectedMedia(songsTableView.getSelectionModel().getSelectedItem());
-
+            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mytunes/gui/View/NewSong.fxml"));
 
             Parent root1 = (Parent) fxmlLoader.load();
@@ -476,7 +476,10 @@ public class MainController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Add/Edit media");
             stage.setScene(new Scene(root1));
-            stage.show();
+            stage.showAndWait();
+            
+            songsTableView.refresh();   //Udate the songs table view
+            playlistTableView.refresh();    //Update the play list (in case some play lists contain the edited song)
         }
         catch (IOException | ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -522,7 +525,9 @@ public class MainController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
-            stage.show();
+            stage.showAndWait();
+            
+            playlistTableView.refresh();
         }
         catch (IOException | ModelException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
