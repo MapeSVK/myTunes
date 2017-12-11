@@ -14,8 +14,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
- * A controller that controls a WebPlayer window
- * !!!WIP!!!
+ * A controller that controls a WebPlayer window !!!WIP!!!
+ *
  * @author Dominik
  */
 public class WebPlayerController implements Initializable {
@@ -27,8 +27,6 @@ public class WebPlayerController implements Initializable {
     @FXML
     private Button loadURL;
 
-    private String title;
-
     /**
      * Initializes the controller class.
      */
@@ -36,14 +34,13 @@ public class WebPlayerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setListener();
     }
-    
+
     /**
      * Load a video using the entered URL
      */
     private void urlLoad() {
         String url = fieldURL.getText();
         String[] spliturl = url.split(" ");
-
         if (url.startsWith("h")) {
             webView.getEngine().load(url);
         } else {
@@ -69,17 +66,16 @@ public class WebPlayerController implements Initializable {
      */
     private void setListener() {
         fieldURL.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER ) {
+                if (event.getCode() == KeyCode.ENTER) {
                     urlLoad();
                 }
             }
         });
     }
-    
+
     /**
-     *  Load a video on press
+     * Load a video on press
      */
     @FXML
     private void clickLoadURL(KeyEvent event) {
@@ -96,4 +92,8 @@ public class WebPlayerController implements Initializable {
         stage.close();
     }
 
+    public void stop() {
+        System.out.println("Stage is closing");
+        // Save file
+    }
 }

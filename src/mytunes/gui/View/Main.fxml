@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="677.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.Controller.MainController">
    <children>
-      <Slider fx:id="volumeController" blockIncrement="0.01" layoutX="26.0" layoutY="71.0" majorTickUnit="0.1" max="1.0" minorTickCount="1" onMouseClicked="#volumeClicked" value="0.5" />
+      <Slider fx:id="volumeController" blockIncrement="0.01" layoutX="26.0" layoutY="71.0" majorTickUnit="0.1" max="1.0" minorTickCount="1" onMouseDragged="#volumeClicked" value="1.0" />
       <ImageView fx:id="next" fitHeight="35.0" fitWidth="45.0" layoutX="130.0" layoutY="24.0" onMouseClicked="#nextArrowClicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/next.png" />
