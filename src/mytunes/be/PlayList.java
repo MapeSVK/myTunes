@@ -1,5 +1,6 @@
 package mytunes.be;
 
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -152,7 +153,17 @@ public class PlayList {
      * @param mediaToDelete The song that will be removed
      */
     public void removeMedia(UserMedia mediaToDelete) {
-        mediaList.remove(mediaToDelete);
+        Iterator<UserMedia> i = mediaList.iterator();
+        
+        while(i.hasNext())  //Iterate through the media list
+        {
+            if (i.next().getId() == mediaToDelete.getId()) //If the media is in the list remove it
+            {
+                i.remove();
+                break;
+            }
+        }
+        
         totalTimeInSeconds -= mediaToDelete.getTime();
         updateStringTime();
     }

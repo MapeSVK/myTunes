@@ -185,14 +185,6 @@ public class MediaPlayerModel {
         catch (BLLException ex) {
             throw new ModelException(ex);
         }
-
-        for (PlayList list : playlists) //Update the title of the play list stored in memory
-        {
-            if (list.getId() == selectedPlayList.getId()) {
-                list.setTitle(selectedPlayList.getTitle());
-                return;
-            }
-        }
     }
 
     /**
@@ -201,22 +193,20 @@ public class MediaPlayerModel {
      * @param editMedia The song that will be updated in the database
      * @throws ModelException If an error occurs during update
      */
-    public void editMedia(UserMedia editMedia) throws ModelException {
+    public void updateMedia(UserMedia editMedia) throws ModelException {
         try {
             bllManager.updateMedia(editMedia);  //Try to update the database
         }
         catch (BLLException ex) {
             throw new ModelException(ex);
         }
-
-        for (UserMedia userMedia : allMedia) {          //Try to update the UI
-            if (userMedia.getId() == editMedia.getId()) {
-                userMedia.setArtist(editMedia.getArtist());
-                userMedia.setCategory(editMedia.getCategory());
-                userMedia.setTitle(editMedia.getTitle());
-                userMedia.setPath(editMedia.getPath());
-
-                return;
+                    
+        for (PlayList list : playlists)
+        {
+            if (list.containsMedia(editMedia))  //Manually update the the list in the model
+            {
+                list.removeMedia(editMedia);
+                list.addMedia(editMedia);
             }
         }
     }
