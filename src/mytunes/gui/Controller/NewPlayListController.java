@@ -54,6 +54,7 @@ public class NewPlayListController implements Initializable
         });
         
         model = MediaPlayerModel.getInstance();     //Get the mode in which the window was opened
+        
         try
         {
             if (model.getPlayListMode() == Mode.EDIT)

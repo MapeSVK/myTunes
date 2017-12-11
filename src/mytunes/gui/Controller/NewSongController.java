@@ -227,7 +227,7 @@ public class NewSongController implements Initializable {
             }
             else
             {
-                model.editMedia(workingUserMedia);
+                model.updateMedia(workingUserMedia);
             }
         } 
         catch (ModelException ex)
