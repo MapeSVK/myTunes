@@ -17,7 +17,13 @@
       <Separator layoutY="75.0" prefHeight="2.0" prefWidth="600.0" />
       <Label layoutX="107.0" layoutY="125.0" text="Name: " />
       <TextField fx:id="txtFieldName" layoutX="152.0" layoutY="120.0" prefHeight="31.0" prefWidth="219.0" />
-      <Button layoutX="398.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnSaveClick" text="Save" />
-      <Button layoutX="268.0" layoutY="188.0" mnemonicParsing="false" onAction="#btnCancelClick" text="Cancel" />
+      <Button layoutX="398.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnSaveClick" styleClass="buttons1" stylesheets="@Main.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="268.0" layoutY="188.0" mnemonicParsing="false" onAction="#btnCancelClick" styleClass="buttons2" stylesheets="@Main.css" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

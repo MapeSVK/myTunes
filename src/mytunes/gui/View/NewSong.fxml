@@ -24,9 +24,21 @@
       <ComboBox fx:id="chooseCategoryComboBox" layoutX="120.0" layoutY="179.0" prefHeight="27.0" prefWidth="167.0" />
       <TextField fx:id="songTimeField" editable="false" layoutX="120.0" layoutY="242.0" prefHeight="27.0" prefWidth="167.0" />
       <TextField fx:id="songPathField" layoutX="120.0" layoutY="301.0" />
-      <Button fx:id="chooseFileButton" layoutX="318.0" layoutY="301.0" mnemonicParsing="false" onAction="#chooseFileClicked" text="Choose" />
-      <Button fx:id="newCategoryButton" layoutX="318.0" layoutY="179.0" mnemonicParsing="false" onAction="#addNewCategoryClicked" text="New" />
-      <Button fx:id="cancelNewSongButton" layoutX="320.0" layoutY="389.0" mnemonicParsing="false" onAction="#cancelNewSongClicked" text="Cancel" />
-      <Button fx:id="saveSongButton" layoutX="250.0" layoutY="389.0" mnemonicParsing="false" onAction="#saveSongClicked" text="Save" />
+      <Button fx:id="chooseFileButton" layoutX="318.0" layoutY="301.0" mnemonicParsing="false" onAction="#chooseFileClicked" styleClass="buttons1" stylesheets="@Main.css" text="Choose" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="newCategoryButton" layoutX="318.0" layoutY="179.0" mnemonicParsing="false" onAction="#addNewCategoryClicked" styleClass="buttons1" stylesheets="@Main.css" text="New" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="cancelNewSongButton" layoutX="320.0" layoutY="389.0" mnemonicParsing="false" onAction="#cancelNewSongClicked" styleClass="buttons2" stylesheets="@Main.css" text="Cancel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="saveSongButton" layoutX="250.0" layoutY="389.0" mnemonicParsing="false" onAction="#saveSongClicked" styleClass="buttons2" stylesheets="@Main.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>
