@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import mytunes.be.Mode;
 import mytunes.be.PlayList;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;

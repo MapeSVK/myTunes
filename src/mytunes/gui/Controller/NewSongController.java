@@ -23,7 +23,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import mytunes.be.Mode;
 import mytunes.be.UserMedia;
 import mytunes.gui.Model.MediaPlayerModel;
 import mytunes.gui.Model.ModelException;
@@ -60,7 +59,7 @@ public class NewSongController implements Initializable {
         {
             model = MediaPlayerModel.getInstance();            
             chooseCategoryComboBox.setItems(model.getCategories());
-            if (model.getMediaMode() == mytunes.be.Mode.EDIT)
+            if (model.getMediaMode() == mytunes.gui.Controller.Mode.EDIT)
             {
                 mode = Mode.EDIT;
                 workingUserMedia = model.getSelectedMedia();

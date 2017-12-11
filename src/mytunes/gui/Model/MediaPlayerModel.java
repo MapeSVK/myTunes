@@ -12,7 +12,7 @@ import mytunes.BLL.BLLException;
 import mytunes.BLL.BLLManager;
 import mytunes.be.PlayList;
 import mytunes.be.UserMedia;
-import mytunes.be.Mode;
+import mytunes.gui.Controller.Mode;
 
 /**
  * Model class, responsible for separating the data from the display
@@ -446,7 +446,8 @@ public class MediaPlayerModel {
 
         if (search.isEmpty()) //If the string is empty, return all media
         {
-            filteredList = allMedia;
+            filteredList.addAll(allMedia);
+            return;
         }
 
         search = search.toLowerCase();
