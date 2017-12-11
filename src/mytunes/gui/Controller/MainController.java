@@ -89,9 +89,13 @@ public class MainController implements Initializable
     private final Image img_down = new Image("file:images/down.png");
     private final Image img_up = new Image("file:images/up.png");
     private final Image img_addArrow = new Image("file:images/previous.png");
+    private final Image img_clearSeach = new Image("file:images/clear_search.png");
+    
     private MediaPlayerModel model;
     private UserMedia currentMedia;
 
+    private boolean isFilterActive;
+    
     public void initialize(URL url, ResourceBundle rb)
     {
         next.setImage(img_next);
@@ -109,6 +113,7 @@ public class MainController implements Initializable
         songsTableView.setItems(model.getMedia());
         model.setVolume(volumeController.getValue());
         setListenersAndEventHandlers();
+        isFilterActive = false;
     }
     
     /**
@@ -369,7 +374,7 @@ public class MainController implements Initializable
      */
     @FXML
     private void searchClicked(MouseEvent event)
-    {
+    {   
         String searchString = searchField.getText();
         searchForString(searchString);
     }
@@ -609,9 +614,26 @@ public class MainController implements Initializable
      * /Search the list in the model for the give string
      * @param search The string which will be used as a filter
      */
-    private void searchForString(String search)
+    private void searchForString(String searchString)
     {
-        model.searchString(search);
+        if (isFilterActive)
+        {
+            search.setImage(img_search);
+            searchField.clear();
+            searchString = "";
+            isFilterActive = false;
+            model.searchString(searchString);
+        }
+        else
+        {
+            if (searchString.isEmpty())
+            {
+                return;
+            }
+            search.setImage(img_clearSeach);
+            isFilterActive = true;
+            model.searchString(searchString);
+        }
     }
 
     /**
@@ -652,5 +674,11 @@ public class MainController implements Initializable
         
         return false;
     }
-
+    
+    /**
+     * Set the image next to he search bar depending on of it is active or not
+     */
+    private void setSearchImage(String searchString)
+    {
+    }
 }

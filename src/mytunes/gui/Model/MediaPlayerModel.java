@@ -153,6 +153,7 @@ public class MediaPlayerModel {
         if (selectedMedia == null || selectedPlayList == null) {
             throw new ModelException("Please select a song or a play list!");
         }
+        
         for (UserMedia userMedia : selectedPlayList.getMediaList()) {
             if (userMedia.getArtist().equalsIgnoreCase(selectedMedia.getArtist()) && userMedia.getTitle().equalsIgnoreCase(selectedMedia.getTitle())) {
                 throw new ModelException("Media is already in the list!");
