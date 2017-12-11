@@ -25,7 +25,7 @@ public class MediaPlayerModel {
     private ObservableList<PlayList> playlists = FXCollections.observableArrayList();   //Contains the play lists
     private ObservableList<String> categories = FXCollections.observableArrayList();    //Contains the categories
 
-    private BLLManager bllManager = new BLLManager();
+    private final BLLManager bllManager = new BLLManager();
     private static MediaPlayerModel instance;
 
     private Mode mediaMode;

@@ -611,9 +611,6 @@ public class MainController implements Initializable {
     private boolean showConfirmationDialog(String prompt) {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, prompt, ButtonType.YES, ButtonType.NO);
         confirmation.showAndWait();
-        if (confirmation.getResult() == ButtonType.NO) {
-            return true;
-        }
-        return false;
+        return confirmation.getResult() == ButtonType.NO;
     }
 }
