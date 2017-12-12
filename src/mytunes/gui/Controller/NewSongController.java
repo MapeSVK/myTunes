@@ -196,12 +196,12 @@ public class NewSongController implements Initializable {
      */
     private void fillData()
     {
-        songArtistField.setText(workingUserMedia.getArtist());
-        titleOfSongField.setText(workingUserMedia.getTitle());
+        songArtistField.setText(workingUserMedia.getArtist().isEmpty() ? "Unknown" : workingUserMedia.getArtist());
+        titleOfSongField.setText(workingUserMedia.getTitle().isEmpty() ? "Unknown" : workingUserMedia.getTitle());
         songTimeField.setText(workingUserMedia.getTimeString());
         songPathField.setText(workingUserMedia.getPath());
         
-        chooseCategoryComboBox.setValue(workingUserMedia.getCategory());
+        chooseCategoryComboBox.setValue(workingUserMedia.getCategory().isEmpty() ? "Unkown" : workingUserMedia.getCategory());
     }
     
     /**

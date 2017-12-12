@@ -567,26 +567,6 @@ public class MainController implements Initializable {
      */
     private void searchForString(String searchString)
     {
-        /*
-        if (isFilterActive)
-        {
-            search.setImage(img_search);
-            searchField.clear();
-            searchString = "";
-            isFilterActive = false;
-            model.searchString(searchString);
-        }
-        else
-        {
-            if (searchString.isEmpty())
-            {
-                return;
-            }
-            search.setImage(img_clearSeach);
-            isFilterActive = true;
-            model.searchString(searchString);
-        }
-        */
         if (!searchString.isEmpty())
         {
             search.setImage(img_clearSeach);
