@@ -342,6 +342,11 @@ public class MainController implements Initializable {
      */
     @FXML
     private void searchClicked(MouseEvent event) {
+        if (isFilterActive)
+        {
+            searchField.setText("");
+        }
+        
         String searchString = searchField.getText();
         searchForString(searchString);
     }
@@ -562,6 +567,7 @@ public class MainController implements Initializable {
      */
     private void searchForString(String searchString)
     {
+        /*
         if (isFilterActive)
         {
             search.setImage(img_search);
@@ -579,6 +585,19 @@ public class MainController implements Initializable {
             search.setImage(img_clearSeach);
             isFilterActive = true;
             model.searchString(searchString);
+        }
+        */
+        if (!searchString.isEmpty())
+        {
+            search.setImage(img_clearSeach);
+            model.searchString(searchString);
+            isFilterActive = true;
+        }
+        else
+        {
+            search.setImage(img_search);
+            model.searchString(searchString);
+            isFilterActive = false;
         }
     }
 
