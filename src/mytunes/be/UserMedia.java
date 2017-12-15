@@ -23,7 +23,7 @@ public class UserMedia {
     private double time;
     private String timeString;
 
-    /**
+    /** 
      * Creates a new UserMedia object 
      * @param id The ID of this object
      * @param title The title of the media
@@ -54,7 +54,6 @@ public class UserMedia {
      * @throws Exception If the path cannot be found. This probably means that the media was selected on another computer, or the file was moved
      */
     public void createMediaFromPath() throws Exception {
-        System.out.println("");
         try {
             File f = new File(path.get());
             this.media = new Media(f.toURI().toString());
