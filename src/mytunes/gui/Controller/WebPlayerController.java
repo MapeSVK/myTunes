@@ -77,7 +77,7 @@ public class WebPlayerController implements Initializable {
      * Load a video on press
      */
     @FXML
-    private void clickLoadURL(KeyEvent event) {
+    private void clickLoadURL(ActionEvent event) {
         urlLoad();
     }
 
